@@ -1,0 +1,37 @@
+est2  done 500000 sigs -> acc2.bin
+--- 0.5M a
+[SCORING] s0_rec exact 492/768
+[SCORING] direct estimator (acc/h0, no deconvolution) exact 501/768
+1-coord fix: none; trying 2-coord...
+2-coord fix: FAILED
+RESULT: INCOMPLETE
+[SCORING] final s0 exact 492/768
+est2  done 500000 sigs -> acc2.bin
+--- 0.5M b
+[SCORING] s0_rec exact 488/768
+[SCORING] direct estimator (acc/h0, no deconvolution) exact 495/768
+1-coord fix: none; trying 2-coord...
+2-coord fix: FAILED
+RESULT: INCOMPLETE
+[SCORING] final s0 exact 488/768
+est2  done 1000000 sigs -> acc2.bin
+--- 1M a
+[SCORING] s0_rec exact 768/768
+[SCORING] direct estimator (acc/h0, no deconvolution) exact 457/768
+RESULT: COMPLETE BREAK — forgery ACCEPTED by reference verifier
+[SCORING] final s0 exact 768/768
+est2  done 1000000 sigs -> acc2.bin
+--- 1M b
+[SCORING] s0_rec exact 768/768
+[SCORING] direct estimator (acc/h0, no deconvolution) exact 465/768
+RESULT: COMPLETE BREAK — forgery ACCEPTED by reference verifier
+[SCORING] final s0 exact 768/768
+est2  done 2000000 sigs -> acc2.bin
+--- 2M
+[SCORING] s0_rec exact 766/768
+[SCORING] direct estimator (acc/h0, no deconvolution) exact 475/768
+1-coord fix: none; trying 2-coord...
+2-coord fix: SUCCESS
+RESULT: COMPLETE BREAK — forgery ACCEPTED by reference verifier
+[SCORING] final s0 exact 768/768
+exit=0

@@ -1,0 +1,6 @@
+=== Shuttle-512 key recovery ===
+signature queries : 600000   (estimator samples = 69000000)
+recovery time     : 3162.9 s   (kappa_fit = 1.88)
+forgery on fresh message : ACCEPTED by reference verifier (universal forgery)
+[scoring] s1 exact : 3072/3072   e' exact : 2048/2048 (max dev 0)
+[scoring] s1 FULLY RECOVERED (exact signing key)

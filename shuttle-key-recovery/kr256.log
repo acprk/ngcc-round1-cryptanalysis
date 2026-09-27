@@ -1,0 +1,6 @@
+=== Shuttle-256 key recovery ===
+signature queries : 600000   (estimator samples = 34800000)
+recovery time     : 2073.0 s   (kappa_fit = 1.84)
+forgery on fresh message : ACCEPTED by reference verifier (universal forgery)
+[scoring] s1 exact : 1536/1536   e' exact : 1024/1024 (max dev 0)
+[scoring] s1 FULLY RECOVERED (exact signing key)

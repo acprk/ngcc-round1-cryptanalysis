@@ -1,0 +1,52 @@
+LoongKEM sub-ring projection: lattice-estimator cost of projected MLWE
+estimator repo: /home/luck/xzy/lattice-estimator
+
+==========================================================================
+Loong128 : project R_12 -> R_4   (N/d = 3, compression step 2^3)
+  projected secret dim n = (K1+K2)*d = 208
+  #scalar samples    m = K1*d       = 192   (n-m = 16 = K2*d, the s2 guess)
+  q = 8191   sigma_e = 4.8477   sigma_s = 2.7386
+--------------------------------------------------------------------------
+Estimator parameter object:
+   LWEParameters(n=208, q=8191, Xs=D(σ=2.74), Xe=D(σ=4.85), m=192, tag='Loong128')
+--------------------------------------------------------------------------
+primal_usvp : rop=2^76.6  beta=168  d=398
+primal_bdd  : rop=2^73.2  beta=152  eta=180
+dual        : rop=2^79.5  beta=175
+claimed security: 128 bits
+>>> Loong128 projected primal-uSVP cost = 2^76.6  (claimed 128)
+
+==========================================================================
+Loong384 : project R_20 -> R_4   (N/d = 5, compression step 2^2)
+  projected secret dim n = (K1+K2)*d = 320
+  #scalar samples    m = K1*d       = 288   (n-m = 32 = K2*d, the s2 guess)
+  q = 8191   sigma_e = 3.7639   sigma_s = 2.7386
+--------------------------------------------------------------------------
+Estimator parameter object:
+   LWEParameters(n=320, q=8191, Xs=D(σ=2.74), Xe=D(σ=3.76), m=288, tag='Loong384')
+--------------------------------------------------------------------------
+primal_usvp : rop=2^107.2  beta=277  d=606
+primal_bdd  : rop=2^103.5  beta=260  eta=290
+dual        : rop=2^112.0  beta=291
+claimed security: 384 bits
+>>> Loong384 projected primal-uSVP cost = 2^107.2  (claimed 384)
+
+==========================================================================
+Loong512 : project R_24 -> R_8   (N/d = 3, compression step 2^2)
+  projected secret dim n = (K1+K2)*d = 720
+  #scalar samples    m = K1*d       = 640   (n-m = 80 = K2*d, the s2 guess)
+  q = 8191   sigma_e = 2.6458   sigma_s = 1.7321
+--------------------------------------------------------------------------
+Estimator parameter object:
+   LWEParameters(n=720, q=8191, Xs=D(σ=1.73), Xe=D(σ=2.65), m=640, tag='Loong512')
+--------------------------------------------------------------------------
+primal_usvp : rop=2^208.1  beta=636  d=1353
+primal_bdd  : rop=2^203.8  beta=617  eta=651
+dual        : rop=2^218.3  beta=669
+claimed security: 512 bits
+>>> Loong512 projected primal-uSVP cost = 2^208.1  (claimed 512)
+
+==========================================================================
+Loong128 CROSS-CHECK with MEASURED noise from a real key (dump.txt):
+  sigma_e=4.58, sigma_s=2.81, n=208, m=192
+  primal_usvp : rop=2^76.3  beta=167

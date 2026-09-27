@@ -1,0 +1,12 @@
+# Append this block to Implementations/src/ngcc/CMakeLists.txt to build the analysis
+# targets malleability_demo_{1,2,3} (not part of the submission).
+foreach(lv 1 2 3)
+  add_executable(malleability_demo_${lv} ${NGCC_PIKE_COMMON_DIR}/malleability_demo.c ${NGCC_PIKE_COMMON_DIR}/KEM_AlgorithmInstance.c ${NGCC_PIKE_COMMON_DIR}/drng.c ${NGCC_PIKE_COMMON_DIR}/auxfunc.c)
+  target_include_directories(malleability_demo_${lv} PRIVATE ${NGCC_PIKE_COMMON_DIR} ${PROJECT_SOURCE_DIR}/src/pike/ref/pikex_compressed/include ${PROJECT_SOURCE_DIR}/src/ec/ref/include ${PROJECT_SOURCE_DIR}/src/gf/ref/include ${PROJECT_SOURCE_DIR}/src/common/generic/include ${PROJECT_SOURCE_DIR}/src/precomp/ref/NGCC_${lv}/include ${PROJECT_SOURCE_DIR}/include)
+  target_compile_options(malleability_demo_${lv} PRIVATE ${C_OPT_FLAGS})
+  target_compile_definitions(malleability_demo_${lv} PRIVATE ALGORITHM_INSTANCE="NGCC-${lv}" NGCC_PIKE_LEVEL=${lv})
+  if(lv EQUAL 3)
+    target_compile_definitions(malleability_demo_${lv} PRIVATE PIKE_COMPRESSED_SHARED_SECRET_BYTES=64)
+  endif()
+  target_link_libraries(malleability_demo_${lv} PRIVATE pike_pike_NGCC_${lv}_compressed pike_id2iso_NGCC_${lv} pike_hd_NGCC_${lv} pike_intbig_generic ${GMP} pike_common_sys pike_ec_NGCC_${lv} pike_precomp_NGCC_${lv} pike_gf_NGCC_${lv} pike_klpt_NGCC_${lv} pike_quaternion_generic)
+endforeach()

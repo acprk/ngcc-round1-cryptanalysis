@@ -1,0 +1,6 @@
+full-ring residual e1=b1-(A1 s1+A2 s2): max|.|=7 var=7.31 (model eta/2+2^3/12=7.83)
+ring-hom check psi(b1-As)==psi(b1)-psi(A)psi(s): True
+projected noise psi(e1): max|.|=11 var=20.98 sigma=4.58 (model x N/d=3 -> 23.50)
+projected secret psi(s): dim=208, var=7.91 sigma=2.81 (model x N/d -> 7.50)
+projected MLWE instance: secret dim (K1+K2)*d = 208, equations K1*d = 192
+NOTE: only A1,A2,b1 used; unstructured A4/B2/E2 block never referenced.
