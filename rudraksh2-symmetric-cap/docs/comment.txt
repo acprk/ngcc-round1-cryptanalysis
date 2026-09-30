@@ -44,7 +44,7 @@ We also checked and could not break: ciphertext malleability (no unused cipherte
 Reproduction package (builds against the vendor trees via REF=, runs in ~1 min):
 https://github.com/acprk/ngcc-round1-cryptanalysis/tree/main/rudraksh2-symmetric-cap
 
-This analysis was prepared with AI assistance; all numbers come from running the submitted reference, AVX2 and Cortex-M4 code.
+This analysis was prepared with AI GLM 5.3 assistance; all numbers come from running the submitted reference, AVX2 and Cortex-M4 code.
 
 Best regards,
-[NAME]
+Zhenyu Xiong and Mingsheng Wang
