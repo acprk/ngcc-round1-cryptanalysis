@@ -53,6 +53,12 @@ cites a reproduction package. They contain no key recovery.
 | `yuanyang-dsa-sampler-constant` | YuanYang.DSA | SIG | B (implementation) | -512 wide-sampler rejection constant is 1/(2(16η)²) instead of 1/(2(4η)²): the signature mean becomes (0.458/4)·Â·(𝟙,𝟙), a linear function of the secret Gram root (10σ secret-dependence at 4·10⁵ signatures, cross-key controls at noise); with the public covariance bug this exposes f f̄+g ḡ (the FKTWY EUROCRYPT 2020 quantity); exact recovery projected at ~2³⁵ signatures by simulation only; NO key recovery performed |
 | `weaver-bch-decoder` | Weaver | KEM | B (implementation) | Berlekamp–Massey discrepancy loop `j <= i+1` mis-decodes some ≤t-error patterns (W-1024 t=4: 0.39–1.66% at e=4; W-2048 t=7: 0.2–3%), still present at GitHub ca99d0f; one-line fix, KATs unchanged; submitted W-1024 (no high-layer BCH decode) has real DFR ≈2^-45.5–2^-47.5 vs claimed 2^-231.7 (exact model validated on 3·10⁸ coefficients); failure-boosting cost table only, NO key recovery |
 
+## Design-level comment package (certificational)
+
+| repo | scheme | category | severity | one-line claim |
+|---|---|---|---|---|
+| `uvw-kem-dfr-reaction` | UVW-KEM | KEM | certificational (design) | the 1000-retry decoder leaves an overall DFR of 2^-43.3/-42.1/-41.7 (exact counting; A=1 reproduces spec Thm 2), and failures occur only on hidden pairs: a failure-only reaction (no timing, single status, implicit rejection) recovers all 430 UVW-128 pairs/ratios from 1000 failures (~2^53 queries) in simulation, so the kem-38-2 constant-time fix is not sufficient; reaching 2^-128 needs ~10^7 retries. Structure recovery after the pairs follows the 9-24 forum post and is NOT rerun; 256/512 extrapolated. Also: per-retry memory leaks (ASan) and a shared DRNG consumed by decapsulation |
+
 ## How to build a package
 
 ```

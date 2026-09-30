@@ -1,0 +1,4 @@
+dec ret=0 match=1
+Direct leak of 1455218 byte(s) in 1 object(s) allocated from:
+Direct leak of 1455218 byte(s) in 1 object(s) allocated from:
+SUMMARY: AddressSanitizer: 2910436 byte(s) leaked in 2 allocation(s).

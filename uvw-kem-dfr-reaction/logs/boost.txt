@@ -1,0 +1,27 @@
+n=860:
+  t=1: P(t)=2^-5.823  mean s=1/2.982  P(fail after 1000|t)=1.49e-171  contrib 2^-573.3
+  t=2: P(t)=2^-12.67  mean s=1/8.755  P(fail after 1000|t)=2.781e-51  contrib 2^-180.6
+  t=3: P(t)=2^-20.14  mean s=1/25.32  P(fail after 1000|t)=1.077e-17  contrib 2^-76.51
+  t=4: P(t)=2^-28.09  mean s=1/72.16  P(fail after 1000|t)=1.127e-6  contrib 2^-47.84
+  t=5: P(t)=2^-36.4  mean s=1/202.7  P(fail after 1000|t)=0.007471  contrib 2^-43.46
+  t=6: P(t)=2^-45.02  mean s=1/561.2  P(fail after 1000|t)=0.1696  contrib 2^-47.58
+  t=7: P(t)=2^-53.93  mean s=1/1533.0  P(fail after 1000|t)=0.5215  contrib 2^-54.86
+  t=8: P(t)=2^-63.07  mean s=1/4129.0  P(fail after 1000|t)=0.7851  contrib 2^-63.42
+n=1708:
+  t=1: P(t)=2^-5.795  mean s=1/3.01  P(fail after 1000|t)=1.812e-171  contrib 2^-573.0
+  t=2: P(t)=2^-12.59  mean s=1/8.99  P(fail after 1000|t)=1.208e-50  contrib 2^-178.4
+  t=3: P(t)=2^-19.99  mean s=1/26.64  P(fail after 1000|t)=4.769e-17  contrib 2^-74.21
+  t=4: P(t)=2^-27.83  mean s=1/78.32  P(fail after 1000|t)=3.004e-6  contrib 2^-46.17
+  t=5: P(t)=2^-36.01  mean s=1/228.5  P(fail after 1000|t)=0.01276  contrib 2^-42.3
+  t=6: P(t)=2^-44.48  mean s=1/661.7  P(fail after 1000|t)=0.2213  contrib 2^-46.66
+  t=7: P(t)=2^-53.2  mean s=1/1902.0  P(fail after 1000|t)=0.5914  contrib 2^-53.96
+  t=8: P(t)=2^-62.14  mean s=1/5425.0  P(fail after 1000|t)=0.8317  contrib 2^-62.41
+n=3412:
+  t=1: P(t)=2^-5.794  mean s=1/3.016  P(fail after 1000|t)=6.011e-173  contrib 2^-577.9
+  t=2: P(t)=2^-12.57  mean s=1/9.061  P(fail after 1000|t)=8.387e-51  contrib 2^-178.9
+  t=3: P(t)=2^-19.95  mean s=1/27.11  P(fail after 1000|t)=6.839e-17  contrib 2^-73.65
+  t=4: P(t)=2^-27.75  mean s=1/80.81  P(fail after 1000|t)=4.189e-6  contrib 2^-45.62
+  t=5: P(t)=2^-35.89  mean s=1/239.9  P(fail after 1000|t)=0.01553  contrib 2^-41.9
+  t=6: P(t)=2^-44.3  mean s=1/709.5  P(fail after 1000|t)=0.2445  contrib 2^-46.33
+  t=7: P(t)=2^-52.94  mean s=1/2090.0  P(fail after 1000|t)=0.6198  contrib 2^-53.63
+  t=8: P(t)=2^-61.79  mean s=1/6133.0  P(fail after 1000|t)=0.8496  contrib 2^-62.03
