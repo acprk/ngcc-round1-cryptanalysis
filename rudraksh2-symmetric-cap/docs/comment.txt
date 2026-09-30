@@ -1,133 +1,50 @@
-To: pkccomment@niccs.org.cn
-Subject: Round1: Public Comment: Rudraksh2 — the 512 parameter sets have only 256-bit symmetric strength, and the Cortex-M4 128/256 code does not interoperate with the reference
+Subject: Re: Round1: Public Comment: Rudraksh2 - the 512 sets have only 256-bit symmetric strength, and the Cortex-M4 128/256 code does not interoperate with the reference
 
-Dear NGCC evaluation committee, dear Rudraksh2 team,
+Dear Rudraksh2 Team, dear all,
 
-Two findings, with a self-contained reproduction package (builds against your
-Reference_Implementation / Optimized_Implementation / Cortex_M4 trees; it modifies nothing under
-them and redistributes none of your code).
+Two findings, with a reproduction package that builds against the submitted trees (REF=) and modifies nothing under them.
 
-1. Rudraksh2-512-I and -512-II do not reach their claimed 512-bit classical / 256-bit quantum level
+1. Rudraksh2-512-I / -512-II fall short of the claimed 512-bit classical / 256-bit quantum level
 
-Rudraksh2 instantiates G, H and the PRF/XOF as an SM3-based counter-mode wrapper (spec §2.6.2); SM3
-has a 256-bit chaining value. On the 512 sets lenK = KEM_SYMBYTES = 64 bytes = exactly one SM3
-message block. Two consequences follow.
+Rudraksh2 instantiates G, H and the PRF/XOF with SM3 (spec Sec. 2.6.2), whose chaining value is 256 bits. On the 512 sets lenK = KEM_SYMBYTES = 64 bytes = exactly one SM3 block, so:
 
-  (a) Secret key. indcpa_keypair draws noiseseed (64 B) and sets s, e = CBD(pseudoXOF(noiseseed||i)),
-      with pseudoXOF(x) = SM3(x||ctr_1) || SM3(x||ctr_2) || ... . Every such SM3 call shares the
-      first-block chaining value CV = CF(IV, noiseseed) (256 bits); the bytes after the first block
-      (i, the 32-bit counter, padding, length) are public constants. So the whole secret key is a
-      deterministic function of the 256-bit CV.
+  - noiseseed is one block, hence s, e = CBD(pseudoXOF(noiseseed||i)) are a function of the 256-bit chaining value CV = CF(IV, noiseseed) alone (i, counter, padding, length are public constants);
+  - in kem_enc, buf = m || H(pk) with m the first block, so the session key K = F(CF(IV,m), H(pk)).
 
-  (b) Session key. In kem_enc, buf = m (64 B) || H(pk) (64 B) and (K, seed_r) = hash_g(buf); the
-      message m is the first block, so K = F(CF(IV, m), H(pk)).
-
-We ran your UNMODIFIED kem_keygen and kem_enc and then rebuilt, using only a 32-byte chaining
-value, (a) the secret-key bytes from CV(noiseseed) and (b) the session key K from CV(m):
+We ran the unmodified kem_keygen / kem_enc and rebuilt, from a single 32-byte chaining value, (a) the secret key from CV(noiseseed) and (b) the session key from CV(m):
 
   Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: 50/50 exact
   Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
 
-An attacker therefore searches CV in {0,1}^256 rather than the nominal 512-bit key space: for each
-candidate CV, derive s and test whether b - A*s is short (key recovery), or recompute seed_r,
-re-encrypt and compare with ct (session-key recovery). This is about 2^256 classical and about 2^128
-under Grover, versus the claimed classical 512 / quantum 256 for both 512 sets -- short by 256 bits
-classically and 128 bits quantumly. We do NOT run the 2^256/2^128 search; the reduction of the key
-and the session key to a single 256-bit value is the finding. The spec does not analyse the
-symmetric strength of the 512 sets.
+An attacker searches CV in {0,1}^256 (derive s, test b - A*s short; or recompute seed_r, re-encrypt, compare ct), i.e. about 2^256 classical / 2^128 Grover, versus the claimed 512 / 256. We do NOT run the search; the reduction to a 256-bit value is the point. The 256 sets meet their claim; the 128 sets stand classically (a 128-bit message caps quantum message-search at 2^64, i.e. the AES-128 situation, below the stated 80 but depth-model dependent). This is the same SM3-block mechanism noted for Weaver-2048; here it lands on the claimed level.
 
-More generally, the seed/message size is the real ceiling for every set. Since K = G(m || H(pk))
-depends only on the lenK-byte message and the public key (we rebuild K from m and pk, with no sk and
-no ct, 100/100 at each level), generic Grover message search costs about 2^(4*lenK):
+Fix: for the 512 sets use a XOF with chaining value / capacity >= 512 bits, or relabel 512-I/512-II.
 
-  set     lenK   classical    quantum        claimed cl/qu   verdict
-  128-I   16 B   2^128        2^64 (msg)     128 / 80        classical OK; quantum 2^64 < 80 (*)
-  256-I   32 B   2^256        2^128          256 / 128       meets exactly (no margin)
-  512     64 B   2^256 (cap)  2^128 (cap)    512 / 256       short by 256 / 128 bits
+2. The Cortex-M4 128/256 implementation uses a different error-correction constant
 
-  (*) The 128 sets' quantum figure of 80 is not backed by a 128-bit message: plain Grover message
-      search is 2^64. This is the AES-128 situation and depends on the MAXDEPTH model, so we flag it
-      rather than call it a break. The unambiguous shortfall is the 512 set.
+Additional_Implementations/Cortex_M4/lwekem{128,256}/.../minal.c:15 sets
 
-Suggested fix: for the 512 sets use a XOF whose chaining value / capacity is at least 1024 bits
-(e.g. a wide-pipe or sponge construction with capacity >= 512), or relabel 512-I/512-II.
+    #define MINAL_BETA 0
 
-2. The Cortex-M4 128/256 implementation uses a different error-correction constant (MINAL_BETA = 0)
+The spec (Table 1: (B, beta) = (2, 220)), the reference, the AVX2 code, and Cortex-M4-512 all use 220. beta enters the 2-D B2-Minal code, so the M4 128/256 decapsulator recovers a different message:
 
-In Additional_Implementations/Cortex_M4/lwekem128 and lwekem256
-(.../crypto_kem/Rudraksh2/Rudraksh2/minal.c:15) the constant is
+  KAT vs submitted Test_Vectors:  m4-128 MISMATCH, m4-256 MISMATCH  (ref, AVX2, m4-512 MATCH)
+  interop, 200 sessions each way:  enc=M4 dec=ref 0/200, enc=ref dec=M4 0/200  (ref<->AVX2 200/200)
 
-  #define MINAL_BETA 0
+Every honest M4<->reference session silently falls through to implicit rejection. By your own DFR table the beta=0 code is also worse (128-I 2^-94.5 vs <=2^-100; 256-I 2^-150.6 vs 2^-161). Fix: MINAL_BETA 220 (one line per file); the M4 128/256 KATs then match the Test_Vectors and interop is 200/200.
 
-The specification (Table 1: (B, beta) = (2, 220)), the reference implementation, the AVX2
-implementation, and Cortex-M4-512 all use 220 (M4-512 uses 510, also correct). beta enters the 2-D
-B2-Minal code that maps message bits to coefficients, so the M4 128/256 decapsulator recovers a
-different message from the same ciphertext:
+3. Minor
 
-  KAT vs the submitted Test_Vectors:   m4-128 MISMATCH, m4-256 MISMATCH  (ref, AVX2, m4-512 all MATCH)
-  interop, 200 sessions each direction: enc=M4 dec=ref 0/200, enc=ref dec=M4 0/200  (ref<->AVX2 200/200)
+  - The -II sets use q=4001, but 2n does not divide q-1 (4000 = 2^5 * 5^3), so no primitive 2n-th root of unity exists at n=64/128/256 and the negacyclic NTT the spec defines (Eq. 1/2) is not computable for any -II set (max supported degree is 16). This is consistent with no -II implementation being shipped. The -II sets are also 4.5-6.4 bits below ML-KEM-512 in our lattice estimates (128-II CoreSVP 2^113.6; your Table 14 gives 2^114).
+  - kem_dec and kem_enc ignore their length arguments (ct_len_bytes / pk_len_bytes) and always read the hard-coded size; a short buffer causes a heap-buffer-overflow READ in poly_decompress via unpack_ciphertext (ASAN). Same class as ngcc.dev kem-14-1, but a read, not a write.
+  - Doc/code: Sec. 3.3.4 says "32-byte z" (code: 16/32/64 B); the spec writes G(H(pk)||m) but the code hashes m||H(pk); the compression premise log2 p < ceil(log2 q) is violated by 128-I and 512-I (u is not actually compressed).
 
-Every honest M4<->reference session silently falls through to implicit rejection (the two sides
-derive different keys). By your own shipped DFR table the beta=0 code is also slightly worse
-(128-I: 2^-94.5 vs claimed <=2^-100; 256-I: 2^-150.6 vs 2^-161) — still negligible, so this is an
-interoperability/correctness bug, not a security break.
+We also checked and could not break: ciphertext malleability (no unused ciphertext bits; verify covers the full ciphertext; ~50k single-bit flips give 0 same-key), the 2-D B2-Minal decoder (ML-optimal in the honest-noise regime), and the constant-time property of the reference decode path (no secret-dependent branch/memory, 0 div). These are clean.
 
-Fix (one line per file):
+Reproduction package (builds against the vendor trees via REF=, runs in ~1 min):
+https://github.com/acprk/ngcc-round1-cryptanalysis/tree/main/rudraksh2-symmetric-cap
 
-  #define MINAL_BETA 220
-
-With the fix, the M4 128/256 KATs become byte-identical to the submitted Test_Vectors and M4<->ref
-interoperate 200/200 both ways.
-
-3. The -II parameter sets contradict the spec's own NTT requirement (q=4001)
-
-The spec (Polynomial multiplication, p.5) requires "the modulus q needs to be a prime number with the
-primitive 2n-th root-of-unity in the prime field Z_q", and Eq. (1)/(2) define the negacyclic NTT with
-zeta = a primitive 2n-th root. Z_q* is cyclic of order q-1, so such a zeta exists iff 2n | q-1.
-
-  4001 - 1 = 2^5 * 5^3  (only 2^5), so 2n | 4000 fails for every -II degree:
-    128-II n=64  2n=128 : 128 ∤ 4000
-    256-II n=128 2n=256 : 256 ∤ 4000
-    512-II n=256 2n=512 : 512 ∤ 4000
-
-No primitive 2n-th root of unity exists mod 4001 at these degrees (the largest negacyclic-NTT degree
-4001 supports is n=16). So Eq. (1)/(2) are not computable for any -II set; they would need an
-incomplete NTT plus a base-case multiplication that the spec does not describe. This is consistent
-with the submission shipping no -II implementation. (The -I moduli 3329 and 7681 have 2^8 and 2^9 and
-are fine.) The -II sets are also 4.5-6.4 bits below ML-KEM-512 in every lattice model we ran
-(128-II: usvp CoreSVP 2^113.6, dual_hybrid CoreSVP 2^109.3, MATZOV 2^133.3, vs the ML-KEM-512 anchor
-2^118.6 / 2^115.5 / 2^139.7; your Table 14 CSVP for 128-II is 2^114).
-
-4. kem_dec / kem_enc ignore the caller-declared length (OOB read, low severity)
-
-The NGCC API passes ct_len_bytes to kem_dec and pk_len_bytes to kem_enc, but both are ignored: the
-code always reads KEM_CIPHERTEXTBYTES / the full public key. A caller that supplies a buffer shorter
-than the hard-coded size (declaring the true length) triggers a heap-buffer-overflow READ in
-poly_decompress (poly.c:105) via unpack_ciphertext (indcpa.c:121), confirmed under AddressSanitizer.
-This is the ngcc.dev kem-14-1 "caller-declared length ignored" class, but a read rather than a write,
-so low severity; full-size random/malformed ciphertexts and public keys do not crash, and kem_dec
-always returns 0. Suggested fix: check ct_len_bytes == KEM_CIPHERTEXTBYTES (and pk_len_bytes) on
-entry.
-
-5. Minor (for completeness)
-- §3.3.3 states tight multi-target security ("the cost to compromise any one of the T users remains
-  proportional to the Core-SVP hardness"). With a 128-bit, unsalted m on the 128 sets, collecting
-  2^t ciphertexts for one public key lets an attacker recover one session key in about 2^(128-t)
-  (FrodoKEM, which your FO variant cites, adds a salt for exactly this). H(pk) truncated to 128 bits
-  also gives pk-binding collisions at 2^64. No attack below the AES-128 baseline; the wording of the
-  claim is what is inaccurate.
-- Doc/code: §3.3.4 says "32-byte z" (code: z = KEM_SYMBYTES = 16/32/64 B); the spec writes
-  G(H(pk)||m) but the code hashes m||H(pk); the "log2 p < ceil(log2 q)" premise (§ compression) is
-  violated by 128-I (p=2^12, ceil(log2 q)=12) and 512-I (p=2^13=q width); level naming is
-  inconsistent (Table 1 128/256/512 vs §3.2.6 "Level 1/3/5" vs p.? "levels 2 and 3"); kex.c is
-  dead Kyber-era code that does not compile (already excluded in CMake); pseudoXOF's malloc-failure
-  return code is ignored at all call sites (a failure would use an uninitialised buffer as a seed).
-
-Reproduction: https://github.com/acprk/ngcc-round1-cryptanalysis (rudraksh2-symmetric-cap), run with
-  REF=/path/to/Rudraksh2/Implementations ./run_all.sh [--latt]
-
-This analysis was prepared with AI assistance; every number above comes from running the submitted
-code (reference, AVX2 and Cortex-M4 trees) and the lattice-estimator.
+This analysis was prepared with AI assistance; all numbers come from running the submitted reference, AVX2 and Cortex-M4 code.
 
 Best regards,
 [NAME]
