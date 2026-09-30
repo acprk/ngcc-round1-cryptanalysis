@@ -1,0 +1,28 @@
+=== build against the unmodified reference ===
+    REF=/home/luck/xzy/0930project/pkc/src/OPS_Digital_Signature_Algorithm/Implementations and Test_Vectors/Implementations/Reference_Implementation/OPSsig-128
+
+=== [F1a] challenge support: spec Alg.6 vs the shipped reference sampler ===
+  spec Alg.6 :
+     N=512 TAU=39  samples=20000  bad-weight=0  never-hit=473/512  max-freq=20000/20000  chi2/df=18512.7  frac(-1)=0.5001
+     challenge space: claimed log2|B_tau.signs| = 234.0 bits ; spec-literal min-entropy (fixed support) = 39 bits
+     >>> FIXED SUPPORT: exactly 39 positions used, each in every sample => 2^39 challenges
+  reference  :
+     N=512 TAU=39  samples=20000  bad-weight=0  never-hit=0/512  max-freq=1652/20000  chi2/df=0.9  frac(-1)=0.5001
+     >>> support looks uniform (this is the reference sampler)
+
+=== [F2] honest verification-failure rate: spec Alg.30/32 vs reference rounding ===
+  spec rounding : N=512 K=3 gamma2=(q-1)/32 : honest signatures=2000  verify-FAILURES=149  (7.45%)
+  reference     : N=512 K=3 gamma2=(q-1)/32 : honest signatures=2000  verify-FAILURES=0  (0.00%)
+
+=== [F1b] public-key-only forgery vs the spec verifier (toy TAU=20, completed) ===
+  TAU=20  tries=1528020 (2^20.54, expected 2^20)  247.3 s  161.86 us/try  found=1
+  verify(forged, target msg) = 0   (0 = ACCEPT)
+  verify(forged, other  msg) = -1   (control: must be nonzero)
+  wrote forged.bin (pk||sig)
+  RESULT: FORGERY CONFIRMED (public key only, no signing query)
+  -- control: shipped/reference sampler on the SAME forged signature --
+  reference (shipped, correct) verifier on the forged signature: verify = -1  (REJECT -- forgery is specific to the spec's fixed-support sampler)
+
+=== real-parameter cost (extrapolation) ===
+  per-try cost is TAU-independent; real OPS levels: L1 tau=39 -> 2^39, L3 tau=45 -> 2^45, L5 tau=90 -> 2^90
+  (2^39 hashes ~ feasible; far below the 128-bit / 2*lambda=256-bit forgery target).

@@ -1,0 +1,4 @@
+work/
+*.o
+*.bin
+forged.bin
