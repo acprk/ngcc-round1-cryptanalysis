@@ -20,7 +20,7 @@ The reference code has the same prepend: ublockith_ublock_256.c passes in = w[0.
 
 3. Consequence A (specification and code): completeness failure
 
-We applied the announced issue-1 fix (hash a_tilde_0 into chall_3 in signer and verifier) to an otherwise untouched copy. ublockith_em_d3_256s and _256f then reject all of their own honest signatures (0/5 each, reference and optimized); the non-EM sets verify (5/5), which validates the harness. Shifting the encryption witness by one block (w + 32 bytes; tags/keys + 256 elements) restores 5/5. The submitted KATs pass only because, without a_tilde_0 bound, the constraint values never influence the verdict.
+We applied the announced issue-1 fix (hash a_tilde_0 into chall_3 in signer and verifier) to an otherwise untouched copy. ublockith_em_d3_256s and _256f then reject all of their own honest signatures in every run (reference 256f 0/5, reference 256s 0/2, optimized 256f 0/3); the non-EM sets verify (5/5), which validates the harness. Shifting the encryption witness by one block (w + 32 bytes; tags/keys + 256 elements) restores 5/5. The submitted KATs pass only because, without a_tilde_0 bound, the constraint values never influence the verdict.
 
 4. Consequence B (specification as written): the relation reduces to a 2-round fixed point
 
@@ -32,7 +32,7 @@ Finding such a fixed point is not generic 2^256 work. Fixing g nibble-interleave
 
 Either skip S0 when selecting the encryption witness in the EM branch (p.69 step 17: w[Nblock .. l_enc - 1]; code: w + 32 at ublockith_ublock_256.c:190/264) or do not prepend in at EncCstrnts step 6 for EM. Both restore the 24-round chain ending at out. We would also suggest that the revised document state the EM witness layout explicitly (whether l_enc = 3072 includes S0) and that the corrected release be re-validated end to end with a_tilde_0 bound.
 
-All experiments were run locally on the submitted package (SHA-256 4d31ba3f...002283); scripts are available on request.
+All experiments were run locally on the submitted package (SHA-256 4d31ba3f...002283). Harness, patches, the DR0 oracle, the SAT scripts and raw logs are at https://github.com/acprk/ngcc-round1-cryptanalysis/tree/main/chinith-em-misalignment .
 
 Best regards,
 [name]
