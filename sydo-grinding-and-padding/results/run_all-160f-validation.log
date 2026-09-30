@@ -1,0 +1,29 @@
+ F2  BAVC opening padding: Reference accepts, Optimized rejects
+====================================================================
+[build] opt 160f
+       (compiler rejects -std=c23; rewriting to -std=c2x/-std=c++2b in the scratch copy)
+== 160f trial 0
+gen ok pk=80 sig=6724 self_verify=0
+bavc_open=[3120,6680) free_tail_bytes=140 (orig all-zero=1) mutated_all_free -> ref_verify=0
+  opt: verify(sig.bin)=0 verify(sig_mut.bin)=-1
+  ref: verify(sig.bin)=0 verify(sig_mut.bin)=0
+== 160f trial 1
+gen ok pk=80 sig=6724 self_verify=0
+bavc_open=[3120,6680) free_tail_bytes=60 (orig all-zero=1) mutated_all_free -> ref_verify=0
+  opt: verify(sig.bin)=0 verify(sig_mut.bin)=-1
+  ref: verify(sig.bin)=0 verify(sig_mut.bin)=0
+== 160f trial 2
+gen ok pk=80 sig=6724 self_verify=0
+bavc_open=[3120,6680) free_tail_bytes=120 (orig all-zero=1) mutated_all_free -> ref_verify=0
+  opt: verify(sig.bin)=0 verify(sig_mut.bin)=-1
+  ref: verify(sig.bin)=0 verify(sig_mut.bin)=0
+
+--- bounded single-bit sweep: 1000 bytes of a 160f signature ---
+    (ref accepts exactly 8 x (free padding bytes) in that window; opt accepts 0)
+  ref: RANGE [6000,6724) calls=5792 accepts=1120 cpu=523.7s
+  opt: RANGE [6000,6724) calls=5792 accepts=0 cpu=24.5s
+
+Full-scale sweep numbers are in results/SWEEP-SUMMARY.md (2.0M+ flips).
+To reproduce one full signature:  $WORK/opt_160f/sweep $WORK/runs/160f_t0 sig.bin 0 6724
+
+[exited with code 0]

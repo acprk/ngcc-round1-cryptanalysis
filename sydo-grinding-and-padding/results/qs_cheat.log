@@ -1,0 +1,3 @@
+honest  f(w)=0  passing Deltas: 256/256
+false   f(w)=1  no cheating     : 1/256 pass
+false   f(w)=1  cheat on [3, 77, 150, 201]: passing Deltas=[3, 77, 150, 201]

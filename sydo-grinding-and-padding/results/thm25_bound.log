@@ -1,0 +1,8 @@
+ level   n/w  log2 rho_RSD  KW loss (bits)  Thm25 bound  claimed
+   160   279        -0.677           1.417       157.00      160
+   256   279        -4.333           0.073       254.34      256
+   512   279        -1.782           0.496       509.92      512
+
+So the author's own theorem yields roughly 157.0 / 254.3 / 509.9, not lambda.
+The claimed "exactly lambda" comes only from the Table 5.3 equality
+tau*log2(N) - log2(d) + wgrind = lambda, which (see F1) cannot be instantiated.

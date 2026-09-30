@@ -1,0 +1,1 @@
+sydo_160f: spec wgrind=2, enforced=0; KAT sigs=10, satisfy spec grinding condition: 1/10 (expected by chance 2^-2 ≈ 2.5)
