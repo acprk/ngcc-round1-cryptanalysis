@@ -17,7 +17,7 @@
 set -e
 REF="${REF:?set REF=/path/to/Reference_Implementation/OPSsig-128}"
 CC="${CC:-gcc}"; STD="-O2 -std=c99"
-TOYTAU="${TOYTAU:-20}"; SEED="${SEED:-1}"
+TOYTAU="${TOYTAU:-16}"; SEED="${SEED:-1}"
 SRCS="sign.c mult.c packing.c polyvec.c ntt.c reduce.c auxfunc.c drng.c"   # poly.c/rounding.c handled per-build
 OBJS="sign.o mult.o packing.o polyvec.o ntt.o reduce.o auxfunc.o drng.o"
 cc(){ "$CC" $STD -I"$REF" "$@"; }

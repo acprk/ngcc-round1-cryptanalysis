@@ -33,7 +33,7 @@ short `z` and a target `c*` (all `+1` on that support), computes `w = Az − c*�
 own reconstruction), and grinds ≤ 30 hint bits until the recomputed `c̃` yields `c*`. Expected `2^τ`
 hashes; no secret key, no signing query. The per-try cost is τ-independent, so real L1 (τ=39) costs
 `2^39`, L3 (τ=45) `2^45`, L5 (τ=90) `2^90` — all far below the claimed 128/256/512-bit (2λ = 256/512/1024)
-forgery target; L1 is essentially practical.
+forgery target; L1 (2^39) is feasible for a determined attacker (see below), though not cheap.
 
 The submitted **reference** `poly_challenge` is *not* Algorithm 6 — it is the correct Dilithium sampler,
 properly generalised to `n ∈ {512,1024}` (10-bit index, two 64-bit sign words). It samples a full-support
@@ -51,10 +51,11 @@ reads the secret key. The forgery reads only `pk` and the message. `src/verify_r
 - **Completed (real parameters):** F1a the fixed-support collapse (exactly τ positions, each in every
   sample); F2 the honest-verification-failure rate. Both run at the reference's real τ / γ2.
 - **Completed (scaled τ):** the full public-key-only forgery, accepted by the spec verifier, rejected on
-  a different message and by the reference sampler. `TOYTAU=20` completes in ~30 s single-core;
-  `TOYTAU=24` in ~15 min. The mechanism and per-try cost are τ-independent.
-- **Extrapolated (real τ):** L1 forgery = `2^39` hashes (≈ 1 core-day at the measured ~56 µs/try on a
-  few cores; not run to completion here), L3 `2^45`, L5 `2^90`. (Same "extrapolated per-guess cost"
+  a different message and by the reference sampler. The default `TOYTAU=16` completes in seconds;
+  `TOYTAU=20` is a randomized ~2^20 search (about a minute, seed/load dependent). The mechanism and
+  per-try cost (~60-115 µs/attempt) are τ-independent.
+- **Extrapolated (real τ):** L1 forgery = `2^39` hashes (≈ 1–2 core-years at the measured ~60–115 µs/try,
+  i.e. a few days on a 100-core machine; not run to completion here), L3 `2^45`, L5 `2^90`. (Same "extrapolated per-guess cost"
   convention as `chinith-em-misalignment` and `facto-dsa-forgery`.)
 
 ## Run it
