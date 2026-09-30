@@ -66,6 +66,17 @@ echo " Finding 1 -- 512-level secret key AND session key are functions of a 256-
 echo "              SM3 chaining value (claimed classical 512 / quantum 256)"
 echo "=============================================================================="
 {
+  echo "-- [1a] session key = G(m || H(pk)) is a function of the lenK-byte message + pk"
+  echo "        alone (independent of ct): generic Grover message search ~2^(4*lenK)"
+  for L in 128 256 512; do
+    w=$(prep ref "$L")
+    srcs=$(ls "$w"/*.c | grep -v 'KAT_KEM.c')
+    $CC -O2 -fcommon -w -I"$w" -DHDR="\"KEM_lwekem$L.h\"" "$HERE/src/keycap.c" $srcs -o "$w/keycap"
+    printf "  %s-set  " "$L"; "$w/keycap"
+  done
+  echo "  claimed quantum: 128->80, 256->128, 512->256  (128 set: 2^64 < 80; 512 set: see [1b])"
+  echo
+  echo "-- [1b] 512 set: secret key AND session key rebuilt from the 256-bit SM3 chaining value"
   w=$(prep ref 512)
   srcs=$(ls "$w"/*.c | grep -vE 'KAT_KEM.c|auxfunc.c')   # cap512.c #includes auxfunc.c itself
   $CC -O2 -fcommon -w -I"$w" "$HERE/src/cap512.c" $srcs -o "$w/cap512"

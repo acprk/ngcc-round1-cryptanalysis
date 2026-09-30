@@ -31,10 +31,23 @@ value, (a) the secret-key bytes from CV(noiseseed) and (b) the session key K fro
 An attacker therefore searches CV in {0,1}^256 rather than the nominal 512-bit key space: for each
 candidate CV, derive s and test whether b - A*s is short (key recovery), or recompute seed_r,
 re-encrypt and compare with ct (session-key recovery). This is about 2^256 classical and about 2^128
-under Grover, versus the claimed classical 512 / quantum 256 for both 512 sets. The 256 sets
-(lenK = 32) are unaffected, and so are the 128 sets (Grover about 2^64 vs claimed quantum 80). We do
-NOT run the 2^256/2^128 search; the reduction of the key and the session key to a single 256-bit
-value is the finding. The spec does not analyse the symmetric strength of the 512 sets.
+under Grover, versus the claimed classical 512 / quantum 256 for both 512 sets -- short by 256 bits
+classically and 128 bits quantumly. We do NOT run the 2^256/2^128 search; the reduction of the key
+and the session key to a single 256-bit value is the finding. The spec does not analyse the
+symmetric strength of the 512 sets.
+
+More generally, the seed/message size is the real ceiling for every set. Since K = G(m || H(pk))
+depends only on the lenK-byte message and the public key (we rebuild K from m and pk, with no sk and
+no ct, 100/100 at each level), generic Grover message search costs about 2^(4*lenK):
+
+  set     lenK   classical    quantum        claimed cl/qu   verdict
+  128-I   16 B   2^128        2^64 (msg)     128 / 80        classical OK; quantum 2^64 < 80 (*)
+  256-I   32 B   2^256        2^128          256 / 128       meets exactly (no margin)
+  512     64 B   2^256 (cap)  2^128 (cap)    512 / 256       short by 256 / 128 bits
+
+  (*) The 128 sets' quantum figure of 80 is not backed by a 128-bit message: plain Grover message
+      search is 2^64. This is the AES-128 situation and depends on the MAXDEPTH model, so we flag it
+      rather than call it a break. The unambiguous shortfall is the 512 set.
 
 Suggested fix: for the 512 sets use a XOF whose chaining value / capacity is at least 1024 bits
 (e.g. a wide-pipe or sponge construction with capacity >= 512), or relabel 512-I/512-II.

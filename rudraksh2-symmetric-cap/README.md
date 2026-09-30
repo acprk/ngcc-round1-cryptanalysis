@@ -38,13 +38,29 @@ Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
 **Consequence.** An attacker enumerates `CV ∈ {0,1}²⁵⁶` (for the key: for each candidate compute
 `s`, test whether `b − A·s` is short; for the session key: recompute `seed_r`, re-encrypt, compare
 to `ct`). This is ≈ `2²⁵⁶` classical / ≈ `2¹²⁸` under Grover, against the **claimed classical 512 /
-quantum 256** for `Rudraksh2-512-I` and `-512-II`. The 256 sets (`lenK=32`) meet their claim; the
-128 sets (`lenK=16`, Grover ≈ `2⁶⁴` vs claimed quantum 80) also stand. The spec never analyses the
-symmetric strength of the 512 sets. This is the same class as ngcc.dev kem-11 / kem-21 / kem-27 /
-kem-38 and COMPASS problem 1, none of which is currently listed for Rudraksh2.
+quantum 256** for `Rudraksh2-512-I` and `-512-II` — short by 256 bits classically and 128 bits
+quantumly. The spec never analyses the symmetric strength of the 512 sets. This is the same class as
+ngcc.dev kem-11 / kem-21 / kem-27 / kem-38 and COMPASS problem 1, none of which is currently listed
+for Rudraksh2.
+
+**The seed/message size is the real ceiling for every set** (`src/keycap.c`, step [1a]). Because
+`K = G(m ‖ H(pk))` is a function of the `lenK`-byte message and the public key alone — we rebuild it
+from `m + pk`, no `sk` and no `ct`, 100/100 at each level — generic Grover message search costs
+about `2^(4·lenK)`:
+
+| set | lenK | classical (min lattice, seed) | quantum (min QSVP, seed-Grover) | claimed cl / qu | verdict |
+|---|---|---|---|---|---|
+| 128-I | 16 B | 2¹²⁸ (msg 2¹²⁸, CSVP 2¹²⁹) | **2⁶⁴** (msg-Grover) | 128 / 80 | classical OK; **quantum 2⁶⁴ < 80** † |
+| 256-I | 32 B | 2²⁵⁶ | 2¹²⁸ | 256 / 128 | meets exactly (no margin) |
+| 512-I/II | 64 B | **2²⁵⁶** (SM3 cap) | **2¹²⁸** (SM3 cap) | 512 / 256 | **short by 256 / 128 bits** |
+
+† The 128 sets' quantum figure of 80 is not backed by a 128-bit message: plain Grover message
+search is `2⁶⁴`. This is the AES-128 situation and its status depends on the MAXDEPTH model, so we
+flag it rather than call it a clean break. The **unambiguous** shortfall is the 512 set, where the
+256-bit SM3 chaining value caps both the classical (`2²⁵⁶` vs 512) and the quantum (`2¹²⁸` vs 256).
 
 *Not claimed:* we do not run the `2²⁵⁶`/`2¹²⁸` search. The demonstration is the exact reduction of
-the key/session to a 256-bit value.
+the key/session to a 256-bit value, plus the message→key reconstruction that fixes the ceiling.
 
 ### 2 — Cortex-M4 128/256 use a different error-correction constant, so they do not interoperate with the reference (severity B: implementation)
 
@@ -99,7 +115,8 @@ REF=/path/to/Rudraksh2/Implementations ./run_all.sh --latt   # + finding 3 (need
 
 | file | finding | reads secret? |
 |---|---|---|
-| `src/cap512.c` | 1 | only to *check* the rebuilt sk/K byte-for-byte (marked in-source) |
+| `src/keycap.c` | 1 (ceiling) | no (K rebuilt from m + pk only; no sk, no ct) |
+| `src/cap512.c` | 1 (512 cap) | only to *check* the rebuilt sk/K byte-for-byte (marked in-source) |
 | `src/cross.c`  | 2 | no (decaps needs `sk`, but the finding is the ss (dis)agreement, not `sk`) |
 | `latt/latt_II.py` | 3 | no (parameters only) |
 

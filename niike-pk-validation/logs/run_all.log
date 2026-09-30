@@ -1,5 +1,5 @@
 === 1. parameter / KAT verifier (items 2,3,6) ===
-REFROOT = $REFROOT
+REFROOT = <redacted> and Test_Vectors/Implementations/Reference_Implementation
 ==========================================================================
 parameter arithmetic (from the vendor reference)
 ==========================================================================
@@ -29,10 +29,18 @@ parameter arithmetic (from the vendor reference)
 ==========================================================================
 spec Section 5.5 NGCC-III prime vs code prime
 ==========================================================================
-  code prime: 16394 bits, p mod 8 = 7
-  spec prime (Section 5.5): 16392 bits, p = 3 mod 8  [documented; leading digits b101ae10306a5ae9...]
+  code prime: 16394 bits, p mod 8 = 7, prime = True
+  spec prime: 16392 bits, p mod 8 = 3, prime = True
+  spec == code : False
   code head = 288c3c52faa9ace5   spec head = b101ae10306a5ae9   (different numbers)
-  Section 5.3 requires p = 7 mod 8 for sigma = pi-1:  code True  spec FALSE (3 mod 8)
+  Section 5.3 requires p = 7 mod 8 for sigma = pi-1:  code True  spec False
+
+==========================================================================
+item 2(b): the stack counter `top` at the second assert(top==0)
+==========================================================================
+  lv128 P_LEN=31   M_LEN=18   top at assert(top==0) = 0  ->  assert PASSES
+  lv256 P_LEN=54   M_LEN=30   top at assert(top==0) = 0  ->  assert PASSES
+  lv512 P_LEN=759  M_LEN=0    top at assert(top==0) = 1  ->  assert FAILS -> SIGABRT in the default (asserts-on) build
 
 ==========================================================================
 shipped test-vector statistics
