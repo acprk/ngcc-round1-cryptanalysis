@@ -2,7 +2,7 @@ Subject: Re: Round1: Public Comment: UVW Key Encapsulation Mechanism - kem-38-2 
 
 Dear UVW Team, dear all,
 
-Following kem-38-2 (ngcc.dev) and the 9-24 reaction attack: making decapsulation constant-time does not remove the leak.
+Following Markku-Juhani Saarinen's kem-38-2 on ngcc.dev and Tianyuan Xie's reaction attack in this thread: making decapsulation constant-time does not remove the leak.
 
 1. Overall DFR is about 2^-43, and failures reveal the hidden pairs
 
@@ -12,7 +12,7 @@ Theorem 2 gives only the single-attempt success probability. We use the same cou
 
 More retries help slowly (UVW-128: 10^4 -> 2^-63.0, 10^6 -> 2^-108.3). Reaching 2^-128 needs about 10^7 attempts, and a constant-time decoder would have to run all of them every time.
 
-A ciphertext fails only if t >= 4 (mostly t = 5). Each such pair is a triple e[a] = gamma * e[b] != 0 in public coordinates, as in the 9-24 attack. The attacker encapsulates honestly and records the ciphertexts whose decapsulation does not return its key. This needs no timing, and it works with a single status code and implicit rejection. In a simulation at the UVW-128 size, 1000 failures recover all 430 pairs and ratios (500 failures: 416/430). That is about 2^53 queries: within the usual 2^64 IND-CCA budget, though not practical. After that, stages 3-4 of the 9-24 post apply. We did not rerun them, and UVW-256/512 are extrapolated.
+A ciphertext fails only if t >= 4 (mostly t = 5). Each such pair is a triple e[a] = gamma * e[b] != 0 in public coordinates, as in Tianyuan Xie's attack. The attacker encapsulates honestly and records the ciphertexts whose decapsulation does not return its key. This needs no timing, and it works with a single status code and implicit rejection. In a simulation at the UVW-128 size, 1000 failures recover all 430 pairs and ratios (500 failures: 416/430). That is about 2^53 queries: within the usual 2^64 IND-CCA budget, though not practical. After that, stages 3-4 of Tianyuan Xie's post apply. We did not rerun them, and UVW-256/512 are extrapolated.
 
 The specification should state the overall DFR and include it in the FO bound. Retrying I1 cannot make the DFR negligible; the decoder or the parameters need to change.
 

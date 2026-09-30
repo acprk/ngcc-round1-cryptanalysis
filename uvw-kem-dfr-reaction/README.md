@@ -2,7 +2,7 @@
 
 UVW-KEM (NGCC round 1, KEM #38, ngcc.dev `kem-38`) decrypts by list-decoding a hidden RS code,
 then solving for `r1` on a randomly chosen information set `I1`, retrying on failure (spec Alg. 5
-step 10, unbounded; the code stops after 1000 attempts). ngcc.dev kem-38-2 notes that failures
+step 10, unbounded; the code stops after 1000 attempts). ngcc.dev kem-38-2 (Markku-Juhani Saarinen) notes that failures
 are visible through return codes and a large timing gap, and that the constant-time fix is to
 "always do the failure path's work". This package shows that **this fix is not sufficient**:
 honest ciphertexts still fail with probability about 2^-43 after 1000 retries, the failure event
@@ -16,7 +16,7 @@ recover the pairing with about 2^53 queries.
 - **Pair/ratio recovery from final failures: simulated (UVW-128 size), not run against the real
   decapsulator.** 2^53 queries is inside the usual 2^64 IND-CCA budget but not practical
   (~0.15 s per decapsulation). The structure-recovery and decryption stages after the pairs are
-  known are those of the 9-24 forum post (Xie / openHiTLS); we did not rerun them.
+  known are those of the 9-24 forum post by Tianyuan Xie (openHiTLS); we did not rerun them.
   UVW-256/512 are extrapolated (2x / 4x more pairs), not simulated.
 - **Implementation observations** (memory leaks, shared DRNG): CONFIRMED on the unmodified
   reference code (ASan).
