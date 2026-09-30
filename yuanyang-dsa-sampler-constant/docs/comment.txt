@@ -1,48 +1,50 @@
 To: pkccomment@niccs.org.cn
-Subject: Round1: Public Comment: YuanYang.DSA — wrong sampler constant in the -512 implementation leaks the secret key into the signature mean
+Subject: Round1: Public Comment: YuanYang.DSA — three wrong constants in the yuanyang-512 implementation, one of which leaks the secret key into the signature mean
 
 Dear NGCC evaluation committee, dear YuanYang.DSA team,
 
-We report an implementation bug in YuanYang.DSA-512 (reference and optimized implementations;
--1024/-2048 are not affected). The specification and the design are not affected; the fix is one
-constant and one table. The issue is independent of, and adds to, ngcc.dev sign-34-1.
+The following errors are in the yuanyang-512 reference and optimized implementations. None of them
+is in the specification; the -1024/-2048 implementations are correct on all three points.
 
-1. Root cause. The wide integer sampler in the presampler uses an RCDT table for standard deviation
-4η (Spec. Table 2; sampler.c "sigma = 4*eta"; L = 4 in sign.c), but its rejection constant
-fpr_yuanyang_inv_2sqr_large_sampler_sigma (fpr.h, 0x3ccc24a85, 43-bit fixed point) decodes to
-1/(2(16η)²), sixteen times too small; the zero-centred BerExp table was generated from the same
-value. The -1024 constants decode to 4η exactly. Consequence: the rejection step almost always
-accepts, so the zero-centred sampler returns −z0 or z0+1 with equal probability. Its mean is +0.458
-instead of 0 (variance 18.46 instead of 16.84), and the centred sampler largely ignores the
-fractional part of its centre.
+Error 1 — fpr.h: fpr_yuanyang_inv_2sqr_large_sampler_sigma = 0x3ccc24a85.
+  Decoded (43 fractional bits): 0.0018554 = 1/(2·(16η)²), η = 1.026.
+  Required: 1/(2·(4η)²) = 0.029686 = 0x3ccc24a84f, since the wide sampler's RCDT table is built
+  for 4η (sampler.c comment; Spec. Table 2, 4η = 4.104) and L = 4 in sign.c.
+  The companion fpr_yuanyang_large_sampler_sigma = 0x8353f7ced917 decodes to 16.416 = 16η for the
+  same reason. In yuanyang-1024 both constants decode to 4η.
+  Consequence: the BerExp rejection almost always accepts. yuanyang_samplerz_large_zero returns −z0
+  or z0+1 with probability 1/2 each: mean +0.458 instead of 0, variance 18.46 instead of 16.84.
+  yuanyang_samplerz_large(μ) ignores most of frac(μ) (μ = 0.75 → mean 0.53).
+  Security effect: E[x] = 0.458·𝟙 propagates through the presampler, so released signatures satisfy
+  E[s] = (0.458/4)·Â·(𝟙,𝟙) + const, with Â the rounded Gram root of the signing key. Verified on the
+  unmodified reference with two keys and 4·10^5 signatures each: the s1 mean, after removing the
+  all-ones factor, regresses on the key's own a00 with slope 0.102 ± 0.011 and 0.113 ± 0.010
+  (predicted 0.1145) and on the other key's a00 with slope 0.010 ± 0.010 and −0.011 ± 0.013. The
+  mean is therefore a public, unbiased estimator of a00 (coefficient error 432/√N). Together with
+  Error 0 below, a00·ā00 = σ² − 1 − (f f̄ + g ḡ), the element for which Fouque–Kirchner–Tibouchi–
+  Wallet–Yu (EUROCRYPT 2020, ePrint 2019/1180) give a full key recovery from the public key. Exact
+  recovery of f f̄ + g ḡ by rounding needs about 2^35 signatures in simulation; we did not perform it.
+  Side effect: signature variance +3.2%, norm-rejection rate 15% instead of 2% per signature.
+  Fix: set the constant to 0x3ccc24a84f and regenerate yuanyang_large_zero_berexp[] for 4η.
 
-2. Effect on signatures. The perturbation inherits E[x] = 0.458·𝟙, so the released signature
-satisfies E[s] = (0.458/4)·Â·(𝟙,𝟙) + const, where Â is the rounded Gram root stored in the signing
-key. Measured on the unmodified reference (two keys, 4·10^5 signatures each, s2 recomputed as the
-verifier does): the mean is non-zero at χ² z ≈ 2300 already with 2·10^4 signatures; after removing
-the all-ones factor (𝟙·(1−X) = 2), the s1 mean regressed on the true a00 gives slope 0.102 ± 0.011
-and 0.113 ± 0.010 (predicted 0.1145), and 0.010 ± 0.010 / −0.011 ± 0.013 against the other key's
-a00; the s2 half behaves the same with a10 + a11. The public mean is thus an unbiased estimator of
-a00 with coefficient error 432/√N.
+Error 2 — fpr.h: fpr_yuanyang_inv_2sqrsigma_sig (the Δ2 exponent constant) = 3701747757852.
+  Decoded: 0.42084 = 1/(2·1.09²). Required: 1/(2σ_sig²) = 1.0274·10^-4 (σ_sig = 69.76); the stored
+  value is exactly 2^12 too large. The -1024/-2048 constants are exact.
+  Consequence: Δ2 rejects 4–11% of attempts (key-dependent) instead of the 1.5% (= 1 − 1/C) the
+  specification predicts. After fixing sign-34-1 alone, Δ2 rejections rise to 0.4–1.1 per signature.
+  Fix: divide the constant by 2^12 (or recompute it from σ_sig); apply together with the sign-34-1 fix.
 
-3. Impact. With sign-34-1 present, a00·ā00 = σ² − 1 − (f f̄ + g ḡ) exactly, so the transcript
-exposes f f̄ + g ḡ, the quantity Fouque–Kirchner–Tibouchi–Wallet–Yu (EUROCRYPT 2020, ePrint
-2019/1180) show suffices with the public key for full key recovery. By simulation with the measured
-noise, exact recovery of f f̄ + g ḡ by rounding needs about 2^35 signatures: inside the 2^80
-signature bound of the specification, but not practical. We have not carried out a key recovery and
-do not claim one. The bug also inflates the signature variance by 3.2% and the norm-rejection rate
-from about 2% to 15% per signature.
+Error 0 — keygen/perturbation.c, sigma_p_set_slot: Σp is built from B̂ᴴB̂ (column Gram matrix)
+  instead of σ²I − B̂B̂ᴴ as in Spec. Algorithm 7, line 6. Already reported as ngcc.dev sign-34-1;
+  listed here because Error 1 combines with it (see above) and Error 2 interacts with its fix.
 
-4. Related fix items. (i) The -512 Δ2 constant fpr_yuanyang_inv_2sqrsigma_sig is 2^12 times
-1/(2σ_sig²) (the 1024/2048 values are exact); correcting it brings the Δ2 rejection rate to the 1.5%
-the specification predicts. Fixing sign-34-1 alone raises Δ2 rejections to 0.4–1.1 per signature,
-so the two fixes belong together. (ii) With all three corrections the transcript is isotropic in our
-tests (mean z ≤ 1.5, secret-direction variance ratios 1.000 ± 0.001, autocorrelation at noise level)
-and 600/600 signatures verify. (iii) Table 3 lists σ_sig = 128.262 for -2048; η·σ = 118.3, matching
-the code.
+Error 3 — Specification Table 3: σ_sig for yuanyang-2048 is given as 128.262. From η·σ =
+  0.928 × 127.5 the value is 118.3, which is what the code uses (118.22) and what γ = 7641 implies.
 
-Suggested fix: set the constant to 0x3ccc24a84f and regenerate the zero-centred BerExp table;
-correct the -512 Δ2 constant; add a signature-mean/variance self-test to the KAT suite.
+Check after fixing Errors 0–2 (our patched copy of the reference): signature mean z ≤ 1.5,
+secret-direction variance ratios 1.000 ± 0.001, s1 autocorrelation at noise level, 600/600
+signatures verify. We suggest adding a signature-mean/variance self-test to the KAT suite so that
+constants of this kind are caught automatically.
 
-Reproduction package (harness, patches, keys, logs; no vendor code):
+Patches, harness, keys and logs (no vendor code):
 https://github.com/acprk/ngcc-round1-cryptanalysis/tree/main/yuanyang-dsa-sampler-constant
