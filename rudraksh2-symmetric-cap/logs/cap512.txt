@@ -8,3 +8,6 @@
 -- [1b] 512 set: secret key AND session key rebuilt from the 256-bit SM3 chaining value
 Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: 50/50 exact
 Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
+  negative control (flip 1 bit of each chaining value; a real experiment must give 0/50):
+  Rudraksh2-512 secret key rebuilt from 1-bit-PERTURBED 256-bit SM3 chaining value: 0/50 exact
+  Rudraksh2-512 session key  rebuilt from 1-bit-PERTURBED 256-bit SM3 chaining value: 0/50 exact

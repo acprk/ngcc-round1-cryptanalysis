@@ -12,6 +12,9 @@
 -- [1b] 512 set: secret key AND session key rebuilt from the 256-bit SM3 chaining value
 Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: 50/50 exact
 Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
+  negative control (flip 1 bit of each chaining value; a real experiment must give 0/50):
+  Rudraksh2-512 secret key rebuilt from 1-bit-PERTURBED 256-bit SM3 chaining value: 0/50 exact
+  Rudraksh2-512 session key  rebuilt from 1-bit-PERTURBED 256-bit SM3 chaining value: 0/50 exact
 
 ==============================================================================
  Finding 2 -- Cortex-M4 128/256 use a different error-correction constant
@@ -84,11 +87,6 @@ BROKEN sets (spec-mandated NTT does not exist): 128-II, 256-II, 512-II
 ==============================================================================
  Finding 4 -- kem_dec/kem_enc ignore the caller-declared length (OOB read)
 ==============================================================================
-calling kem_dec with a 911-byte buffer, declared len=912
-==3905721==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51900000090f at pc 0x56f99241b9e7 bp 0x7ffe5548fdc0 sp 0x7ffe5548fdb0
-READ of size 1 at 0x51900000090f thread T0
-    #0 0x56f99241b9e6 in kem_light_ref_poly_decompress ./work/ref-128/poly.c:105
-    #1 0x56f992418bcb in unpack_ciphertext ./work/ref-128/indcpa.c:121
-SUMMARY: AddressSanitizer: heap-buffer-overflow ./work/ref-128/poly.c:105 in kem_light_ref_poly_decompress
+  (pass --asan to build the AddressSanitizer reproducer; see logs/asan.txt)
 
 done. Outputs in ./out/ ; logs of our own run are in ./logs/

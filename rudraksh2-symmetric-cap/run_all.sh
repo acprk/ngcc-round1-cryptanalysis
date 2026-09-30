@@ -81,6 +81,8 @@ echo "==========================================================================
   srcs=$(ls "$w"/*.c | grep -vE 'KAT_KEM.c|auxfunc.c')   # cap512.c #includes auxfunc.c itself
   $CC -O2 -fcommon -w -I"$w" "$HERE/src/cap512.c" $srcs -o "$w/cap512"
   "$w/cap512"
+  echo "  negative control (flip 1 bit of each chaining value; a real experiment must give 0/50):"
+  "$w/cap512" --perturb | sed 's/^/  /'
 } | tee "$HERE/out/cap512.txt"
 
 echo

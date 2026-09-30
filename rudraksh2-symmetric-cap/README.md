@@ -35,6 +35,10 @@ Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: 50/50 exact
 Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
 ```
 
+`cap512 --perturb` is a **negative control**: flipping one bit of each chaining value gives
+`0/50` on both, confirming the 50/50 match is discriminating (it pins the key to the exact 256-bit
+value, not a comparison that always passes).
+
 **Consequence.** An attacker enumerates `CV ∈ {0,1}²⁵⁶` (for the key: for each candidate compute
 `s`, test whether `b − A·s` is short; for the session key: recompute `seed_r`, re-encrypt, compare
 to `ct`). This is ≈ `2²⁵⁶` classical / ≈ `2¹²⁸` under Grover, against the **claimed classical 512 /

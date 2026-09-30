@@ -67,11 +67,16 @@ static void cv_of_block(const unsigned char seed[64], unsigned int cv[8]) {
     sm3_bit_compress(cv, seed, 1);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
     if (KEM_SYMBYTES != 64) {
         printf("This demo targets the 512 sets (KEM_SYMBYTES=64); got %d\n", KEM_SYMBYTES);
         return 2;
     }
+    /* Negative control: with --perturb we flip ONE bit of each 256-bit chaining
+     * value before rebuilding. A correct experiment must then match 0/N, proving
+     * the 50/50 result is not a tautology (e.g. a memcmp that always passes) but
+     * genuinely pins the key to the exact 256-bit value. */
+    int perturb = (argc > 1 && strcmp(argv[1], "--perturb") == 0);
     const int trials = 50;
     int sk_ok = 0, ss_ok = 0;
     unsigned char pk[KEM_PUBLICKEYBYTES], sk[KEM_SECRETKEYBYTES];
@@ -94,6 +99,7 @@ int main(void) {
         pseudoXOF(2 * KEM_SYMBYTES * 8, buf, KEM_SYMBYTES * 8, buf);  /* hash_g(buf,buf,64) */
         unsigned int cv_ns[8];
         cv_of_block(buf + KEM_SYMBYTES, cv_ns);         /* noiseseed = buf[64..127] */
+        if (perturb) cv_ns[0] ^= 1u;                    /* negative control */
         memset(buf, 0, sizeof buf);                     /* only the 32-byte CV survives */
 
         /* rebuild s from CV alone, exactly as SampleCBDvec would */
@@ -124,6 +130,7 @@ int main(void) {
         get_random_number(&drng_algorithm, m, KEM_SYMBYTES * 8);
         unsigned int cv_m[8];
         cv_of_block(m, cv_m);
+        if (perturb) cv_m[0] ^= 1u;                     /* negative control */
         memset(m, 0, sizeof m);                          /* only CV(m) survives */
 
         /* pkh = H(pk) is public; rebuild kr = F(CV(m), pkh) and take K = kr[0..SS) */
@@ -144,9 +151,10 @@ int main(void) {
         ss_ok += !memcmp(kr, ss, KEM_SSBYTES);
     }
 
-    printf("Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: %d/%d exact\n",
-           sk_ok, trials);
-    printf("Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: %d/%d exact\n",
-           ss_ok, trials);
+    printf("Rudraksh2-512 secret key rebuilt from %s256-bit SM3 chaining value: %d/%d exact\n",
+           perturb ? "1-bit-PERTURBED " : "", sk_ok, trials);
+    printf("Rudraksh2-512 session key  rebuilt from %s256-bit SM3 chaining value: %d/%d exact\n",
+           perturb ? "1-bit-PERTURBED " : "", ss_ok, trials);
+    if (perturb) return (sk_ok == 0 && ss_ok == 0) ? 0 : 1;  /* control passes iff nothing matches */
     return (sk_ok == trials && ss_ok == trials) ? 0 : 1;
 }
