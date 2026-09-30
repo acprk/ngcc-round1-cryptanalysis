@@ -1,0 +1,55 @@
+======================= AFS_KEX_C128 =======================
+[NEG] level=AFS-KEX-C128 N=256 eta1=6
+[NEG] NTT ring-mult mismatches (50 trials) : 0
+[NEG] CBD out-of-range=0  per-coord nonzero min=1498 max=1600  all-coords-reachable=yes
+[NEG] RESULT: CONFIRMED-CLEAN (NTT correct + sampler healthy => these COMPASS-style bugs are ABSENT)
+[ORACLE] level=AFS-KEX-C128 trials=200
+[ORACLE] unauthenticated M sees A-decap-success: honest=200/200  injected-failure=0/200
+[ORACLE] RESULT: CONFIRMED (a per-session failure oracle open to an unauthenticated peer)
+[UKS] level=AFS-KEX-C128 trials=200
+[UKS] A believes peer=bob, B believes peer=eve, keys equal: 200/200
+[UKS] RESULT: CONFIRMED
+[REPLAY] level=AFS-KEX-C128 trials=200
+[REPLAY] seed_A harvested by responder : 200/200
+[REPLAY] Bob accepts peer=alice (K_A leaked)   : 200/200
+[REPLAY]   ... and attacker key == Bob's key   : 200/200
+[REPLAY] Bob accepts peer=alice (control,no leak): 0/200 (must be 0)
+[REPLAY] RESULT: CONFIRMED
+
+======================= AFS_KEX_C256 =======================
+[NEG] level=AFS-KEX-C256 N=256 eta1=3
+[NEG] NTT ring-mult mismatches (50 trials) : 0
+[NEG] CBD out-of-range=0  per-coord nonzero min=1330 max=1439  all-coords-reachable=yes
+[NEG] RESULT: CONFIRMED-CLEAN (NTT correct + sampler healthy => these COMPASS-style bugs are ABSENT)
+[ORACLE] level=AFS-KEX-C256 trials=200
+[ORACLE] unauthenticated M sees A-decap-success: honest=200/200  injected-failure=0/200
+[ORACLE] RESULT: CONFIRMED (a per-session failure oracle open to an unauthenticated peer)
+[UKS] level=AFS-KEX-C256 trials=200
+[UKS] A believes peer=bob, B believes peer=eve, keys equal: 200/200
+[UKS] RESULT: CONFIRMED
+[REPLAY] level=AFS-KEX-C256 trials=200
+[REPLAY] seed_A harvested by responder : 200/200
+[REPLAY] Bob accepts peer=alice (K_A leaked)   : 200/200
+[REPLAY]   ... and attacker key == Bob's key   : 200/200
+[REPLAY] Bob accepts peer=alice (control,no leak): 0/200 (must be 0)
+[REPLAY] RESULT: CONFIRMED
+
+======================= AFS_KEX_C512 =======================
+[NEG] level=AFS-KEX-C512 N=512 eta1=2
+[NEG] NTT ring-mult mismatches (50 trials) : 0
+[NEG] CBD out-of-range=0  per-coord nonzero min=1193 max=1306  all-coords-reachable=yes
+[NEG] RESULT: CONFIRMED-CLEAN (NTT correct + sampler healthy => these COMPASS-style bugs are ABSENT)
+[ORACLE] level=AFS-KEX-C512 trials=200
+[ORACLE] unauthenticated M sees A-decap-success: honest=200/200  injected-failure=0/200
+[ORACLE] RESULT: CONFIRMED (a per-session failure oracle open to an unauthenticated peer)
+[UKS] level=AFS-KEX-C512 trials=200
+[UKS] A believes peer=bob, B believes peer=eve, keys equal: 200/200
+[UKS] RESULT: CONFIRMED
+[REPLAY] level=AFS-KEX-C512 trials=200
+[REPLAY] seed_A harvested by responder : 200/200
+[REPLAY] Bob accepts peer=alice (K_A leaked)   : 200/200
+[REPLAY]   ... and attacker key == Bob's key   : 200/200
+[REPLAY] Bob accepts peer=alice (control,no leak): 0/200 (must be 0)
+[REPLAY] RESULT: CONFIRMED
+
+done.
