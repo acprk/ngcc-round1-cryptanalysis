@@ -125,10 +125,31 @@ echo "-- [2c] the fix: set the M4 128/256 constant to 220 (spec Table 1); re-tes
   done
 } | tee "$HERE/out/fix.txt"
 
+echo
+echo "=============================================================================="
+echo " Finding 3 -- The -II parameter sets (q=4001) contradict the spec's own NTT"
+echo "              requirement: no primitive 2n-th root of unity exists"
+echo "=============================================================================="
+python3 "$HERE/nttcheck.py" | tee "$HERE/out/nttcheck.txt"
+
+echo
+echo "=============================================================================="
+echo " Finding 4 -- kem_dec/kem_enc ignore the caller-declared length (OOB read)"
+echo "=============================================================================="
+if [[ "${1:-}" == "--asan" || "${2:-}" == "--asan" ]]; then
+  w=$(prep ref 128)
+  srcs=$(ls "$w"/*.c | grep -v 'KAT_KEM.c')
+  $CC -O1 -g -fsanitize=address -fcommon -w -I"$w" -DHDR="\"KEM_lwekem128.h\"" \
+     "$HERE/src/asan_lenignore.c" $srcs -o "$w/asan" 2>/dev/null
+  "$w/asan" 2>&1 | grep -E "heap-buffer-overflow|READ of size|poly_decompress|unpack_ciphertext|SUMMARY|calling kem_dec" | tee "$HERE/out/asan.txt" || true
+else
+  echo "  (pass --asan to build the AddressSanitizer reproducer; see logs/asan.txt)"
+fi
+
 if [[ "${1:-}" == "--latt" ]]; then
   echo
   echo "=============================================================================="
-  echo " Finding 3 -- Rudraksh2-II sets vs an ML-KEM-512 anchor (no II implementation)"
+  echo " Finding 5 -- Rudraksh2-II sets vs an ML-KEM-512 anchor (no II implementation)"
   echo "=============================================================================="
   command -v sage >/dev/null || { echo "sage not found; skipping"; exit 0; }
   sage -python "$HERE/latt/latt_II.py" | tee "$HERE/out/latt_II.txt"

@@ -82,7 +82,45 @@ failure rate — `128-I: 2⁻⁹⁴·⁵` (claimed `≤2⁻¹⁰⁰`), `256-I: 2
 from exploitable, so this is an interoperability/correctness bug, not a break. Fix in
 `patches/m4-minal-beta.patch`.
 
-### 3 — (`--latt`, minor) The Rudraksh2-II sets are weaker than ML-KEM-512 in every model, and ship no implementation
+### 3 — The -II parameter sets (q=4001) contradict the spec's own NTT requirement
+
+The spec (Polynomial multiplication, p.5) says *"the modulus q needs to be a prime number with the
+primitive 2n-th root-of-unity in the prime field Z_q"* and Eq. (1)/(2) define the negacyclic NTT with
+`ζ` = a primitive 2n-th root. `Z_q*` is cyclic of order `q−1`, so such a `ζ` exists **iff `2n | q−1`**.
+
+`nttcheck.py` (dependency-free) checks all six sets:
+
+| set | n | q | 2n | v₂(q−1) | 2n \| q−1 | |
+|---|---|---|---|---|---|---|
+| 128-I / 256-I | 64/128 | 3329 | 128/256 | 8 | yes | ok |
+| 512-I | 256 | 7681 | 512 | 9 | yes | ok |
+| **128-II / 256-II / 512-II** | 64/128/256 | **4001** | 128/256/512 | **5** | **no** | **no primitive 2n-th root exists** |
+
+`4001−1 = 2⁵·5³` has only `2⁵`, so the largest negacyclic-NTT degree it supports is `n=16`; the -II
+sets use `n=64/128/256`. The spec's Eq. (1)/(2) are therefore **not computable** for any -II set —
+they would need an incomplete NTT plus a base-case multiplication that the spec does not describe.
+This is consistent with the submission shipping **no -II implementation**. (The -I moduli were chosen
+with enough 2-adic valuation and are fine; `nttcheck.py` also exhibits a valid `ζ` for each.)
+
+### 4 — (`--asan`, low) `kem_dec` / `kem_enc` ignore the caller-declared length → OOB read
+
+The NGCC API passes `ct_len_bytes` to `kem_dec` and `pk_len_bytes` to `kem_enc`, but both are ignored:
+`kem_dec` always reads `KEM_CIPHERTEXTBYTES` and `kem_enc` always reads the full public key. A caller
+that hands in a buffer shorter than the hard-coded size (while declaring the true length) causes a
+heap-buffer-overflow **read** past the buffer, in `poly_decompress` via `unpack_ciphertext`:
+
+```
+calling kem_dec with a 911-byte buffer, declared len=912
+AddressSanitizer: heap-buffer-overflow ... READ of size 1
+  #0 poly_decompress  poly.c:105
+  #1 unpack_ciphertext indcpa.c:121
+```
+
+This is the ngcc.dev kem-14-1 "caller-declared length ignored" class, but a read rather than a write,
+hence low severity; full-size random/malformed ciphertexts (3000×) and public keys do not crash, and
+`kem_dec` always returns 0. Run with `./run_all.sh --asan`.
+
+### 5 — (`--latt`, minor) The Rudraksh2-II sets are also weaker than ML-KEM-512 in every model
 
 `latt/latt_II.py` (lattice-estimator, exact CBD, `l·n` samples), with an ML-KEM-512 (NIST L1)
 anchor from the same script:
@@ -94,13 +132,21 @@ anchor from the same script:
 | Rudraksh2-256-II | 281.4 | 261.6 | 265.3 | 245.2 |
 
 `128-II` is 4.5–6.4 bits below the L1 anchor in every model (the authors' own Table 14 CSVP is
-`2¹¹⁴`); none of the `-II` sets ships an implementation.
+`2¹¹⁴`). So the -II sets are both **unimplementable as specified** (finding 3) and **under-strength** (finding 5).
+
+## Angles checked and refuted
+
+To save others the work, `refuted/` records two dead ends with runnable evidence: the shipped
+2D-B2-Minal decoder is **ML-optimal in the honest-noise regime** (so it does not undermine the DFR
+claim), and the reference decode path is **constant-time** (no secret-dependent branch/memory, 0
+`idiv`). See `refuted/README.md`.
 
 ## How to run
 
 ```
-REF=/path/to/Rudraksh2/Implementations ./run_all.sh          # findings 1 & 2, ~1 min
-REF=/path/to/Rudraksh2/Implementations ./run_all.sh --latt   # + finding 3 (needs sage + lattice-estimator; ~15 min)
+REF=/path/to/Rudraksh2/Implementations ./run_all.sh          # findings 1, 2 & 3, ~1 min
+REF=/path/to/Rudraksh2/Implementations ./run_all.sh --asan    # + finding 4 (AddressSanitizer reproducer)
+REF=/path/to/Rudraksh2/Implementations ./run_all.sh --latt   # + finding 5 (needs sage + lattice-estimator; ~15 min)
 ```
 
 - `REF` is the submission's `Implementations/` directory (contains `Reference_Implementation/`,
@@ -118,7 +164,9 @@ REF=/path/to/Rudraksh2/Implementations ./run_all.sh --latt   # + finding 3 (need
 | `src/keycap.c` | 1 (ceiling) | no (K rebuilt from m + pk only; no sk, no ct) |
 | `src/cap512.c` | 1 (512 cap) | only to *check* the rebuilt sk/K byte-for-byte (marked in-source) |
 | `src/cross.c`  | 2 | no (decaps needs `sk`, but the finding is the ss (dis)agreement, not `sk`) |
-| `latt/latt_II.py` | 3 | no (parameters only) |
+| `nttcheck.py` | 3 | no (parameters only; dependency-free) |
+| `src/asan_lenignore.c` | 4 | no (public API only; ASAN) |
+| `latt/latt_II.py` | 5 | no (parameters only) |
 
 The 512-level cap program `#include`s the vendor `auxfunc.c` so it can reach SM3's (static)
 compression function; it links against the vendor's public API for everything else. All numbers

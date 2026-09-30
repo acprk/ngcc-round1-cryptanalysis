@@ -63,4 +63,32 @@ Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
   L256 enc=m4fix dec=ref : decaps agree 200/200
   L256 enc=ref   dec=m4fix: decaps agree 200/200
 
+==============================================================================
+ Finding 3 -- The -II parameter sets (q=4001) contradict the spec's own NTT
+              requirement: no primitive 2n-th root of unity exists
+==============================================================================
+spec requires a primitive 2n-th root of unity mod q for the negacyclic NTT (Eq. 1/2)
+
+set         n     q   2n  v2(q-1)   2n | q-1  verdict
+128-I      64  3329  128        8       True  root=1915
+256-I     128  3329  256        8       True  root=3061
+512-I     256  7681  512        9       True  root=7146
+128-II     64  4001  128        5      False  NO SUCH ROOT — NTT undefined
+256-II    128  4001  256        5      False  NO SUCH ROOT — NTT undefined
+512-II    256  4001  512        5      False  NO SUCH ROOT — NTT undefined
+
+q-1 2-adic valuations:  3329-1=2^8*13,  7681-1=2^9*3*5,  4001-1=2^5*5^3 (only 2^5)
+=> max negacyclic-NTT degree supported by q=4001 is n=16; the -II sets use n=64/128/256.
+BROKEN sets (spec-mandated NTT does not exist): 128-II, 256-II, 512-II
+
+==============================================================================
+ Finding 4 -- kem_dec/kem_enc ignore the caller-declared length (OOB read)
+==============================================================================
+calling kem_dec with a 911-byte buffer, declared len=912
+==3905721==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51900000090f at pc 0x56f99241b9e7 bp 0x7ffe5548fdc0 sp 0x7ffe5548fdb0
+READ of size 1 at 0x51900000090f thread T0
+    #0 0x56f99241b9e6 in kem_light_ref_poly_decompress ./work/ref-128/poly.c:105
+    #1 0x56f992418bcb in unpack_ciphertext ./work/ref-128/indcpa.c:121
+SUMMARY: AddressSanitizer: heap-buffer-overflow ./work/ref-128/poly.c:105 in kem_light_ref_poly_decompress
+
 done. Outputs in ./out/ ; logs of our own run are in ./logs/

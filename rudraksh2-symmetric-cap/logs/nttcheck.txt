@@ -1,0 +1,13 @@
+spec requires a primitive 2n-th root of unity mod q for the negacyclic NTT (Eq. 1/2)
+
+set         n     q   2n  v2(q-1)   2n | q-1  verdict
+128-I      64  3329  128        8       True  root=1915
+256-I     128  3329  256        8       True  root=3061
+512-I     256  7681  512        9       True  root=7146
+128-II     64  4001  128        5      False  NO SUCH ROOT — NTT undefined
+256-II    128  4001  256        5      False  NO SUCH ROOT — NTT undefined
+512-II    256  4001  512        5      False  NO SUCH ROOT — NTT undefined
+
+q-1 2-adic valuations:  3329-1=2^8*13,  7681-1=2^9*3*5,  4001-1=2^5*5^3 (only 2^5)
+=> max negacyclic-NTT degree supported by q=4001 is n=16; the -II sets use n=64/128/256.
+BROKEN sets (spec-mandated NTT does not exist): 128-II, 256-II, 512-II

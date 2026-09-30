@@ -79,12 +79,37 @@ Fix (one line per file):
 With the fix, the M4 128/256 KATs become byte-identical to the submitted Test_Vectors and M4<->ref
 interoperate 200/200 both ways.
 
-3. Minor (for completeness)
+3. The -II parameter sets contradict the spec's own NTT requirement (q=4001)
 
-- The Rudraksh2-II sets ship no implementation, and 128-II is 4.5-6.4 bits below ML-KEM-512 in every
-  model we ran (lattice-estimator, exact CBD): usvp CoreSVP 2^113.6, dual_hybrid CoreSVP 2^109.3,
-  MATZOV 2^133.3 vs the ML-KEM-512 anchor 2^118.6 / 2^115.5 / 2^139.7; your Table 14 CSVP for 128-II
-  is 2^114.
+The spec (Polynomial multiplication, p.5) requires "the modulus q needs to be a prime number with the
+primitive 2n-th root-of-unity in the prime field Z_q", and Eq. (1)/(2) define the negacyclic NTT with
+zeta = a primitive 2n-th root. Z_q* is cyclic of order q-1, so such a zeta exists iff 2n | q-1.
+
+  4001 - 1 = 2^5 * 5^3  (only 2^5), so 2n | 4000 fails for every -II degree:
+    128-II n=64  2n=128 : 128 ∤ 4000
+    256-II n=128 2n=256 : 256 ∤ 4000
+    512-II n=256 2n=512 : 512 ∤ 4000
+
+No primitive 2n-th root of unity exists mod 4001 at these degrees (the largest negacyclic-NTT degree
+4001 supports is n=16). So Eq. (1)/(2) are not computable for any -II set; they would need an
+incomplete NTT plus a base-case multiplication that the spec does not describe. This is consistent
+with the submission shipping no -II implementation. (The -I moduli 3329 and 7681 have 2^8 and 2^9 and
+are fine.) The -II sets are also 4.5-6.4 bits below ML-KEM-512 in every lattice model we ran
+(128-II: usvp CoreSVP 2^113.6, dual_hybrid CoreSVP 2^109.3, MATZOV 2^133.3, vs the ML-KEM-512 anchor
+2^118.6 / 2^115.5 / 2^139.7; your Table 14 CSVP for 128-II is 2^114).
+
+4. kem_dec / kem_enc ignore the caller-declared length (OOB read, low severity)
+
+The NGCC API passes ct_len_bytes to kem_dec and pk_len_bytes to kem_enc, but both are ignored: the
+code always reads KEM_CIPHERTEXTBYTES / the full public key. A caller that supplies a buffer shorter
+than the hard-coded size (declaring the true length) triggers a heap-buffer-overflow READ in
+poly_decompress (poly.c:105) via unpack_ciphertext (indcpa.c:121), confirmed under AddressSanitizer.
+This is the ngcc.dev kem-14-1 "caller-declared length ignored" class, but a read rather than a write,
+so low severity; full-size random/malformed ciphertexts and public keys do not crash, and kem_dec
+always returns 0. Suggested fix: check ct_len_bytes == KEM_CIPHERTEXTBYTES (and pk_len_bytes) on
+entry.
+
+5. Minor (for completeness)
 - §3.3.3 states tight multi-target security ("the cost to compromise any one of the T users remains
   proportional to the Core-SVP hardness"). With a 128-bit, unsalted m on the 128 sets, collecting
   2^t ciphertexts for one public key lets an attacker recover one session key in about 2^(128-t)
