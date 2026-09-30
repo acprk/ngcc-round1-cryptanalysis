@@ -11,6 +11,16 @@ Verification package for two findings in the NGCC round-1 submission **SYDO**.
 soundness is `lambda - 2` (158 / 254 / 510) for all six sets, and **13 of the 60 shipped KAT signatures
 satisfy the spec's own grinding condition** — a verifier written strictly from Algorithm 3 rejects 47 of them.
 
+The `+2` is structural, not a typo in one table. Sec 5.2 sets `tau := floor(lambda / log2 N)` and takes
+`wgrind` as the *smallest* value meeting the inequality, so `wgrind = lambda - tau*log2(N) + 2` and hence
+`tau*log2(N) + wgrind == lambda + 2` identically, for any lambda and N. Regenerating the table by the spec's
+own rule reproduces the same two-bit overshoot; only changing the length of `chall3` or the inequality fixes it.
+
+Which evidence carries the finding: the enforced-bit count (from the vendor library's own accessors) and the
+grinding-counter means. The counter means are **independent of bit-order conventions** — `ctr` is a plain
+4-byte integer in the signature. The 13/60 figure does assume the delta field is read LSB-first within bytes,
+matching `delta_has_required_zero_bits`; it is corroboration, not the load-bearing measurement.
+
 **F2 (implementation, Reference only).** Algorithm 13 lines 21–22 require the BAVC opening padding to be all
 zeros. The Optimized tree checks it (`vector_com.inc`); the Reference tree does not
 (`bavc_impl.inc` falls through to `ok = true` at L446). Result: signature malleability against a property the
