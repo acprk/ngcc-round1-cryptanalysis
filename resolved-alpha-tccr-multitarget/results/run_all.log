@@ -1,0 +1,105 @@
+=== [T] |id-list| distribution (from /home/luck/xzy/0930project/pkc/src/ReSolveD-_/Implementations/Reference_Implementation/*/parameters.h) ===
+  set      lam tau k   L      Topen  T_min T_med T_max  E[log2T]  P(reject)
+  160F    160  21  8   3328   139   111   134   139   7.06   0.243
+  160S    160  14 12  28672   129   111   128   129   6.99   0.990
+  256F    256  35  8   4864   223   193   217   223   7.76   0.286
+  256S    256  22 12  49152   224   197   221   224   7.78   0.620
+  384F    384  53  8   7296   336   298   328   336   8.35   0.277
+  384S    384  34 12  69632   332   300   330   332   8.36   0.939
+  512F    512  72  8   9216   447   398   439   447   8.77   0.312
+  512S    512  46 12  94208   439   409   437   439   8.77   0.997
+
+=== [a] 256s: structure check + oracle-fed key-recovery chain (h2_witness) ===
+  set lambda=256 tau=22 L=49152 Topen=224 ell=1416 sig=13973
+  key 0: T=216 revealed nodes (upper-left 100, upper-right 94, bottom 22); relation failures=0
+    hidden leaf of instance alpha=9 recovered; matches published commitment: YES
+    recovered witness (1416 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  key 1: T=216 revealed nodes (upper-left 101, upper-right 93, bottom 22); relation failures=0
+    hidden leaf of instance alpha=1 recovered; matches published commitment: YES
+    recovered witness (1416 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  RESULT H2-STRUCTURE CONFIRMED
+
+=== [a] 256f: structure check + oracle-fed key-recovery chain (h2_witness) ===
+  set lambda=256 tau=35 L=4864 Topen=223 ell=1416 sig=17932
+  key 0: T=220 revealed nodes (upper-left 87, upper-right 98, bottom 35); relation failures=0
+    hidden leaf of instance alpha=19 recovered; matches published commitment: YES
+    recovered witness (1416 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  key 1: T=212 revealed nodes (upper-left 89, upper-right 88, bottom 35); relation failures=0
+    hidden leaf of instance alpha=0 recovered; matches published commitment: YES
+    recovered witness (1416 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  RESULT H2-STRUCTURE CONFIRMED
+
+=== [a] 384s: structure check + oracle-fed key-recovery chain (h2_witness) ===
+  set lambda=384 tau=34 L=69632 Topen=332 ell=2112 sig=31575
+  key 0: T=327 revealed nodes (upper-left 144, upper-right 149, bottom 34); relation failures=0
+    hidden leaf of instance alpha=14 recovered; matches published commitment: YES
+    recovered witness (2112 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  key 1: T=327 revealed nodes (upper-left 134, upper-right 159, bottom 34); relation failures=0
+    hidden leaf of instance alpha=4 recovered; matches published commitment: YES
+    recovered witness (2112 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  RESULT H2-STRUCTURE CONFIRMED
+
+=== [a] 512f: structure check + oracle-fed key-recovery chain (h2_witness) ===
+  set lambda=512 tau=72 L=9216 Topen=447 ell=2816 sig=72611
+  key 0: T=447 revealed nodes (upper-left 197, upper-right 178, bottom 72); relation failures=0
+    hidden leaf of instance alpha=33 recovered; matches published commitment: YES
+    recovered witness (2816 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  key 1: T=431 revealed nodes (upper-left 178, upper-right 187, bottom 66); relation failures=0
+    hidden leaf of instance alpha=10 recovered; matches published commitment: YES
+    recovered witness (2816 bits) equals signer's witness: YES
+    forged fresh message accepted: YES; control (1 witness bit flipped) accepted: NO
+  RESULT H2-STRUCTURE CONFIRMED
+
+=== [b] 256s: GENUINE self-locating search (no oracle) -> witness -> fresh-message forgery (exp_genuine) ===
+  set lambda=256 B=20 T=222 : HIT after 47426 TCCR evals (model 2^B/2=524288); discovered target=0 (aimed 0); recovered node == true hidden node: YES
+    hidden leaf (alpha=2) commitment matches signature: YES
+    recovered witness == signer witness: YES
+    forged fresh message accepted: YES ; control(flip 1 witness bit): NO
+  RESULT: GENUINE SELF-LOCATING SEARCH -> KEY RECOVERY -> FORGERY OK
+  set lambda=256 B=22 T=222 : HIT after 4241730 TCCR evals (model 2^B/2=2097152); discovered target=0 (aimed 0); recovered node == true hidden node: YES
+    hidden leaf (alpha=2) commitment matches signature: YES
+    recovered witness == signer witness: YES
+    forged fresh message accepted: YES ; control(flip 1 witness bit): NO
+  RESULT: GENUINE SELF-LOCATING SEARCH -> KEY RECOVERY -> FORGERY OK
+
+=== [b] 256f: GENUINE self-locating search (no oracle) -> witness -> fresh-message forgery (exp_genuine) ===
+  set lambda=256 B=20 T=216 : HIT after 184630 TCCR evals (model 2^B/2=524288); discovered target=0 (aimed 0); recovered node == true hidden node: YES
+    hidden leaf (alpha=2) commitment matches signature: YES
+    recovered witness == signer witness: YES
+    forged fresh message accepted: YES ; control(flip 1 witness bit): NO
+  RESULT: GENUINE SELF-LOCATING SEARCH -> KEY RECOVERY -> FORGERY OK
+
+=== [b] 384s: GENUINE self-locating search (no oracle) -> witness -> fresh-message forgery (exp_genuine) ===
+  set lambda=384 B=20 T=324 : HIT after 2018922 TCCR evals (model 2^B/2=524288); discovered target=0 (aimed 0); recovered node == true hidden node: YES
+    hidden leaf (alpha=13) commitment matches signature: YES
+    recovered witness == signer witness: YES
+    forged fresh message accepted: YES ; control(flip 1 witness bit): NO
+  RESULT: GENUINE SELF-LOCATING SEARCH -> KEY RECOVERY -> FORGERY OK
+
+=== [b] 512f: GENUINE self-locating search (no oracle) -> witness -> fresh-message forgery (exp_genuine) ===
+  set lambda=512 B=20 T=446 : HIT after 1839954 TCCR evals (model 2^B/2=524288); discovered target=0 (aimed 0); recovered node == true hidden node: YES
+    hidden leaf (alpha=16) commitment matches signature: YES
+    recovered witness == signer witness: YES
+    forged fresh message accepted: YES ; control(flip 1 witness bit): NO
+  RESULT: GENUINE SELF-LOCATING SEARCH -> KEY RECOVERY -> FORGERY OK
+
+=== [c] 256-bit TCCR: hash-set (O(1)) vs linear-scan (O(T)) membership, T=216 (exp_htable) ===
+  B=20 T=216 runs=200
+    hash-table: TCCR evals=4440  probes=0.30/eval  =>  total work ~= evals (O(1) membership)
+    linear    : TCCR evals=4440  comparisons=958994 (=216x evals)
+    model 2^B/(T+1)=4832  single-target 2^B/2=524288
+  B=24 T=216 runs=30
+    hash-table: TCCR evals=100434  probes=0.31/eval  =>  total work ~= evals (O(1) membership)
+    linear    : TCCR evals=100434  comparisons=21693598 (=216x evals)
+    model 2^B/(T+1)=77314  single-target 2^B/2=8388608
+
+=== full-size cost (extrapolation) ===
+  key recovery from ONE signature = 2^lambda/(T+1) TCCR evals: 256 ~2^248.2, 384 ~2^375.6, 512 ~2^503.2 (160: ~2^153, above target)
+  (not executed; every other link of the attack ran above on the submitted code)
