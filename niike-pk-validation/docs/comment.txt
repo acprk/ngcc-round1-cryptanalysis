@@ -8,7 +8,7 @@ We evaluated NIIKE (reference, optimized, and additional implementations) agains
 
 NIIKE is a non-interactive key exchange with static keys on both sides, proposed in Section 1.2 for X3DH, TLS 1.3, IKEv2 and KEMTLS/OPTLS. The reference performs no validation of a received public key. decode_bundlevertex (NIIKE-lv*/protocols/bundleprotocols_internal.c) returns void and only fp2_decodes each x-coordinate. fp_decode (gf/fp.c) does compute a canonicality flag (returns -1 if < p, else 0, zeroing the limbs) and fp2_decode returns re & im, but all 15 call sites discard it. kex_derive_ss_a/b (ngccapi/KEX_AlgorithmInstance.c) then run the action and return 0 (success) unconditionally. A grep for supersingularity / point-on-curve / order / A != +-2 / cycle-consistency / canonicality checks finds none.
 
-Measured, NIIKE-lv128, kex_derive_ss with the shipped KAT row-0 key (Release build, all return code 0 = success):
+Measured, NIIKE-lv128, kex_derive_ss with a freshly generated victim keypair (the result is independent of the victim key; see below), Release build, all return code 0 = success:
 
   honest peer pk            -> correct, non-zero shared secret
   all-zero peer pk          -> shared secret = 00 x 64
@@ -16,9 +16,9 @@ Measured, NIIKE-lv128, kex_derive_ss with the shipped KAT row-0 key (Release bui
   pseudo-random peer pk     -> shared secret = 00 x 64
   honest pk, one bit flip   -> different non-zero secret (accepted, not rejected)
 
-The degenerate shared secret does not depend on the victim's long-term key: three unrelated secret keys all produce 00...0 for an all-zero or non-canonical peer key. This reproduces identically on NIIKE-lv256 (00 x 128). So an active attacker who can place a public key in front of a victim - the threat a NIKE must withstand - makes the victim derive a shared secret the attacker already knows, with no secret knowledge and no confirmation step to catch it.
+The degenerate shared secret does not depend on the victim's long-term key: two distinct victim keypairs both produce 00...0 for an all-zero or non-canonical peer key. This reproduces identically on NIIKE-lv256 (00 x 128). So an active attacker who can place a public key in front of a victim - the threat a NIKE must withstand - makes the victim derive a shared secret the attacker already knows, with no secret knowledge and no confirmation step to catch it.
 
-This is not only an implementation omission. Validating an oriented public key in the large-discriminant setting is, by the construction's own author, an open problem: Houben (ePrint 2025/1098, Section 7) states that public-key validation is required to prevent active attacks, that checking tr(tau) = tr(sigma) mod M "is not sufficient", and "we leave determining the best algorithm to validate public keys as a topic for future research." A cheap necessary check the scheme still omits: e_M(P_j, Q_j) equals a public constant computable from the distinguished origin, so two Weil pairings per cycle element would reject every malformed key in the table above (this is necessary, not sufficient - it does not stop GPST-style adaptive attacks).
+This is not only an implementation omission. Validating an oriented public key in the large-discriminant setting is, by the construction's own author, an open problem: Houben (ePrint 2025/1098, Section 7) states that public-key validation is required to prevent active attacks, that checking tr(tau) = tr(sigma) mod M "is not sufficient", and "we leave determining the best algorithm to validate public keys as a topic for future research." Standard necessary checks the scheme omits entirely - supersingularity of each E_j, that P_j and Q_j lie on E_j and have order exactly M, and that every transmitted coordinate is a canonical field element (< p) - would already reject every malformed key in the table above. These are necessary, not sufficient (they do not stop GPST-style adaptive attacks against a reused static key).
 
 2. NGCC-III is non-functional and its KATs are not genuine outputs
 
@@ -39,7 +39,7 @@ The reference compiles a 16394-bit prime (NIIKE-lv512/gf/fp.c: Nbits 16394, 0x28
 4. Shared secret is the raw j-invariant; the proof uses a random oracle the algorithm does not
 
 Algorithm 5 and the code return ss = j(E) directly (SHAREDKEY_BYTES = 64/128/4100), with no hash, no KDF and no identity binding. The proof of Theorem 9.1.7 instead has the challenger return "the real session key digest H(K)"; the random oracle H appears only in the proof, not in Definition 9.1.6, Algorithm 5, or the code, while the hardness assumption (Problem 9.1.2) is computational CDH. Two consequences for the scheme as specified:
- - It is not HKR-CKS-light secure: the secret space is F_{p^2}, but a real shared secret is always a supersingular j-invariant (density about p/12 = 2^-254 in F_{p^2} at lv128), and supersingularity is efficiently testable, so an adversary distinguishes with advantage about 1 - 2^-254 and zero oracle queries. Only the hashed variant is covered.
+ - It is not HKR-CKS-light secure: the secret space is F_{p^2}, but a real shared secret is always a supersingular j-invariant, of which there are only about p/12 - a fraction about 2^-258 of F_{p^2} at lv128 - and supersingularity is efficiently testable, so an adversary distinguishes a real shared secret from a uniform F_{p^2} element with advantage about 1 and zero oracle queries. Only the hashed variant is covered.
  - Because ss is unbound to identities, the scheme is broken in the standard NIKE model (Freire-Hofheinz-Kiltz-Paterson, PKC 2013, footnote 5): register an honest party's public key as your own and query the shared key with a third party.
 Also, Definition 9.1.6's title reads "HKR-CKS-1" (digit one) while its body and proof read "HKR-CKS-l" (the lowercase-ell "light" notion, whose experiment is copied from SWOOSH). The fix is standard: ss = H(context, pk_A, pk_B, canonical(j)) with a canonical ordering of the two keys.
 
