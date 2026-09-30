@@ -1,10 +1,10 @@
 To: pkccomment@niccs.org.cn
-Subject: Round1: Public Comment: YuanYang.DSA — wrong constants in the yuanyang-512 implementation; one leaks the secret key into the signature mean
+Subject: Round1: Public Comment: YuanYang.DSA — wrong constants in the yuanyang-512 implementation; one leaks secret-key information into the signature mean
 
 Dear NGCC evaluation committee, dear YuanYang.DSA team,
 
-We found the following errors in the yuanyang-512 reference and optimized implementations. None is
-in the specification; the -1024/-2048 implementations are correct on these points.
+We found the following errors in the yuanyang-512 reference and optimized implementations (Errors 1
+and 2 are absent from the -1024/-2048 code) and one typo in the specification (Error 3).
 
 Error 1 — fpr.h, fpr_yuanyang_inv_2sqr_large_sampler_sigma = 0x3ccc24a85 decodes to 1/(2·(16η)²).
   It must be 1/(2·(4η)²) = 0x3ccc24a84f: the wide sampler's RCDT table and Spec. Table 2 use 4η,
@@ -13,22 +13,23 @@ Error 1 — fpr.h, fpr_yuanyang_inv_2sqr_large_sampler_sigma = 0x3ccc24a85 decod
   instead of 0. This propagates to E[s] = (0.458/4)·Â·(𝟙,𝟙) + const, where Â is the Gram root stored
   in the signing key. Verified on the unmodified reference (two keys, 4·10^5 signatures each): the s1
   mean regresses on the key's own a00 with slope 0.102 ± 0.011 / 0.113 ± 0.010 (predicted 0.1145)
-  and on the other key's a00 with slope ≈ 0. With Error 0, a00·ā00 = σ² − 1 − (f f̄ + g ḡ), the
+  and on the other key's a00 with slope ≈ 0. With Error 0, a00·ā00 = σ² − 1 − (f f̄ + g ḡ) (σ = σ_sig/η = 68), the
   element from which [FKTWY20] recovers the full key given the public key. Exact recovery needs
   about 2^35 signatures in simulation; we did not perform it. Side effect: norm-rejection rate 15%
   instead of 2%.
   Fix: set the constant to 0x3ccc24a84f and regenerate yuanyang_large_zero_berexp[] for 4η.
 
 Error 2 — fpr.h, fpr_yuanyang_inv_2sqrsigma_sig (Δ2 exponent) decodes to 0.4208, which is 2^12 times
-  1/(2σ_sig²). Consequence: Δ2 rejects 4–11% of attempts instead of the specified 1.5%; once Error 0
+  1/(2σ_sig²). Consequence: Δ2 rejects 4–11% per signature instead of the specified 1.5%; once Error 0
   is fixed, 0.4–1.1 rejections per signature. Fix: divide by 2^12, together with the Error 0 fix.
 
 Error 0 — keygen/perturbation.c builds Σp from B̂ᴴB̂ instead of σ²I − B̂B̂ᴴ (Spec. Alg. 7, line 6).
   Already reported as ngcc.dev sign-34-1; listed because Errors 1 and 2 interact with it.
 
-Error 3 — Spec. Table 3 gives σ_sig = 128.262 for yuanyang-2048; η·σ = 118.3, as in the code.
+Error 3 — Spec. Table 3 gives σ_sig = 128.262 for yuanyang-2048; η·σ = 0.928 × 127.5 = 118.3, which is
+  what the code uses (118.22) and what γ = 7641 implies. All three parameter sets have Error 0.
 
-After fixing Errors 0–2 the signature transcript is isotropic in our tests (mean z ≤ 1.5, secret-
+After fixing Errors 0–2 the signature transcript is isotropic in our tests (mean |z| < 2, secret-
 direction variance ratios 1.000 ± 0.001) and 600/600 signatures verify. We suggest a signature
 mean/variance self-test in the KAT suite.
 
