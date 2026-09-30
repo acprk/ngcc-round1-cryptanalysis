@@ -1,0 +1,56 @@
+-- orig WeaverKEM-256
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 4 errors -> data correct 19923/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 5 errors -> data correct 0/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 4 errors -> data correct 19720/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 5 errors -> data correct 0/20000, decoder returned -1 0 times
+-- fixed WeaverKEM-256
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 4 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(255,223,4) short 220+32 (nibbles) t=4: 5 errors -> data correct 0/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 4 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(63,39,4) short 36+24 (nibbles) t=4: 5 errors -> data correct 0/20000, decoder returned -1 0 times
+-- orig WeaverKEM-512
+hi BCH(511,448,7) 448+63 t=7: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 4 errors -> data correct 19959/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 5 errors -> data correct 19921/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 6 errors -> data correct 19897/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 7 errors -> data correct 19832/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 8 errors -> data correct 0/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 4 errors -> data correct 19863/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 5 errors -> data correct 19691/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 6 errors -> data correct 19567/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 7 errors -> data correct 19398/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 8 errors -> data correct 0/20000, decoder returned -1 0 times
+-- fixed WeaverKEM-512
+hi BCH(511,448,7) 448+63 t=7: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 4 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 5 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 6 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 7 errors -> data correct 20000/20000, decoder returned -1 0 times
+hi BCH(511,448,7) 448+63 t=7: 8 errors -> data correct 0/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 1 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 2 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 3 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 4 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 5 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 6 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 7 errors -> data correct 20000/20000, decoder returned -1 0 times
+lo BCH(127,78,7) short 64+49 t=7: 8 errors -> data correct 0/20000, decoder returned -1 0 times

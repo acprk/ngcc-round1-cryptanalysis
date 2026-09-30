@@ -1,0 +1,54 @@
+diff -ru c/WeaverKEM-128/indcpa.c d/WeaverKEM-128/indcpa.c
+--- a/WeaverKEM-128/indcpa.c	2026-09-30 12:03:11.005099553 -0700
++++ b/WeaverKEM-128/indcpa.c	2026-09-30 12:03:11.009099611 -0700
+@@ -8,6 +8,7 @@
+ #include "msgenc.h"
+ #include "ntt.h"
+ #include "symmetric.h"
++poly weaver_dbg_mp;
+ 
+ #ifdef PK_COMPRESS
+ #include "invq.h"
+@@ -416,5 +417,6 @@
+   poly_sub(&mp, &v, &mp);
+   poly_reduce(&mp);
+ 
++  weaver_dbg_mp = mp;
+   poly_tomsg(m, &mp);
+ }
+diff -ru c/WeaverKEM-256/indcpa.c d/WeaverKEM-256/indcpa.c
+--- a/WeaverKEM-256/indcpa.c	2026-09-30 12:03:11.017099727 -0700
++++ b/WeaverKEM-256/indcpa.c	2026-09-30 12:03:11.022099800 -0700
+@@ -8,6 +8,7 @@
+ #include "msgenc.h"
+ #include "ntt.h"
+ #include "symmetric.h"
++poly weaver_dbg_mp;
+ 
+ #ifdef PK_COMPRESS
+ #include "invq.h"
+@@ -416,5 +417,6 @@
+   poly_sub(&mp, &v, &mp);
+   poly_reduce(&mp);
+ 
++  weaver_dbg_mp = mp;
+   poly_tomsg(m, &mp);
+ }
+diff -ru c/WeaverKEM-512/indcpa.c d/WeaverKEM-512/indcpa.c
+--- a/WeaverKEM-512/indcpa.c	2026-09-30 12:03:11.030099916 -0700
++++ b/WeaverKEM-512/indcpa.c	2026-09-30 12:03:11.034099974 -0700
+@@ -8,6 +8,7 @@
+ #include "msgenc.h"
+ #include "ntt.h"
+ #include "symmetric.h"
++poly weaver_dbg_mp;
+ 
+ #ifdef PK_COMPRESS
+ #include "invq.h"
+@@ -416,5 +417,6 @@
+   poly_sub(&mp, &v, &mp);
+   poly_reduce(&mp);
+ 
++  weaver_dbg_mp = mp;
+   poly_tomsg(m, &mp);
+ }

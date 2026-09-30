@@ -43,14 +43,15 @@ section below that backs a public comment.
 Severity A = fundamental (full key recovery / forgery / semantic-security break). `A*` =
 category/claim mismatch backed by a working full key recovery (see the package README).
 
-## Implementation-level package (severity B)
+## Implementation-level packages (severity B)
 
-Kept separately from the eight design-level packages above because it backs a public comment that
-cites a reproduction package. It contains no key recovery.
+Kept separately from the design-level packages above because each backs a public comment that
+cites a reproduction package. They contain no key recovery.
 
 | repo | scheme | category | severity | one-line claim |
 |---|---|---|---|---|
 | `yuanyang-dsa-sampler-constant` | YuanYang.DSA | SIG | B (implementation) | -512 wide-sampler rejection constant is 1/(2(16η)²) instead of 1/(2(4η)²): the signature mean becomes (0.458/4)·Â·(𝟙,𝟙), a linear function of the secret Gram root (10σ secret-dependence at 4·10⁵ signatures, cross-key controls at noise); with the public covariance bug this exposes f f̄+g ḡ (the FKTWY EUROCRYPT 2020 quantity); exact recovery projected at ~2³⁵ signatures by simulation only; NO key recovery performed |
+| `weaver-bch-decoder` | Weaver | KEM | B (implementation) | Berlekamp–Massey discrepancy loop `j <= i+1` mis-decodes some ≤t-error patterns (W-1024 t=4: 0.39–1.66% at e=4; W-2048 t=7: 0.2–3%), still present at GitHub ca99d0f; one-line fix, KATs unchanged; submitted W-1024 (no high-layer BCH decode) has real DFR ≈2^-45.5–2^-47.5 vs claimed 2^-231.7 (exact model validated on 3·10⁸ coefficients); failure-boosting cost table only, NO key recovery |
 
 ## How to build a package
 

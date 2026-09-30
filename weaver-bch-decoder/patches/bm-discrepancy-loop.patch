@@ -1,0 +1,72 @@
+diff -ru a/WeaverKEM-128/bch_high.c b/WeaverKEM-128/bch_high.c
+--- a/WeaverKEM-128/bch_high.c	2026-09-30 12:03:10.933098506 -0700
++++ b/WeaverKEM-128/bch_high.c	2026-09-30 12:03:10.938098579 -0700
+@@ -206,7 +206,7 @@
+         {
+             d = syn[2*i+2];
+             
+-            for (j = 1; j <=i+1 ; j++)
++            for (j = 1; j <= t && j <= 2*i+2; j++)
+             {
+                 mask_j=(j <= elp->deg)?0xffffffff:0x00;
+                 tmp_d=gf_mul( elp->c[j], syn[2*i+2-j]);
+diff -ru a/WeaverKEM-128/bch_low.c b/WeaverKEM-128/bch_low.c
+--- a/WeaverKEM-128/bch_low.c	2026-09-30 12:03:10.943098652 -0700
++++ b/WeaverKEM-128/bch_low.c	2026-09-30 12:03:10.947098710 -0700
+@@ -209,7 +209,7 @@
+         {
+             d = syn[2*i+2];
+             
+-            for (j = 1; j <=i+1 ; j++)
++            for (j = 1; j <= t && j <= 2*i+2; j++)
+             {
+                 mask_j=(j <= elp->deg)?0xffffffff:0x00;
+                 tmp_d=gf_mul( elp->c[j], syn[2*i+2-j]);
+diff -ru a/WeaverKEM-256/bch_high.c b/WeaverKEM-256/bch_high.c
+--- a/WeaverKEM-256/bch_high.c	2026-09-30 12:03:10.956098841 -0700
++++ b/WeaverKEM-256/bch_high.c	2026-09-30 12:03:10.961098913 -0700
+@@ -206,7 +206,7 @@
+         {
+             d = syn[2*i+2];
+             
+-            for (j = 1; j <=i+1 ; j++)
++            for (j = 1; j <= t && j <= 2*i+2; j++)
+             {
+                 mask_j=(j <= elp->deg)?0xffffffff:0x00;
+                 tmp_d=gf_mul( elp->c[j], syn[2*i+2-j]);
+diff -ru a/WeaverKEM-256/bch_low.c b/WeaverKEM-256/bch_low.c
+--- a/WeaverKEM-256/bch_low.c	2026-09-30 12:03:10.965098971 -0700
++++ b/WeaverKEM-256/bch_low.c	2026-09-30 12:03:10.970099044 -0700
+@@ -209,7 +209,7 @@
+         {
+             d = syn[2*i+2];
+             
+-            for (j = 1; j <=i+1 ; j++)
++            for (j = 1; j <= t && j <= 2*i+2; j++)
+             {
+                 mask_j=(j <= elp->deg)?0xffffffff:0x00;
+                 tmp_d=gf_mul( elp->c[j], syn[2*i+2-j]);
+diff -ru a/WeaverKEM-512/bch_high.c b/WeaverKEM-512/bch_high.c
+--- a/WeaverKEM-512/bch_high.c	2026-09-30 12:03:10.977099146 -0700
++++ b/WeaverKEM-512/bch_high.c	2026-09-30 12:03:10.982099218 -0700
+@@ -206,7 +206,7 @@
+         {
+             d = syn[2*i+2];
+             
+-            for (j = 1; j <=i+1 ; j++)
++            for (j = 1; j <= t && j <= 2*i+2; j++)
+             {
+                 mask_j=(j <= elp->deg)?0xffffffff:0x00;
+                 tmp_d=gf_mul( elp->c[j], syn[2*i+2-j]);
+diff -ru a/WeaverKEM-512/bch_low.c b/WeaverKEM-512/bch_low.c
+--- a/WeaverKEM-512/bch_low.c	2026-09-30 12:03:10.986099277 -0700
++++ b/WeaverKEM-512/bch_low.c	2026-09-30 12:03:10.991099349 -0700
+@@ -209,7 +209,7 @@
+         {
+             d = syn[2*i+2];
+             
+-            for (j = 1; j <=i+1 ; j++)
++            for (j = 1; j <= t && j <= 2*i+2; j++)
+             {
+                 mask_j=(j <= elp->deg)?0xffffffff:0x00;
+                 tmp_d=gf_mul( elp->c[j], syn[2*i+2-j]);

@@ -1,0 +1,6 @@
+WeaverKEM-128 orig c4c31b89457de1f3
+WeaverKEM-128 fixed c4c31b89457de1f3
+WeaverKEM-256 orig aab6777ee7b86fde
+WeaverKEM-256 fixed aab6777ee7b86fde
+WeaverKEM-512 orig 8cc7bd48ced4e096
+WeaverKEM-512 fixed 8cc7bd48ced4e096
