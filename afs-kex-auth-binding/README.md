@@ -21,6 +21,14 @@ round 1 before any responder contribution exists. Once harvested, it is a reusab
 "`cpk_A` is Alice's". If a responder's in-session `K_A` then leaks, an attacker replays the old
 `cpk_A` to Bob, uses the leaked `K_A` to complete round 3, and **Bob accepts peer = Alice while
 the attacker knows `K_SESSION`** — using **no secret of Alice**. The no-leak control is rejected.
+A sharper form (`src/reply3_refute.c`): the attacker needs **no harvested material at all** 
+-- only Alice's public key `pk_A` and a leak of the in-session `K_A`. It sets `cpk* = pk_A + 
+t_e(seed*)` for a **self-chosen** `seed*`, so `pk'_A = cpk* - t_e(seed*) = pk_A` and `CAVerf` 
+passes; the authenticating secret is actually Alice's *static* `s_A` (needed for `K_A = 
+Decaps(csk_A, .)`), not `seed`. This directly refutes the authors' 2026-09-22 forum reply that 
+impersonation "also needs the knowledge of ephemeral secret key seed ... held by Alice 
+herself": `seed` is attacker-chosen and `ss = K_A` alone suffices.
+
 This is exactly the "compromise the encapsulated `ss`" scenario the authors' 2026-09-22 forum
 post says AFS-KEM prevents "as the successful AFS-KEM based authentication also needs the
 knowledge of ephemeral secret key seed that is however held by Alice herself." The seed is not
@@ -81,7 +89,7 @@ or build one level directly (use a **space-free** path to `REF`, e.g. via a syml
 
 ```
 make REF=/path/to/Reference_Implementation/AFS_KEX_C128 all
-./negatives ; ./failure_oracle 200 ; ./uks_keycopy 200 ; ./replay_impersonate 200
+./negatives ; ./failure_oracle 200 ; ./uks_keycopy 200 ; ./reply3_refute 200 ; ./replay_impersonate 200
 ```
 
 `run_all.sh` symlinks each level to a space-free name because the submission path contains a

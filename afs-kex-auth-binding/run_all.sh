@@ -18,6 +18,7 @@ for L in C128 C256 C512; do
   ./negatives
   ./failure_oracle "$TR"
   ./uks_keycopy "$TR"
+  ./reply3_refute "$TR"
   ./replay_impersonate "$TR"
   make -s REF="$LNK/AFS_KEX_$L" clean
   echo

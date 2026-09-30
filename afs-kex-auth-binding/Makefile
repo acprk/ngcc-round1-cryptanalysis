@@ -21,7 +21,7 @@ endif
 # reference crypto core: drop the KAT driver and the API wrapper (both bring their own main/state)
 REFSRC := $(filter-out %KAT_KEX.c %KEX_AlgorithmInstance.c,$(wildcard $(REF)/*.c))
 CFLAGS ?= -O2 -std=c99 -I$(REF) $(LVLFLAGS) -Isrc
-BINS := replay_impersonate uks_keycopy failure_oracle negatives
+BINS := replay_impersonate reply3_refute uks_keycopy failure_oracle negatives
 all: $(BINS)
 $(BINS): %: src/%.c $(REFSRC)
 	$(CC) $(CFLAGS) $^ -o $@
