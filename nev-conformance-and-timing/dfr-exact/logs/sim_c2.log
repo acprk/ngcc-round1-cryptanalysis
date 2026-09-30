@@ -1,0 +1,4 @@
+simulated <e''_j,y> for y=(1,1,1,1):  N=51200000  mean -1.9894  var 2735.67  kurt 3.0042  (outside hist: 0)
+exact model  (chi_f=B1, chi_g=T1/8):   mean -2.0000  var 2736.67  kurt 3.0030
+exact model  (chi_f,chi_g SWAPPED):    mean -0.0000  var 2389.33
+bulk goodness-of-fit vs exact pmf: chi2=281.9 df=270 Wilson-Hilferty z=+0.53

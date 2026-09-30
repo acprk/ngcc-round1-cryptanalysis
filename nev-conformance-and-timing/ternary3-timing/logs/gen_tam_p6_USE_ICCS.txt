@@ -1,0 +1,9 @@
+PARAMS=6 N=2048 SEED_BYTES=64 KDF_RATE=32 ETA_R=9 COMPRESS=0 M=20000
+tamper=1 unexpected_rc=0
+rejections/decap: mean=21.9110 sd=4.8115 min=6 max=48
+bytes_scanned/decap: mean=431.9110
+refills/decap: total=19 rate=9.500e-04
+hist(rej): 6:2 7:3 8:5 9:23 10:59 11:103 12:172 13:265 14:440 15:621 16:790 17:1083 18:1334 19:1499 20:1589 21:1680 22:1640 23:1599 24:1423 25:1248 26:1052 27:849 28:707 29:548 30:418 31:260 32:188 33:142 34:96 35:68 36:42 37:19 38:14 39:10 40:4 41:3 44:1 48:1
+thresholds: LOW<=12 (n=367)  HIGH>=32 (n=588)
+wrote ternary3-timing/data/tam_avx2_p6_USE_ICCS.bin
+wrote ternary3-timing/data/tam_avx2_p6_USE_ICCS.bin.all

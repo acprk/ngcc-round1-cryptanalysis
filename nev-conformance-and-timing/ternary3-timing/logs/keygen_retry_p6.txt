@@ -1,0 +1,1 @@
+PARAMS=6 keygens=20000  mont2_inverse_failures(=retries)=0

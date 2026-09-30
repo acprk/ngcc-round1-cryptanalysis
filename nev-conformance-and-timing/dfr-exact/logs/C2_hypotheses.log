@@ -1,0 +1,8 @@
+[1,8,9,2]  C2  model B   spec: block 2^-149.53 DFR<=2^-141.53 | code: block 2^-149.90 DFR<=2^-141.90 | delta(code-spec) -0.373 bits | LB(max_y) spec 2^-152.72 code 2^-153.09  dists(1, 8, 9, 2) par1 [0.1s, peak RSS 28 MiB]
+[1,8,9,1]  C2  model B   spec: block 2^-237.27 DFR<=2^-229.27 | code: block 2^-237.86 DFR<=2^-229.86 | delta(code-spec) -0.589 bits | LB(max_y) spec 2^-240.08 code 2^-240.67  dists(1, 8, 9, 1) par1 [0.0s, peak RSS 28 MiB]
+[8,8,9,2]  C2  model B   spec: block 2^-225.49 DFR<=2^-217.49 | code: block 2^-226.03 DFR<=2^-218.03 | delta(code-spec) -0.538 bits | LB(max_y) spec 2^-228.30 code 2^-228.83  dists(8, 8, 9, 2) par1 [0.1s, peak RSS 29 MiB]
+[8,8,9,1]  C2  model B   spec: block 2^-319.75 DFR<=2^-311.75 | code: block 2^-320.51 DFR<=2^-312.51 | delta(code-spec) -0.763 bits | LB(max_y) spec 2^-322.22 code 2^-322.99  dists(8, 8, 9, 1) par1 [0.0s, peak RSS 28 MiB]
+[8,1,9,2]  C2  model B   spec: block 2^-171.07 DFR<=2^-163.07 | code: block 2^-171.50 DFR<=2^-163.50 | delta(code-spec) -0.427 bits | LB(max_y) spec 2^-174.15 code 2^-174.57  dists(8, 1, 9, 2) par1 [0.1s, peak RSS 28 MiB]
+[1,8,8,2]  C2  model B   spec: block 2^-173.72 DFR<=2^-165.72 | code: block 2^-174.14 DFR<=2^-166.14 | delta(code-spec) -0.427 bits | LB(max_y) spec 2^-176.78 code 2^-177.20  dists(1, 8, 8, 2) par1 [0.1s, peak RSS 28 MiB]
+[1,9,9,2]  C2  model B   spec: block 2^-108.86 DFR<=2^-100.86 | code: block 2^-109.14 DFR<=2^-101.14 | delta(code-spec) -0.279 bits | LB(max_y) spec 2^-112.27 code 2^-112.55  dists(1, 9, 9, 2) par1 [0.1s, peak RSS 28 MiB]
+[1,8,9,3]  C2  model B   spec: block 2^-109.40 DFR<=2^-101.40 | code: block 2^-109.68 DFR<=2^-101.68 | delta(code-spec) -0.274 bits | LB(max_y) spec 2^-112.79 code 2^-113.06  dists(1, 8, 9, 3) par1 [0.2s, peak RSS 29 MiB]

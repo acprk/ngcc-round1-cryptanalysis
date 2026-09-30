@@ -1,0 +1,79 @@
+--- a/poly.c	(NEV reference, pristine)
++++ b/poly.c	(instrument mont2_inverse early-exit counter (g_inv_fail) for CT-5 census)
+@@ -1,3 +1,4 @@
++long long g_inv_fail=0;
+ #include <stdio.h>
+ #include <immintrin.h>
+ #include "poly.h"
+@@ -1098,7 +1099,7 @@
+         t[7] = _mm256_cmpeq_epi16(t[6], zero16x);
+ 
+         if (!_mm256_testz_si256(t[7], t[7]))
+-            return 0;
++            { g_inv_fail++; return 0; }
+ 
+         t[6] = mont2_inv_epi16(t[6]);
+ 
+@@ -1261,7 +1262,7 @@
+ 		t[7] = _mm256_add_epi16(t[7], one16x);
+ 
+ 		if (!_mm256_testz_si256(t[7], t[7]))//no inverse!
+-			return 0;
++			{ g_inv_fail++; return 0; }
+ 	}
+ 	return 1;
+ }
+@@ -1355,7 +1356,7 @@
+ 	}
+ 
+ 	if (!mont2_inverse4(b1, b0))
+-		return 0;
++		{ g_inv_fail++; return 0; }
+ 
+ 	mont_mul4(b0, b1, t0);
+ 	mont_mul4(b1, b1, t1);
+@@ -1582,7 +1583,7 @@
+ 	}
+ 
+ 	if (!mont2_inverse8(b1, b0))
+-		return 0;
++		{ g_inv_fail++; return 0; }
+ 
+ 	mont_mul8(b0, b1, t0);
+ 	mont_mul8(b1, b1, t1);
+@@ -1917,7 +1918,7 @@
+ 	}
+ 
+ 	if (!mont2_inverse4(b1, b0))
+-		return 0;
++		{ g_inv_fail++; return 0; }
+ 
+ 	mont_mul4(b0, b1, t0);
+ 	mont_mul4(b1, b1, t1);
+@@ -2251,7 +2252,7 @@
+ 	}
+ 
+ 	if (!mont2_inverse8(b1, b0))
+-		return 0;
++		{ g_inv_fail++; return 0; }
+ 
+ 	mont_mul8(b0, b1, t0);
+ 	mont_mul8(b1, b1, t1);
+@@ -2386,7 +2387,7 @@
+ 	}
+ 
+ 	if (!mont2_inverse8_judge(b1, b0))
+-		return 0;
++		{ g_inv_fail++; return 0; }
+ 
+ 	return 1;
+ }
+@@ -2566,7 +2567,7 @@
+ 	}
+ 
+ 	if (!mont2_inverse16(b1, b0))
+-		return 0;
++		{ g_inv_fail++; return 0; }
+ 
+ 	mont_mul16(b0, b1, t0);
+ 	mont_mul16(b1, b1, t1);

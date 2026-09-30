@@ -1,0 +1,3 @@
+ C1* model B   spec: block 2^-167.47 DFR<=2^-160.47 | code: block 2^-167.88 DFR<=2^-160.88 | delta(code-spec) -0.413 bits | LB(max_y) spec 2^-170.56 code 2^-170.97  dists(1, 2, 'T*', 2) par1 [0.3s, peak RSS 28 MiB]
+ C2* model B   spec: block 2^-149.29 DFR<=2^-141.29 | code: block 2^-149.67 DFR<=2^-141.67 | delta(code-spec) -0.372 bits | LB(max_y) spec 2^-152.49 code 2^-152.86  dists(1, 8, 'T*', 2) par1 [0.5s, peak RSS 28 MiB]
+ C3* model B   spec: block 2^-172.18 DFR<=2^-163.18 | code: block 2^-172.62 DFR<=2^-163.62 | delta(code-spec) -0.433 bits | LB(max_y) spec 2^-175.32 code 2^-175.75  dists(8, 8, 'T*', 1) par1 [0.6s, peak RSS 28 MiB]

@@ -1,0 +1,49 @@
+--- a/sample.c	(NEV reference, pristine)
++++ b/sample.c	(instrument ternary3 rejection/refill counters (g_scan,g_rej,g_refill,g_veciter,g_tailacc))
+@@ -1,3 +1,4 @@
++long long g_scan=0, g_rej=0, g_refill=0, g_veciter=0, g_tailacc=0;
+ #include "poly.h"
+ #include <immintrin.h>
+ #include <string.h>
+@@ -175,11 +176,13 @@
+ 	__m256i numAAAB = _mm256_set1_epi16(0xAAAB);
+ 	while(pos + 80 < n && i + 16 < buf_len) {
+ 		ctr = 0;
++		g_veciter++;
+ 		while (ctr < 16 && i < buf_len) {
++			g_scan++;
+ 			if (buf[i] < 243) {
+ 				t[ctr] = buf[i];
+ 				ctr ++;
+-			}
++			} else { g_rej++; }
+ 			i++;
+ 		}
+ 
+@@ -248,7 +251,8 @@
+ 	int8_t coeffs[5];
+ 	while(pos < n && i < buf_len) {
+ 		uint8_t x = buf[i++];
+-		if (x < 243) {
++		g_scan++;
++		if (x < 243) { g_tailacc++;
+ 			uint32_t y = x, q;
+ 			q = (y * 0xAAABu) >> 17; coeffs[0] = 1 - (y - 3*q); y = q;
+ 			q = (y * 0xAAABu) >> 17; coeffs[1] = 1 - (y - 3*q); y = q;
+@@ -258,7 +262,7 @@
+ 			for (int j = 0; j < 5 && pos < n; ++j) {
+ 				r[pos++] = coeffs[j];
+ 			}
+-		}
++		} else { g_rej++; }
+ 	}
+ 	return pos;
+ }
+@@ -392,6 +396,7 @@
+ 	ctr = ternary3(r->coeffs, buf, PARAM_N, nblocks * KDF_RATE);
+ 
+ 	while (ctr < PARAM_N) {
++		g_refill++;
+ 		KDF_SQUEEZEBLOCK(block, 1, &state);
+ 		ctr += ternary3(r->coeffs + ctr, block, PARAM_N - ctr, KDF_RATE);
+ 	}

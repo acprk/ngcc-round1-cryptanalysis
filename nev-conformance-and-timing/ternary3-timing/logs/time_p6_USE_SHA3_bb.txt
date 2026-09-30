@@ -1,0 +1,17 @@
+# ternary3-timing/data/cts_avx2_p6_USE_SHA3.bin mode=bb PARAMS=6 pairs=2000 batches=15 nA=287 nB=287
+batch  0  med_tA=54816  med_tB=54830  med(tB-tA)=    +4.0  (medB-medA=   +14.0)
+batch  1  med_tA=54848  med_tB=54850  med(tB-tA)=    -2.0  (medB-medA=    +2.0)
+batch  2  med_tA=54826  med_tB=54830  med(tB-tA)=    +0.0  (medB-medA=    +4.0)
+batch  3  med_tA=54804  med_tB=54802  med(tB-tA)=    -2.0  (medB-medA=    -2.0)
+batch  4  med_tA=54724  med_tB=54720  med(tB-tA)=    +0.0  (medB-medA=    -4.0)
+batch  5  med_tA=54040  med_tB=54043  med(tB-tA)=    +6.0  (medB-medA=    +3.0)
+batch  6  med_tA=54020  med_tB=54020  med(tB-tA)=    +2.0  (medB-medA=    +0.0)
+batch  7  med_tA=54248  med_tB=54258  med(tB-tA)=   +10.0  (medB-medA=   +10.0)
+batch  8  med_tA=54244  med_tB=54246  med(tB-tA)=    +0.0  (medB-medA=    +2.0)
+batch  9  med_tA=54254  med_tB=54260  med(tB-tA)=    +0.0  (medB-medA=    +6.0)
+batch 10  med_tA=54258  med_tB=54264  med(tB-tA)=    -2.0  (medB-medA=    +6.0)
+batch 11  med_tA=54240  med_tB=54250  med(tB-tA)=    +8.0  (medB-medA=   +10.0)
+batch 12  med_tA=54784  med_tB=54790  med(tB-tA)=    +6.0  (medB-medA=    +6.0)
+batch 13  med_tA=54830  med_tB=54834  med(tB-tA)=    -2.0  (medB-medA=    +4.0)
+batch 14  med_tA=54780  med_tB=54788  med(tB-tA)=    +8.0  (medB-medA=    +8.0)
+SUMMARY mode=bb  sign-positive batches=7/15  median-of-batch-medians=+0.0 cycles  sink=0

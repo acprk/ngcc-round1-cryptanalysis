@@ -1,0 +1,120 @@
+== PARAMS=1 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=1  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=1  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=1  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=1  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=1 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=1  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=1  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=1  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=1  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=2 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=2  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=2  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=2  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=2  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=2 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=2  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=2  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=2  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=2  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=3 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=3  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=3  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=3  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=3  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=3 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=3  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=3  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=3  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=3  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=4 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-DIFFER
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=4  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=1  DECAP impl=submitted params=4  be=2 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=1  DECAP impl=speclit params=4  be=2 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=4  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=4 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-DIFFER
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=4  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=1  DECAP impl=submitted params=4  be=1 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=1  DECAP impl=speclit params=4  be=1 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=4  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=5 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=5  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=5  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=5  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=5  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=5 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=5  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=5  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=5  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=5  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=6 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=6  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=6  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=6  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=6  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=6 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=6  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=6  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=6  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=6  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=7 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-DIFFER
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=7  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=1  DECAP impl=submitted params=7  be=2 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=1  DECAP impl=speclit params=7  be=2 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=7  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=7 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-DIFFER
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=7  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=1  DECAP impl=submitted params=7  be=1 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=1  DECAP impl=speclit params=7  be=1 n=200 rc0=0 rc_pos=200 rc_neg=0 rc_range=[1,1] ss_agree=0 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=7  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=8 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=8  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=8  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=8  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=8  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=8 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=8  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=8  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=8  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=8  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=9 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=9  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=9  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=9  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=9  be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=9 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=9  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=9  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=9  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=9  be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=10 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=10 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=10 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=10 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=10 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=10 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=10 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=10 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=10 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=10 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=11 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=11 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=11 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=11 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=11 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=11 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=11 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=11 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=11 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=11 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=12 ICCS  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=12 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=12 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=12 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=12 be=2 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+== PARAMS=12 SHA3  KEYS-DIFFER  (same pk, both encapsulators) CT-IDENTICAL
+   keys+decap=sub encap=sub [control] rc=0  DECAP impl=submitted params=12 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=sub encap=spl [CROSS] rc=0  DECAP impl=submitted params=12 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=sub [CROSS] rc=0  DECAP impl=speclit params=12 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0
+   keys+decap=spl encap=spl [control] rc=0  DECAP impl=speclit params=12 be=1 n=200 rc0=200 rc_pos=0 rc_neg=0 rc_range=[0,0] ss_agree=200 ss_disagree_on_rc0=0

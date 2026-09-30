@@ -1,0 +1,1 @@
+PARAMS=6 ETA_R=9 M=200000  mean_rej=21.923 min=4 max=47 refills=0

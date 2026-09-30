@@ -1,0 +1,294 @@
+====================================================================================================
+A. sanity: variant `base` (my copied tree, no -DSPEC_*) vs the SUBMITTED Test_Vectors
+====================================================================================================
+  PARAMS=1  C1*  512_769_C    ICCS  BYTE-IDENTICAL
+  PARAMS=2  C2*  1024_769_C   ICCS  BYTE-IDENTICAL
+  PARAMS=3  C3*  2048_769_C   ICCS  BYTE-IDENTICAL
+  PARAMS=4  R1   512_1409     ICCS  BYTE-IDENTICAL
+  PARAMS=5  R2   1024_1409    ICCS  BYTE-IDENTICAL
+  PARAMS=6  R3   2048_1409    ICCS  BYTE-IDENTICAL
+  PARAMS=7  D1   512_3329     ICCS  BYTE-IDENTICAL
+  PARAMS=8  D2   1024_3329    ICCS  BYTE-IDENTICAL
+  PARAMS=9  D3   2048_3329    ICCS  BYTE-IDENTICAL
+  PARAMS=10 C1   512_769      ICCS  BYTE-IDENTICAL
+  PARAMS=11 C2   1024_769     ICCS  BYTE-IDENTICAL
+  PARAMS=12 C3   2048_769     ICCS  BYTE-IDENTICAL
+  => base reproduces 12/12 submitted ICCS vectors: True
+
+====================================================================================================
+B. spec-literal variants vs `base`  (same KAT seeds, same harness)
+   cells: fields that differ, with (#counts of 10) ; '-' = byte-identical to submitted code
+====================================================================================================
+PARAMS set  n     q     be    F1                        F2                        F3                        F123                      
+1      C1*  512   769   ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+1      C1*  512   769   SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+2      C2*  1024  769   ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+2      C2*  1024  769   SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+3      C3*  2048  769   ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+3      C3*  2048  769   SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+4      R1   512   1409  ICCS  -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+4      R1   512   1409  SHA3  -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+5      R2   1024  1409  ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+5      R2   1024  1409  SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+6      R3   2048  1409  ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+6      R3   2048  1409  SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+7      D1   512   3329  ICCS  -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+7      D1   512   3329  SHA3  -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+8      D2   1024  3329  ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+8      D2   1024  3329  SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+9      D3   2048  3329  ICCS  -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+9      D3   2048  3329  SHA3  -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+10     C1   512   769   ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+10     C1   512   769   SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+11     C2   1024  769   ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+11     C2   1024  769   SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+12     C3   2048  769   ICCS  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+12     C3   2048  769   SHA3  -                         -                         PK(10/10),SK(10/10),CT(10/10),SS(10/10)PK(10/10),SK(10/10),CT(10/10),SS(10/10)
+
+====================================================================================================
+C. first differing byte in Count = 0 (field offset, base value -> variant value)
+====================================================================================================
+  PARAMS=1  C1*  ICCS  F3    PK  count=0 offset=0     0xC9 -> 0xA8
+  PARAMS=1  C1*  ICCS  F3    SK  count=0 offset=0     0x3C -> 0x5A
+  PARAMS=1  C1*  ICCS  F3    CT  count=0 offset=0     0xD1 -> 0x80
+  PARAMS=1  C1*  ICCS  F3    SS  count=0 offset=0     0x18 -> 0xD2
+  PARAMS=1  C1*  ICCS  F123  PK  count=0 offset=0     0xC9 -> 0xA8
+  PARAMS=1  C1*  ICCS  F123  SK  count=0 offset=0     0x3C -> 0x5A
+  PARAMS=1  C1*  ICCS  F123  CT  count=0 offset=0     0xD1 -> 0x80
+  PARAMS=1  C1*  ICCS  F123  SS  count=0 offset=0     0x18 -> 0xD2
+  PARAMS=1  C1*  SHA3  F3    PK  count=0 offset=0     0xF5 -> 0xB9
+  PARAMS=1  C1*  SHA3  F3    SK  count=0 offset=0     0x83 -> 0xBD
+  PARAMS=1  C1*  SHA3  F3    CT  count=0 offset=0     0x49 -> 0x14
+  PARAMS=1  C1*  SHA3  F3    SS  count=0 offset=0     0x18 -> 0x9A
+  PARAMS=1  C1*  SHA3  F123  PK  count=0 offset=0     0xF5 -> 0xB9
+  PARAMS=1  C1*  SHA3  F123  SK  count=0 offset=0     0x83 -> 0xBD
+  PARAMS=1  C1*  SHA3  F123  CT  count=0 offset=0     0x49 -> 0x14
+  PARAMS=1  C1*  SHA3  F123  SS  count=0 offset=0     0x18 -> 0x9A
+  PARAMS=2  C2*  ICCS  F3    PK  count=0 offset=1     0xA6 -> 0xE3
+  PARAMS=2  C2*  ICCS  F3    SK  count=0 offset=0     0x91 -> 0xDE
+  PARAMS=2  C2*  ICCS  F3    CT  count=0 offset=0     0xA2 -> 0x3F
+  PARAMS=2  C2*  ICCS  F3    SS  count=0 offset=0     0xF2 -> 0xC6
+  PARAMS=2  C2*  ICCS  F123  PK  count=0 offset=1     0xA6 -> 0xE3
+  PARAMS=2  C2*  ICCS  F123  SK  count=0 offset=0     0x91 -> 0xDE
+  PARAMS=2  C2*  ICCS  F123  CT  count=0 offset=0     0xA2 -> 0x3F
+  PARAMS=2  C2*  ICCS  F123  SS  count=0 offset=0     0xF2 -> 0xC6
+  PARAMS=2  C2*  SHA3  F3    PK  count=0 offset=0     0x1B -> 0xC9
+  PARAMS=2  C2*  SHA3  F3    SK  count=0 offset=0     0x86 -> 0x37
+  PARAMS=2  C2*  SHA3  F3    CT  count=0 offset=0     0x39 -> 0x35
+  PARAMS=2  C2*  SHA3  F3    SS  count=0 offset=0     0x04 -> 0xBB
+  PARAMS=2  C2*  SHA3  F123  PK  count=0 offset=0     0x1B -> 0xC9
+  PARAMS=2  C2*  SHA3  F123  SK  count=0 offset=0     0x86 -> 0x37
+  PARAMS=2  C2*  SHA3  F123  CT  count=0 offset=0     0x39 -> 0x35
+  PARAMS=2  C2*  SHA3  F123  SS  count=0 offset=0     0x04 -> 0xBB
+  PARAMS=3  C3*  ICCS  F3    PK  count=0 offset=0     0xAD -> 0x41
+  PARAMS=3  C3*  ICCS  F3    SK  count=0 offset=0     0x7B -> 0x9C
+  PARAMS=3  C3*  ICCS  F3    CT  count=0 offset=0     0xA9 -> 0x18
+  PARAMS=3  C3*  ICCS  F3    SS  count=0 offset=0     0xCE -> 0xE3
+  PARAMS=3  C3*  ICCS  F123  PK  count=0 offset=0     0xAD -> 0x41
+  PARAMS=3  C3*  ICCS  F123  SK  count=0 offset=0     0x7B -> 0x9C
+  PARAMS=3  C3*  ICCS  F123  CT  count=0 offset=0     0xA9 -> 0x18
+  PARAMS=3  C3*  ICCS  F123  SS  count=0 offset=0     0xCE -> 0xE3
+  PARAMS=3  C3*  SHA3  F3    PK  count=0 offset=0     0x79 -> 0x7E
+  PARAMS=3  C3*  SHA3  F3    SK  count=0 offset=0     0x15 -> 0xEE
+  PARAMS=3  C3*  SHA3  F3    CT  count=0 offset=0     0x7D -> 0xD9
+  PARAMS=3  C3*  SHA3  F3    SS  count=0 offset=0     0x37 -> 0x7C
+  PARAMS=3  C3*  SHA3  F123  PK  count=0 offset=0     0x79 -> 0x7E
+  PARAMS=3  C3*  SHA3  F123  SK  count=0 offset=0     0x15 -> 0xEE
+  PARAMS=3  C3*  SHA3  F123  CT  count=0 offset=0     0x7D -> 0xD9
+  PARAMS=3  C3*  SHA3  F123  SS  count=0 offset=0     0x37 -> 0x7C
+  PARAMS=4  R1   ICCS  F2    PK  count=0 offset=0     0xCD -> 0x76
+  PARAMS=4  R1   ICCS  F2    SK  count=0 offset=0     0x5C -> 0x8C
+  PARAMS=4  R1   ICCS  F2    CT  count=0 offset=0     0xB8 -> 0x68
+  PARAMS=4  R1   ICCS  F2    SS  count=0 offset=0     0xBB -> 0x21
+  PARAMS=4  R1   ICCS  F3    PK  count=0 offset=0     0xCD -> 0xE0
+  PARAMS=4  R1   ICCS  F3    SK  count=0 offset=0     0x5C -> 0x7A
+  PARAMS=4  R1   ICCS  F3    CT  count=0 offset=0     0xB8 -> 0x4D
+  PARAMS=4  R1   ICCS  F3    SS  count=0 offset=0     0xBB -> 0xD3
+  PARAMS=4  R1   ICCS  F123  PK  count=0 offset=0     0xCD -> 0x73
+  PARAMS=4  R1   ICCS  F123  SK  count=0 offset=0     0x5C -> 0x69
+  PARAMS=4  R1   ICCS  F123  CT  count=0 offset=0     0xB8 -> 0x13
+  PARAMS=4  R1   ICCS  F123  SS  count=0 offset=0     0xBB -> 0x2C
+  PARAMS=4  R1   SHA3  F2    PK  count=0 offset=0     0x43 -> 0x1A
+  PARAMS=4  R1   SHA3  F2    SK  count=0 offset=0     0xE9 -> 0xC3
+  PARAMS=4  R1   SHA3  F2    CT  count=0 offset=0     0x55 -> 0x01
+  PARAMS=4  R1   SHA3  F2    SS  count=0 offset=0     0xF7 -> 0xAF
+  PARAMS=4  R1   SHA3  F3    PK  count=0 offset=0     0x43 -> 0xD1
+  PARAMS=4  R1   SHA3  F3    SK  count=0 offset=0     0xE9 -> 0x68
+  PARAMS=4  R1   SHA3  F3    CT  count=0 offset=0     0x55 -> 0x13
+  PARAMS=4  R1   SHA3  F3    SS  count=0 offset=0     0xF7 -> 0x96
+  PARAMS=4  R1   SHA3  F123  PK  count=0 offset=0     0x43 -> 0xDB
+  PARAMS=4  R1   SHA3  F123  SK  count=0 offset=0     0xE9 -> 0xDA
+  PARAMS=4  R1   SHA3  F123  CT  count=0 offset=0     0x55 -> 0x63
+  PARAMS=4  R1   SHA3  F123  SS  count=0 offset=0     0xF7 -> 0x1A
+  PARAMS=5  R2   ICCS  F3    PK  count=0 offset=0     0x21 -> 0x6E
+  PARAMS=5  R2   ICCS  F3    SK  count=0 offset=0     0xF9 -> 0xED
+  PARAMS=5  R2   ICCS  F3    CT  count=0 offset=0     0xCE -> 0x66
+  PARAMS=5  R2   ICCS  F3    SS  count=0 offset=0     0xC1 -> 0xEF
+  PARAMS=5  R2   ICCS  F123  PK  count=0 offset=0     0x21 -> 0x6E
+  PARAMS=5  R2   ICCS  F123  SK  count=0 offset=0     0xF9 -> 0xED
+  PARAMS=5  R2   ICCS  F123  CT  count=0 offset=0     0xCE -> 0x66
+  PARAMS=5  R2   ICCS  F123  SS  count=0 offset=0     0xC1 -> 0xEF
+  PARAMS=5  R2   SHA3  F3    PK  count=0 offset=0     0xC8 -> 0xFB
+  PARAMS=5  R2   SHA3  F3    SK  count=0 offset=0     0x07 -> 0xC9
+  PARAMS=5  R2   SHA3  F3    CT  count=0 offset=0     0x2C -> 0xE3
+  PARAMS=5  R2   SHA3  F3    SS  count=0 offset=0     0x20 -> 0xB1
+  PARAMS=5  R2   SHA3  F123  PK  count=0 offset=0     0xC8 -> 0xFB
+  PARAMS=5  R2   SHA3  F123  SK  count=0 offset=0     0x07 -> 0xC9
+  PARAMS=5  R2   SHA3  F123  CT  count=0 offset=0     0x2C -> 0xE3
+  PARAMS=5  R2   SHA3  F123  SS  count=0 offset=0     0x20 -> 0xB1
+  PARAMS=6  R3   ICCS  F3    PK  count=0 offset=0     0x5C -> 0x14
+  PARAMS=6  R3   ICCS  F3    SK  count=0 offset=0     0xF2 -> 0x33
+  PARAMS=6  R3   ICCS  F3    CT  count=0 offset=0     0x01 -> 0x68
+  PARAMS=6  R3   ICCS  F3    SS  count=0 offset=0     0x82 -> 0xAF
+  PARAMS=6  R3   ICCS  F123  PK  count=0 offset=0     0x5C -> 0x14
+  PARAMS=6  R3   ICCS  F123  SK  count=0 offset=0     0xF2 -> 0x33
+  PARAMS=6  R3   ICCS  F123  CT  count=0 offset=0     0x01 -> 0x68
+  PARAMS=6  R3   ICCS  F123  SS  count=0 offset=0     0x82 -> 0xAF
+  PARAMS=6  R3   SHA3  F3    PK  count=0 offset=0     0xB1 -> 0x79
+  PARAMS=6  R3   SHA3  F3    SK  count=0 offset=0     0x83 -> 0x14
+  PARAMS=6  R3   SHA3  F3    CT  count=0 offset=0     0x62 -> 0x1D
+  PARAMS=6  R3   SHA3  F3    SS  count=0 offset=0     0x97 -> 0xB5
+  PARAMS=6  R3   SHA3  F123  PK  count=0 offset=0     0xB1 -> 0x79
+  PARAMS=6  R3   SHA3  F123  SK  count=0 offset=0     0x83 -> 0x14
+  PARAMS=6  R3   SHA3  F123  CT  count=0 offset=0     0x62 -> 0x1D
+  PARAMS=6  R3   SHA3  F123  SS  count=0 offset=0     0x97 -> 0xB5
+  PARAMS=7  D1   ICCS  F2    PK  count=0 offset=0     0x9D -> 0x48
+  PARAMS=7  D1   ICCS  F2    SK  count=0 offset=0     0xF2 -> 0x72
+  PARAMS=7  D1   ICCS  F2    CT  count=0 offset=0     0x94 -> 0xC8
+  PARAMS=7  D1   ICCS  F2    SS  count=0 offset=0     0xE0 -> 0x8B
+  PARAMS=7  D1   ICCS  F3    PK  count=0 offset=0     0x9D -> 0x57
+  PARAMS=7  D1   ICCS  F3    SK  count=0 offset=0     0xF2 -> 0x28
+  PARAMS=7  D1   ICCS  F3    CT  count=0 offset=0     0x94 -> 0x81
+  PARAMS=7  D1   ICCS  F3    SS  count=0 offset=0     0xE0 -> 0x9F
+  PARAMS=7  D1   ICCS  F123  PK  count=0 offset=0     0x9D -> 0x8B
+  PARAMS=7  D1   ICCS  F123  SK  count=0 offset=0     0xF2 -> 0x24
+  PARAMS=7  D1   ICCS  F123  CT  count=0 offset=0     0x94 -> 0x99
+  PARAMS=7  D1   ICCS  F123  SS  count=0 offset=0     0xE0 -> 0x12
+  PARAMS=7  D1   SHA3  F2    PK  count=0 offset=0     0x1D -> 0xE7
+  PARAMS=7  D1   SHA3  F2    SK  count=0 offset=0     0x96 -> 0xE4
+  PARAMS=7  D1   SHA3  F2    CT  count=0 offset=0     0xE4 -> 0xF7
+  PARAMS=7  D1   SHA3  F2    SS  count=0 offset=0     0x42 -> 0x3A
+  PARAMS=7  D1   SHA3  F3    PK  count=0 offset=0     0x1D -> 0xD9
+  PARAMS=7  D1   SHA3  F3    SK  count=0 offset=0     0x96 -> 0x69
+  PARAMS=7  D1   SHA3  F3    CT  count=0 offset=0     0xE4 -> 0x04
+  PARAMS=7  D1   SHA3  F3    SS  count=0 offset=0     0x42 -> 0x06
+  PARAMS=7  D1   SHA3  F123  PK  count=0 offset=0     0x1D -> 0xFE
+  PARAMS=7  D1   SHA3  F123  SK  count=0 offset=0     0x96 -> 0xD5
+  PARAMS=7  D1   SHA3  F123  CT  count=0 offset=0     0xE4 -> 0x82
+  PARAMS=7  D1   SHA3  F123  SS  count=0 offset=0     0x42 -> 0xBB
+  PARAMS=8  D2   ICCS  F3    PK  count=0 offset=0     0x2F -> 0x4A
+  PARAMS=8  D2   ICCS  F3    SK  count=0 offset=0     0x29 -> 0x3A
+  PARAMS=8  D2   ICCS  F3    CT  count=0 offset=0     0xAE -> 0x6C
+  PARAMS=8  D2   ICCS  F3    SS  count=0 offset=0     0x6E -> 0x9C
+  PARAMS=8  D2   ICCS  F123  PK  count=0 offset=0     0x2F -> 0x4A
+  PARAMS=8  D2   ICCS  F123  SK  count=0 offset=0     0x29 -> 0x3A
+  PARAMS=8  D2   ICCS  F123  CT  count=0 offset=0     0xAE -> 0x6C
+  PARAMS=8  D2   ICCS  F123  SS  count=0 offset=0     0x6E -> 0x9C
+  PARAMS=8  D2   SHA3  F3    PK  count=0 offset=0     0x09 -> 0xA3
+  PARAMS=8  D2   SHA3  F3    SK  count=0 offset=0     0xBE -> 0x04
+  PARAMS=8  D2   SHA3  F3    CT  count=0 offset=0     0x1C -> 0x1E
+  PARAMS=8  D2   SHA3  F3    SS  count=0 offset=0     0x85 -> 0x89
+  PARAMS=8  D2   SHA3  F123  PK  count=0 offset=0     0x09 -> 0xA3
+  PARAMS=8  D2   SHA3  F123  SK  count=0 offset=0     0xBE -> 0x04
+  PARAMS=8  D2   SHA3  F123  CT  count=0 offset=0     0x1C -> 0x1E
+  PARAMS=8  D2   SHA3  F123  SS  count=0 offset=0     0x85 -> 0x89
+  PARAMS=9  D3   ICCS  F2    PK  count=0 offset=0     0x14 -> 0x7F
+  PARAMS=9  D3   ICCS  F2    SK  count=0 offset=3072  0x14 -> 0x7F
+  PARAMS=9  D3   ICCS  F2    CT  count=0 offset=0     0x65 -> 0x7D
+  PARAMS=9  D3   ICCS  F2    SS  count=0 offset=0     0x83 -> 0xF9
+  PARAMS=9  D3   ICCS  F3    PK  count=0 offset=0     0x14 -> 0x44
+  PARAMS=9  D3   ICCS  F3    SK  count=0 offset=0     0x38 -> 0x25
+  PARAMS=9  D3   ICCS  F3    CT  count=0 offset=0     0x65 -> 0x95
+  PARAMS=9  D3   ICCS  F3    SS  count=0 offset=0     0x83 -> 0xAD
+  PARAMS=9  D3   ICCS  F123  PK  count=0 offset=0     0x14 -> 0x16
+  PARAMS=9  D3   ICCS  F123  SK  count=0 offset=0     0x38 -> 0x25
+  PARAMS=9  D3   ICCS  F123  CT  count=0 offset=0     0x65 -> 0x89
+  PARAMS=9  D3   ICCS  F123  SS  count=0 offset=0     0x83 -> 0x75
+  PARAMS=9  D3   SHA3  F2    PK  count=0 offset=0     0x3E -> 0xD3
+  PARAMS=9  D3   SHA3  F2    SK  count=0 offset=3072  0x3E -> 0xD3
+  PARAMS=9  D3   SHA3  F2    CT  count=0 offset=0     0x2D -> 0x90
+  PARAMS=9  D3   SHA3  F2    SS  count=0 offset=0     0x9B -> 0x2F
+  PARAMS=9  D3   SHA3  F3    PK  count=0 offset=0     0x3E -> 0xB8
+  PARAMS=9  D3   SHA3  F3    SK  count=0 offset=0     0xFA -> 0x77
+  PARAMS=9  D3   SHA3  F3    CT  count=0 offset=0     0x2D -> 0x15
+  PARAMS=9  D3   SHA3  F3    SS  count=0 offset=0     0x9B -> 0x1E
+  PARAMS=9  D3   SHA3  F123  PK  count=0 offset=0     0x3E -> 0xD4
+  PARAMS=9  D3   SHA3  F123  SK  count=0 offset=0     0xFA -> 0x77
+  PARAMS=9  D3   SHA3  F123  CT  count=0 offset=0     0x2D -> 0x09
+  PARAMS=9  D3   SHA3  F123  SS  count=0 offset=0     0x9B -> 0xA3
+  PARAMS=10 C1   ICCS  F3    PK  count=0 offset=0     0x3F -> 0x00
+  PARAMS=10 C1   ICCS  F3    SK  count=0 offset=0     0xA3 -> 0x13
+  PARAMS=10 C1   ICCS  F3    CT  count=0 offset=0     0x23 -> 0x83
+  PARAMS=10 C1   ICCS  F3    SS  count=0 offset=0     0x72 -> 0x6D
+  PARAMS=10 C1   ICCS  F123  PK  count=0 offset=0     0x3F -> 0x00
+  PARAMS=10 C1   ICCS  F123  SK  count=0 offset=0     0xA3 -> 0x13
+  PARAMS=10 C1   ICCS  F123  CT  count=0 offset=0     0x23 -> 0x83
+  PARAMS=10 C1   ICCS  F123  SS  count=0 offset=0     0x72 -> 0x6D
+  PARAMS=10 C1   SHA3  F3    PK  count=0 offset=0     0x3B -> 0xEC
+  PARAMS=10 C1   SHA3  F3    SK  count=0 offset=0     0x9A -> 0x67
+  PARAMS=10 C1   SHA3  F3    CT  count=0 offset=0     0xFA -> 0x2B
+  PARAMS=10 C1   SHA3  F3    SS  count=0 offset=0     0x95 -> 0xBB
+  PARAMS=10 C1   SHA3  F123  PK  count=0 offset=0     0x3B -> 0xEC
+  PARAMS=10 C1   SHA3  F123  SK  count=0 offset=0     0x9A -> 0x67
+  PARAMS=10 C1   SHA3  F123  CT  count=0 offset=0     0xFA -> 0x2B
+  PARAMS=10 C1   SHA3  F123  SS  count=0 offset=0     0x95 -> 0xBB
+  PARAMS=11 C2   ICCS  F3    PK  count=0 offset=0     0xBE -> 0x1A
+  PARAMS=11 C2   ICCS  F3    SK  count=0 offset=0     0x46 -> 0x65
+  PARAMS=11 C2   ICCS  F3    CT  count=0 offset=0     0x9F -> 0xFF
+  PARAMS=11 C2   ICCS  F3    SS  count=0 offset=0     0x22 -> 0x10
+  PARAMS=11 C2   ICCS  F123  PK  count=0 offset=0     0xBE -> 0x1A
+  PARAMS=11 C2   ICCS  F123  SK  count=0 offset=0     0x46 -> 0x65
+  PARAMS=11 C2   ICCS  F123  CT  count=0 offset=0     0x9F -> 0xFF
+  PARAMS=11 C2   ICCS  F123  SS  count=0 offset=0     0x22 -> 0x10
+  PARAMS=11 C2   SHA3  F3    PK  count=0 offset=0     0x08 -> 0xB5
+  PARAMS=11 C2   SHA3  F3    SK  count=0 offset=0     0x42 -> 0xE3
+  PARAMS=11 C2   SHA3  F3    CT  count=0 offset=0     0x46 -> 0xAB
+  PARAMS=11 C2   SHA3  F3    SS  count=0 offset=0     0x69 -> 0x22
+  PARAMS=11 C2   SHA3  F123  PK  count=0 offset=0     0x08 -> 0xB5
+  PARAMS=11 C2   SHA3  F123  SK  count=0 offset=0     0x42 -> 0xE3
+  PARAMS=11 C2   SHA3  F123  CT  count=0 offset=0     0x46 -> 0xAB
+  PARAMS=11 C2   SHA3  F123  SS  count=0 offset=0     0x69 -> 0x22
+  PARAMS=12 C3   ICCS  F3    PK  count=0 offset=0     0x92 -> 0xA1
+  PARAMS=12 C3   ICCS  F3    SK  count=0 offset=0     0xB1 -> 0x1C
+  PARAMS=12 C3   ICCS  F3    CT  count=0 offset=0     0x30 -> 0x84
+  PARAMS=12 C3   ICCS  F3    SS  count=0 offset=0     0xAB -> 0x53
+  PARAMS=12 C3   ICCS  F123  PK  count=0 offset=0     0x92 -> 0xA1
+  PARAMS=12 C3   ICCS  F123  SK  count=0 offset=0     0xB1 -> 0x1C
+  PARAMS=12 C3   ICCS  F123  CT  count=0 offset=0     0x30 -> 0x84
+  PARAMS=12 C3   ICCS  F123  SS  count=0 offset=0     0xAB -> 0x53
+  PARAMS=12 C3   SHA3  F3    PK  count=0 offset=0     0x26 -> 0x44
+  PARAMS=12 C3   SHA3  F3    SK  count=0 offset=0     0x83 -> 0x38
+  PARAMS=12 C3   SHA3  F3    CT  count=0 offset=0     0x28 -> 0x0C
+  PARAMS=12 C3   SHA3  F3    SS  count=0 offset=0     0x9E -> 0xAF
+  PARAMS=12 C3   SHA3  F123  PK  count=0 offset=0     0x26 -> 0x44
+  PARAMS=12 C3   SHA3  F123  SK  count=0 offset=0     0x83 -> 0x38
+  PARAMS=12 C3   SHA3  F123  CT  count=0 offset=0     0x28 -> 0x0C
+  PARAMS=12 C3   SHA3  F123  SS  count=0 offset=0     0x9E -> 0xAF
+
+====================================================================================================
+D. cross-variant consistency: is F123 == (F1 then F2 then F3) on the fields each touches?
+====================================================================================================
+  PARAMS=1  ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=1  SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=2  ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=2  SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=3  ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=3  SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=4  ICCS  F123.PK==F3.PK:False  F123.PK==F2.PK:False  F2.PK==base:False  F3.PK==base:False 
+  PARAMS=4  SHA3  F123.PK==F3.PK:False  F123.PK==F2.PK:False  F2.PK==base:False  F3.PK==base:False 
+  PARAMS=5  ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=5  SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=6  ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=6  SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=7  ICCS  F123.PK==F3.PK:False  F123.PK==F2.PK:False  F2.PK==base:False  F3.PK==base:False 
+  PARAMS=7  SHA3  F123.PK==F3.PK:False  F123.PK==F2.PK:False  F2.PK==base:False  F3.PK==base:False 
+  PARAMS=8  ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=8  SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=9  ICCS  F123.PK==F3.PK:False  F123.PK==F2.PK:False  F2.PK==base:False  F3.PK==base:False 
+  PARAMS=9  SHA3  F123.PK==F3.PK:False  F123.PK==F2.PK:False  F2.PK==base:False  F3.PK==base:False 
+  PARAMS=10 ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=10 SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=11 ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=11 SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=12 ICCS  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 
+  PARAMS=12 SHA3  F123.PK==F3.PK:True   F123.PK==F2.PK:False  F2.PK==base:True   F3.PK==base:False 

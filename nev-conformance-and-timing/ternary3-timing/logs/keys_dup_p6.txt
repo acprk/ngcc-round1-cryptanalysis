@@ -1,0 +1,10 @@
+# PARAMS=6 K=8 reps=4000 dup=1
+key 0 median=50096
+key 1 median=50088
+key 2 median=50081
+key 3 median=50074
+key 4 median=50066
+key 5 median=50069
+key 6 median=50094
+key 7 median=50088
+SUMMARY PARAMS=6 dup=1  spread(max-min over 8 keys)=30 cycles  key0-key1=+8  base=50096  rel=5.989e-04  sink=0

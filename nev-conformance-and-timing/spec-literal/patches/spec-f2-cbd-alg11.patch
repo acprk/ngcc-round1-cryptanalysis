@@ -1,0 +1,132 @@
+--- a/sample.h	(NEV reference, pristine)
++++ b/sample.h	(SPEC_F2: declare CBD helpers for the self-check)
+@@ -13,5 +13,16 @@
+ void poly_sample_r(poly *r, uint8_t *coins, uint8_t nonce);
+ void poly_get_noisem(poly *r, const uint8_t msg[SEED_BYTES], const uint8_t *seed, uint8_t nonce);
+ 
++/* added by the spec-literal build (build/NEV-speclit): submitted samplers + the
++   two literal transcriptions used for the F-2 self-check. */
++void cbd1(int16_t *a, const uint8_t *buf);
++void cbd2(int16_t *r, const uint8_t *buf);
++void cbd3(int16_t r[PARAM_N], const uint8_t *buf);
++void cbd4(int16_t *r, const uint8_t *buf);
++void cbd7(int16_t r[PARAM_N], const uint8_t *buf);
++void cbd_eta_alg11(int16_t *f, const uint8_t *B, int eta, int n);
++void cbd_eta_fig4(int16_t *f, const uint8_t *B, int eta, int n);
++void cbd_eta_pt2noise(int16_t *f, const uint8_t *B, int eta, int n);
++
+ 
+ #endif //NEV_REF_SAMPLE_H
+\ No newline at end of file
+--- a/sample.c	(NEV reference, pristine)
++++ b/sample.c	(SPEC_F2: Algorithm 11 literal CBD_eta for eta=3,7)
+@@ -49,14 +49,93 @@
+ 		}
+ 	}
+ }
++/* ---------------------------------------------------------------------------
++ * SPEC-LITERAL Algorithm 11, CBD_eta(B).   (NEV spec text, p.25)
++ *
++ *   Input : byte array B in B^{ceil(n*eta/4)}
++ *   1  b := BytesToBits(B)                       (Algorithm 4: b[8i+j] = bit j of B[i],
++ *                                                 j = 0 is the LEAST significant bit)
++ *   2  for i := 0; i < n; i++
++ *   3      x := sum_{j=0}^{eta-1} b[2*i*eta + j]
++ *   4      y := sum_{j=0}^{eta-1} b[2*i*eta + eta + j]
++ *   5      f[i] := (x - y) mod q
++ *
++ * i.e. coefficient i consumes the 2*eta CONTIGUOUS bits b[2*i*eta .. 2*i*eta+2*eta-1].
++ * This function is a direct transcription; it is never conditional, so that the
++ * self-check binary can compare it against the submitted cbd1/cbd2/cbd4.
++ * ------------------------------------------------------------------------- */
++void cbd_eta_alg11(int16_t *f, const uint8_t *B, int eta, int n)
++{
++	for (int i = 0; i < n; i++) {
++		int x = 0, y = 0;
++		for (int j = 0; j < eta; j++) {
++			unsigned long bx = (unsigned long)(2 * i * eta) + (unsigned long)j;
++			unsigned long by = bx + (unsigned long)eta;
++			x += (B[bx >> 3] >> (bx & 7u)) & 1u;
++			y += (B[by >> 3] >> (by & 7u)) & 1u;
++		}
++		f[i] = (int16_t)(x - y);
++	}
++}
++
++/* ---------------------------------------------------------------------------
++ * Falsification candidate for F-2 (see F2-F3-speclit.md section 6): the Fig. 4
++ * "2*eta rows x n columns" bit array.  Under this reading coefficient i is
++ * column i, so it consumes bits b[r*n + i] for r = 0..2*eta-1, i.e. a STRIDED
++ * layout with stride n instead of Algorithm 11's contiguous one.
++ * ------------------------------------------------------------------------- */
++void cbd_eta_fig4(int16_t *f, const uint8_t *B, int eta, int n)
++{
++	for (int i = 0; i < n; i++) {
++		int x = 0, y = 0;
++		for (int r = 0; r < eta; r++) {
++			unsigned long bx = (unsigned long)r * (unsigned long)n + (unsigned long)i;
++			unsigned long by = (unsigned long)(r + eta) * (unsigned long)n + (unsigned long)i;
++			x += (B[bx >> 3] >> (bx & 7u)) & 1u;
++			y += (B[by >> 3] >> (by & 7u)) & 1u;
++		}
++		f[i] = (int16_t)(x - y);
++	}
++}
++
++/* ---------------------------------------------------------------------------
++ * Second falsification candidate for F-2: the EXACT Fig. 4 / Pt2noise indexing,
++ * which is not the same as the naive "2*eta rows of n bits" reading above.
++ * Fig. 4 parses the randomness as 2*k*eta blocks s_l of n/k bits each and sets
++ *      m_{i*n/k + j} = sum_{t<eta} ( s_{2i*eta+t, j} - s_{2i*eta+eta+t, j} ),
++ *      i in [k], j in [n/k].
++ * Reading s_l,j as the flat bit b[l*(n/k) + j] gives this function (k = 4).
++ * ------------------------------------------------------------------------- */
++void cbd_eta_pt2noise(int16_t *f, const uint8_t *B, int eta, int n)
++{
++	const int k = 4;
++	const int w = n / k;               /* n/k bits per block s_l */
++	for (int i = 0; i < k; i++) {
++		for (int j = 0; j < w; j++) {
++			int x = 0, y = 0;
++			for (int t = 0; t < eta; t++) {
++				unsigned long bx = (unsigned long)(2 * i * eta + t) * (unsigned long)w + (unsigned long)j;
++				unsigned long by = (unsigned long)(2 * i * eta + eta + t) * (unsigned long)w + (unsigned long)j;
++				x += (B[bx >> 3] >> (bx & 7u)) & 1u;
++				y += (B[by >> 3] >> (by & 7u)) & 1u;
++			}
++			f[i * w + j] = (int16_t)(x - y);
++		}
++	}
++}
++
+ void cbd3(int16_t r[PARAM_N], const uint8_t* buf)
+ {
++#ifdef SPEC_F2
++	cbd_eta_alg11(r, buf, 3, PARAM_N);
++#else
+ 	int16_t t[PARAM_N];
+ 	int i;
+ 	cbd1(r, buf);
+ 	cbd2(t, buf + PARAM_N/4);
+ 	for (i = 0; i < PARAM_N; i++)
+ 		r[i] = r[i] + t[i];
++#endif
+ }
+ 
+ void cbd4(int16_t *r, const uint8_t *buf) {
+@@ -77,11 +156,15 @@
+ 
+ void cbd7(int16_t r[PARAM_N], const uint8_t* buf)
+ {
++#ifdef SPEC_F2
++	cbd_eta_alg11(r, buf, 7, PARAM_N);
++#else
+ 	int16_t t[PARAM_N];
+ 	cbd4(r, buf);
+ 	cbd3(t, buf + PARAM_N);
+ 	for (int i = 0; i < PARAM_N; i++)
+ 		r[i] = r[i] + t[i];
++#endif
+ }
+ 
+ int ternary3(int16_t *r, const uint8_t *buf, int n, int buf_len) {

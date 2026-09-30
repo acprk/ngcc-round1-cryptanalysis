@@ -1,0 +1,11 @@
+# build artifacts and vendor working copies -- never committed
+**/work/
+**/bin/
+**/obj/
+**/data/
+**/xfer/
+**/kat/
+**/__pycache__/
+*.o
+*.bin
+*.bin.all

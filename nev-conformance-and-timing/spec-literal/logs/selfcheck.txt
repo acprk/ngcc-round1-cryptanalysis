@@ -1,0 +1,130 @@
+[selfcheck] PARAMS=1 n=512 q=769 NTT_DIM=128
+ -- step 1: my Algorithm-11 transcription vs the submitted cbd1/cbd2/cbd4
+    (these MUST be 0 differ: they are the correctness proof of cbd_eta_alg11)
+  alg11(eta=1) vs submitted cbd1         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=2) vs submitted cbd2         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=4) vs submitted cbd4         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+ -- step 2: the F-2 claim: submitted cbd3/cbd7 vs Algorithm 11
+  alg11(eta=3) vs submitted cbd3         trials=2000 coeffs=1024000 differ=793626 (77.5025%) maxabsdiff=6 firstidx=0
+  alg11(eta=7) vs submitted cbd7         trials=2000 coeffs=1024000 differ=870702 (85.0295%) maxabsdiff=12 firstidx=1
+ -- step 3 (section 6 falsification): Fig.4 strided reading vs the submitted code
+  fig4-rowmajor(eta=1) vs cbd1           trials=2000 coeffs=1024000 differ=638914 (62.3939%) maxabsdiff=2 firstidx=0
+  fig4-rowmajor(eta=2) vs cbd2           trials=2000 coeffs=1024000 differ=743426 (72.6002%) maxabsdiff=4 firstidx=0
+  fig4-rowmajor(eta=4) vs cbd4           trials=2000 coeffs=1024000 differ=823348 (80.4051%) maxabsdiff=8 firstidx=0
+  fig4-rowmajor(eta=3) vs cbd3           trials=2000 coeffs=1024000 differ=792996 (77.4410%) maxabsdiff=6 firstidx=1
+  fig4-rowmajor(eta=7) vs cbd7           trials=2000 coeffs=1024000 differ=871393 (85.0970%) maxabsdiff=12 firstidx=1
+  fig4-exact/Pt2noise(eta=1) vs cbd1     trials=2000 coeffs=1024000 differ=638269 (62.3310%) maxabsdiff=2 firstidx=2
+  fig4-exact/Pt2noise(eta=2) vs cbd2     trials=2000 coeffs=1024000 differ=744197 (72.6755%) maxabsdiff=4 firstidx=0
+  fig4-exact/Pt2noise(eta=4) vs cbd4     trials=2000 coeffs=1024000 differ=822837 (80.3552%) maxabsdiff=8 firstidx=0
+  fig4-exact/Pt2noise(eta=3) vs cbd3     trials=2000 coeffs=1024000 differ=792656 (77.4078%) maxabsdiff=6 firstidx=0
+  fig4-exact/Pt2noise(eta=7) vs cbd7     trials=2000 coeffs=1024000 differ=870789 (85.0380%) maxabsdiff=12 firstidx=0
+    eta=3 first 8 coeffs  code: +2 +0 +3 +0 +1 +1 -2 -2
+                          alg11: +0 +0 -1 +1 +1 +1 +0 +1
+                          fig4 : +0 +0 +0 +0 +0 +0 -1 +0
+[selfcheck] SELFCHECK_ETA124=PASS  F2_CONFIRMED=yes  FIG4_EXPLAINS_CODE=no
+[selfcheck] PT2NOISE_LAYOUT_EXPLAINS_CODE=no (eta=3,7: 792656 / 870789 differing coeffs)
+
+[selfcheck] PARAMS=4 n=512 q=1409 NTT_DIM=64
+ -- step 1: my Algorithm-11 transcription vs the submitted cbd1/cbd2/cbd4
+    (these MUST be 0 differ: they are the correctness proof of cbd_eta_alg11)
+  alg11(eta=1) vs submitted cbd1         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=2) vs submitted cbd2         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=4) vs submitted cbd4         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+ -- step 2: the F-2 claim: submitted cbd3/cbd7 vs Algorithm 11
+  alg11(eta=3) vs submitted cbd3         trials=2000 coeffs=1024000 differ=793098 (77.4510%) maxabsdiff=6 firstidx=0
+  alg11(eta=7) vs submitted cbd7         trials=2000 coeffs=1024000 differ=871143 (85.0726%) maxabsdiff=12 firstidx=0
+ -- step 3 (section 6 falsification): Fig.4 strided reading vs the submitted code
+  fig4-rowmajor(eta=1) vs cbd1           trials=2000 coeffs=1024000 differ=639898 (62.4900%) maxabsdiff=2 firstidx=1
+  fig4-rowmajor(eta=2) vs cbd2           trials=2000 coeffs=1024000 differ=744636 (72.7184%) maxabsdiff=4 firstidx=1
+  fig4-rowmajor(eta=4) vs cbd4           trials=2000 coeffs=1024000 differ=822324 (80.3051%) maxabsdiff=8 firstidx=0
+  fig4-rowmajor(eta=3) vs cbd3           trials=2000 coeffs=1024000 differ=793403 (77.4808%) maxabsdiff=6 firstidx=0
+  fig4-rowmajor(eta=7) vs cbd7           trials=2000 coeffs=1024000 differ=871455 (85.1030%) maxabsdiff=12 firstidx=0
+  fig4-exact/Pt2noise(eta=1) vs cbd1     trials=2000 coeffs=1024000 differ=638331 (62.3370%) maxabsdiff=2 firstidx=1
+  fig4-exact/Pt2noise(eta=2) vs cbd2     trials=2000 coeffs=1024000 differ=744027 (72.6589%) maxabsdiff=4 firstidx=0
+  fig4-exact/Pt2noise(eta=4) vs cbd4     trials=2000 coeffs=1024000 differ=823160 (80.3867%) maxabsdiff=8 firstidx=0
+  fig4-exact/Pt2noise(eta=3) vs cbd3     trials=2000 coeffs=1024000 differ=792390 (77.3818%) maxabsdiff=6 firstidx=0
+  fig4-exact/Pt2noise(eta=7) vs cbd7     trials=2000 coeffs=1024000 differ=871208 (85.0789%) maxabsdiff=12 firstidx=0
+    eta=3 first 8 coeffs  code: +2 +0 +3 +0 +1 +1 -2 -2
+                          alg11: +0 +0 -1 +1 +1 +1 +0 +1
+                          fig4 : +0 +0 +0 +0 +0 +0 -1 +0
+[selfcheck] SELFCHECK_ETA124=PASS  F2_CONFIRMED=yes  FIG4_EXPLAINS_CODE=no
+[selfcheck] PT2NOISE_LAYOUT_EXPLAINS_CODE=no (eta=3,7: 792390 / 871208 differing coeffs)
+
+[selfcheck] PARAMS=5 n=1024 q=1409 NTT_DIM=64
+ -- step 1: my Algorithm-11 transcription vs the submitted cbd1/cbd2/cbd4
+    (these MUST be 0 differ: they are the correctness proof of cbd_eta_alg11)
+  alg11(eta=1) vs submitted cbd1         trials=2000 coeffs=2048000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=2) vs submitted cbd2         trials=2000 coeffs=2048000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=4) vs submitted cbd4         trials=2000 coeffs=2048000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+ -- step 2: the F-2 claim: submitted cbd3/cbd7 vs Algorithm 11
+  alg11(eta=3) vs submitted cbd3         trials=2000 coeffs=2048000 differ=1586755 (77.4783%) maxabsdiff=6 firstidx=0
+  alg11(eta=7) vs submitted cbd7         trials=2000 coeffs=2048000 differ=1741502 (85.0343%) maxabsdiff=12 firstidx=0
+ -- step 3 (section 6 falsification): Fig.4 strided reading vs the submitted code
+  fig4-rowmajor(eta=1) vs cbd1           trials=2000 coeffs=2048000 differ=1279139 (62.4580%) maxabsdiff=2 firstidx=1
+  fig4-rowmajor(eta=2) vs cbd2           trials=2000 coeffs=2048000 differ=1486874 (72.6013%) maxabsdiff=4 firstidx=1
+  fig4-rowmajor(eta=4) vs cbd4           trials=2000 coeffs=2048000 differ=1645154 (80.3298%) maxabsdiff=8 firstidx=1
+  fig4-rowmajor(eta=3) vs cbd3           trials=2000 coeffs=2048000 differ=1586835 (77.4822%) maxabsdiff=6 firstidx=0
+  fig4-rowmajor(eta=7) vs cbd7           trials=2000 coeffs=2048000 differ=1742621 (85.0889%) maxabsdiff=12 firstidx=0
+  fig4-exact/Pt2noise(eta=1) vs cbd1     trials=2000 coeffs=2048000 differ=1277929 (62.3989%) maxabsdiff=2 firstidx=0
+  fig4-exact/Pt2noise(eta=2) vs cbd2     trials=2000 coeffs=2048000 differ=1484880 (72.5039%) maxabsdiff=4 firstidx=0
+  fig4-exact/Pt2noise(eta=4) vs cbd4     trials=2000 coeffs=2048000 differ=1646677 (80.4042%) maxabsdiff=8 firstidx=0
+  fig4-exact/Pt2noise(eta=3) vs cbd3     trials=2000 coeffs=2048000 differ=1585238 (77.4042%) maxabsdiff=6 firstidx=0
+  fig4-exact/Pt2noise(eta=7) vs cbd7     trials=2000 coeffs=2048000 differ=1742284 (85.0725%) maxabsdiff=13 firstidx=0
+    eta=3 first 8 coeffs  code: +2 +1 +3 +1 +1 +2 -2 -1
+                          alg11: +0 +0 -1 +1 +1 +1 +0 +1
+                          fig4 : +0 +0 +0 +0 +0 +0 +0 -1
+[selfcheck] SELFCHECK_ETA124=PASS  F2_CONFIRMED=yes  FIG4_EXPLAINS_CODE=no
+[selfcheck] PT2NOISE_LAYOUT_EXPLAINS_CODE=no (eta=3,7: 1585238 / 1742284 differing coeffs)
+
+[selfcheck] PARAMS=7 n=512 q=3329 NTT_DIM=128
+ -- step 1: my Algorithm-11 transcription vs the submitted cbd1/cbd2/cbd4
+    (these MUST be 0 differ: they are the correctness proof of cbd_eta_alg11)
+  alg11(eta=1) vs submitted cbd1         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=2) vs submitted cbd2         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=4) vs submitted cbd4         trials=2000 coeffs=1024000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+ -- step 2: the F-2 claim: submitted cbd3/cbd7 vs Algorithm 11
+  alg11(eta=3) vs submitted cbd3         trials=2000 coeffs=1024000 differ=793166 (77.4576%) maxabsdiff=6 firstidx=1
+  alg11(eta=7) vs submitted cbd7         trials=2000 coeffs=1024000 differ=870866 (85.0455%) maxabsdiff=12 firstidx=0
+ -- step 3 (section 6 falsification): Fig.4 strided reading vs the submitted code
+  fig4-rowmajor(eta=1) vs cbd1           trials=2000 coeffs=1024000 differ=638665 (62.3696%) maxabsdiff=2 firstidx=0
+  fig4-rowmajor(eta=2) vs cbd2           trials=2000 coeffs=1024000 differ=742959 (72.5546%) maxabsdiff=4 firstidx=0
+  fig4-rowmajor(eta=4) vs cbd4           trials=2000 coeffs=1024000 differ=822845 (80.3560%) maxabsdiff=8 firstidx=0
+  fig4-rowmajor(eta=3) vs cbd3           trials=2000 coeffs=1024000 differ=792555 (77.3979%) maxabsdiff=6 firstidx=0
+  fig4-rowmajor(eta=7) vs cbd7           trials=2000 coeffs=1024000 differ=870526 (85.0123%) maxabsdiff=12 firstidx=0
+  fig4-exact/Pt2noise(eta=1) vs cbd1     trials=2000 coeffs=1024000 differ=637363 (62.2425%) maxabsdiff=2 firstidx=1
+  fig4-exact/Pt2noise(eta=2) vs cbd2     trials=2000 coeffs=1024000 differ=744816 (72.7359%) maxabsdiff=4 firstidx=0
+  fig4-exact/Pt2noise(eta=4) vs cbd4     trials=2000 coeffs=1024000 differ=823949 (80.4638%) maxabsdiff=8 firstidx=1
+  fig4-exact/Pt2noise(eta=3) vs cbd3     trials=2000 coeffs=1024000 differ=792881 (77.4298%) maxabsdiff=6 firstidx=2
+  fig4-exact/Pt2noise(eta=7) vs cbd7     trials=2000 coeffs=1024000 differ=870416 (85.0016%) maxabsdiff=12 firstidx=0
+    eta=3 first 8 coeffs  code: +2 +0 +3 +0 +1 +1 -2 -2
+                          alg11: +0 +0 -1 +1 +1 +1 +0 +1
+                          fig4 : +0 +0 +0 +0 +0 +0 -1 +0
+[selfcheck] SELFCHECK_ETA124=PASS  F2_CONFIRMED=yes  FIG4_EXPLAINS_CODE=no
+[selfcheck] PT2NOISE_LAYOUT_EXPLAINS_CODE=no (eta=3,7: 792881 / 870416 differing coeffs)
+
+[selfcheck] PARAMS=9 n=2048 q=3329 NTT_DIM=128
+ -- step 1: my Algorithm-11 transcription vs the submitted cbd1/cbd2/cbd4
+    (these MUST be 0 differ: they are the correctness proof of cbd_eta_alg11)
+  alg11(eta=1) vs submitted cbd1         trials=2000 coeffs=4096000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=2) vs submitted cbd2         trials=2000 coeffs=4096000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+  alg11(eta=4) vs submitted cbd4         trials=2000 coeffs=4096000 differ=0 (0.0000%) maxabsdiff=0 firstidx=-1
+ -- step 2: the F-2 claim: submitted cbd3/cbd7 vs Algorithm 11
+  alg11(eta=3) vs submitted cbd3         trials=2000 coeffs=4096000 differ=3171926 (77.4396%) maxabsdiff=6 firstidx=0
+  alg11(eta=7) vs submitted cbd7         trials=2000 coeffs=4096000 differ=3483766 (85.0529%) maxabsdiff=12 firstidx=0
+ -- step 3 (section 6 falsification): Fig.4 strided reading vs the submitted code
+  fig4-rowmajor(eta=1) vs cbd1           trials=2000 coeffs=4096000 differ=2559000 (62.4756%) maxabsdiff=2 firstidx=0
+  fig4-rowmajor(eta=2) vs cbd2           trials=2000 coeffs=4096000 differ=2975483 (72.6436%) maxabsdiff=4 firstidx=0
+  fig4-rowmajor(eta=4) vs cbd4           trials=2000 coeffs=4096000 differ=3291243 (80.3526%) maxabsdiff=8 firstidx=0
+  fig4-rowmajor(eta=3) vs cbd3           trials=2000 coeffs=4096000 differ=3171047 (77.4181%) maxabsdiff=6 firstidx=0
+  fig4-rowmajor(eta=7) vs cbd7           trials=2000 coeffs=4096000 differ=3484832 (85.0789%) maxabsdiff=12 firstidx=0
+  fig4-exact/Pt2noise(eta=1) vs cbd1     trials=2000 coeffs=4096000 differ=2556791 (62.4217%) maxabsdiff=2 firstidx=1
+  fig4-exact/Pt2noise(eta=2) vs cbd2     trials=2000 coeffs=4096000 differ=2975781 (72.6509%) maxabsdiff=4 firstidx=2
+  fig4-exact/Pt2noise(eta=4) vs cbd4     trials=2000 coeffs=4096000 differ=3290977 (80.3461%) maxabsdiff=8 firstidx=0
+  fig4-exact/Pt2noise(eta=3) vs cbd3     trials=2000 coeffs=4096000 differ=3171654 (77.4330%) maxabsdiff=6 firstidx=0
+  fig4-exact/Pt2noise(eta=7) vs cbd7     trials=2000 coeffs=4096000 differ=3483336 (85.0424%) maxabsdiff=13 firstidx=0
+    eta=3 first 8 coeffs  code: +2 +1 +3 +1 +1 +2 -2 -1
+                          alg11: +0 +0 -1 +1 +1 +1 +0 +1
+                          fig4 : +0 +0 +0 +0 +0 +0 +0 +0
+[selfcheck] SELFCHECK_ETA124=PASS  F2_CONFIRMED=yes  FIG4_EXPLAINS_CODE=no
+[selfcheck] PT2NOISE_LAYOUT_EXPLAINS_CODE=no (eta=3,7: 3171654 / 3483336 differing coeffs)
+

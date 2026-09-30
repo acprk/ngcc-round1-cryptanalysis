@@ -1,0 +1,106 @@
+== [1] model A, all nine sets + self-check against six stored values (residual <= 0.0043 bits)
+ C1  model A   spec: block 2^-161.15 DFR<=2^-154.15 | code: block 2^-161.33 DFR<=2^-154.33 | delta(code-spec) -0.181 bits | LB(max_y) spec 2^-165.15 code 2^-163.93  dists(1, 2, 9, 2) par1 [0.0s, peak RSS 27 MiB]  SELFCHECK vs -161.15: +0.0041 OK
+ C2  model A   spec: block 2^-143.15 DFR<=2^-135.15 | code: block 2^-143.34 DFR<=2^-135.34 | delta(code-spec) -0.183 bits | LB(max_y) spec 2^-147.15 code 2^-146.06  dists(1, 8, 9, 2) par1 [0.1s, peak RSS 27 MiB]  SELFCHECK vs -143.15: -0.0037 OK
+ C3  model A   spec: block 2^-168.72 DFR<=2^-159.72 | code: block 2^-168.90 DFR<=2^-159.90 | delta(code-spec) -0.178 bits | LB(max_y) spec 2^-172.72 code 2^-171.43  dists(8, 8, 9, 1) par1 [0.1s, peak RSS 27 MiB]  SELFCHECK vs -168.72: +0.0031 OK
+ R1  model A   spec: block 2^-137.09 DFR<=2^-130.09 | code: block 2^-137.22 DFR<=2^-130.22 | delta(code-spec) -0.137 bits | LB(max_y) spec 2^-141.09 code 2^-140.54  dists(3, 3, 3, 3) par1 [0.3s, peak RSS 28 MiB]  SELFCHECK vs -137.09: +0.0043 OK
+ R2  model A   spec: block 2^-162.87 DFR<=2^-154.87 | code: block 2^-163.02 DFR<=2^-155.02 | delta(code-spec) -0.155 bits | LB(max_y) spec 2^-166.87 code 2^-166.20  dists(2, 2, 2, 2) par1 [0.2s, peak RSS 28 MiB]  SELFCHECK vs -162.87: +0.0034 OK
+ R3  model A   spec: block 2^-152.66 DFR<=2^-143.66 | code: block 2^-152.81 DFR<=2^-143.81 | delta(code-spec) -0.152 bits | LB(max_y) spec 2^-156.66 code 2^-156.01  dists(9, 9, 9, 2) par1 [0.1s, peak RSS 28 MiB]  SELFCHECK vs -152.66: +0.0024 OK
+ D1  model A   spec: block 2^-138.74 DFR<=2^-131.74 | code: block 2^-138.81 DFR<=2^-131.81 | delta(code-spec) -0.069 bits | LB(max_y) spec 2^-142.74 code 2^-142.51  dists(7, 7, 7, 7) par1 [6.6s, peak RSS 54 MiB]
+ D2  model A   spec: block 2^-221.12 DFR<=2^-213.12 | code: block 2^-221.23 DFR<=2^-213.23 | delta(code-spec) -0.103 bits | LB(max_y) spec 2^-225.12 code 2^-224.75  dists(4, 4, 4, 4) par1 [2.3s, peak RSS 54 MiB]
+ D3  model A   spec: block 2^-305.47 DFR<=2^-296.47 | code: block 2^-305.61 DFR<=2^-296.61 | delta(code-spec) -0.133 bits | LB(max_y) spec 2^-309.47 code 2^-308.94  dists(2, 3, 2, 3) par1 [1.3s, peak RSS 54 MiB]
+== [2] model B (exact e', worst-case message) + rigorous lower bound
+ C1  model B   spec: block 2^-168.19 DFR<=2^-161.19 | code: block 2^-168.61 DFR<=2^-161.61 | delta(code-spec) -0.415 bits | LB(max_y) spec 2^-171.28 code 2^-171.70  dists(1, 2, 9, 2) par1 [0.1s, peak RSS 28 MiB]
+ C2  model B   spec: block 2^-149.53 DFR<=2^-141.53 | code: block 2^-149.90 DFR<=2^-141.90 | delta(code-spec) -0.373 bits | LB(max_y) spec 2^-152.72 code 2^-153.09  dists(1, 8, 9, 2) par1 [0.1s, peak RSS 29 MiB]
+ C3  model B   spec: block 2^-172.84 DFR<=2^-163.84 | code: block 2^-173.28 DFR<=2^-164.28 | delta(code-spec) -0.435 bits | LB(max_y) spec 2^-175.97 code 2^-176.41  dists(8, 8, 9, 1) par1 [0.1s, peak RSS 29 MiB]
+ R1  model B   spec: block 2^-141.76 DFR<=2^-134.76 | code: block 2^-141.94 DFR<=2^-134.94 | delta(code-spec) -0.185 bits | LB(max_y) spec 2^-145.36 code 2^-145.54  dists(3, 3, 3, 3) par1 [0.5s, peak RSS 31 MiB]
+ R2  model B   spec: block 2^-166.81 DFR<=2^-158.81 | code: block 2^-167.03 DFR<=2^-159.03 | delta(code-spec) -0.225 bits | LB(max_y) spec 2^-170.33 code 2^-170.56  dists(2, 2, 2, 2) par1 [0.3s, peak RSS 31 MiB]
+ R3  model B   spec: block 2^-156.50 DFR<=2^-147.50 | code: block 2^-156.72 DFR<=2^-147.72 | delta(code-spec) -0.220 bits | LB(max_y) spec 2^-160.04 code 2^-160.26  dists(9, 9, 9, 2) par1 [0.2s, peak RSS 31 MiB]
+ D1  model B   spec: block 2^-143.19 DFR<=2^-136.19 | code: block 2^-143.27 DFR<=2^-136.27 | delta(code-spec) -0.078 bits | LB(max_y) spec 2^-147.02 code 2^-147.09  dists(7, 7, 7, 7) par1 [11.1s, peak RSS 79 MiB]
+ D2  model B   spec: block 2^-225.31 DFR<=2^-217.31 | code: block 2^-225.43 DFR<=2^-217.43 | delta(code-spec) -0.125 bits | LB(max_y) spec 2^-229.04 code 2^-229.16  dists(4, 4, 4, 4) par1 [3.2s, peak RSS 79 MiB]
+ D3  model B   spec: block 2^-309.98 DFR<=2^-300.98 | code: block 2^-310.15 DFR<=2^-301.15 | delta(code-spec) -0.177 bits | LB(max_y) spec 2^-313.59 code 2^-313.77  dists(2, 3, 2, 3) par1 [1.6s, peak RSS 79 MiB]
+== [3] summary: all four models x nine sets + the compressed C* rows -> results.json
+C1 done
+C2 done
+C3 done
+R1 done
+R2 done
+R3 done
+D1 done
+D2 done
+D3 done
+
+=== TABLE 1 : model A (reference model, reproduces build/est/nev_dfr.out) ===
+ set   spec blk   spec DFR   code blk   code DFR    delta
+  C1   -161.146   -154.146   -161.327   -154.327   -0.181
+  C2   -143.154   -135.154   -143.337   -135.337   -0.183
+  C3   -168.717   -159.717   -168.895   -159.895   -0.178
+  R1   -137.086   -130.086   -137.222   -130.222   -0.137
+  R2   -162.867   -154.867   -163.021   -155.021   -0.155
+  R3   -152.658   -143.658   -152.810   -143.810   -0.152
+  D1   -138.741   -131.741   -138.810   -131.810   -0.069
+  D2   -221.123   -213.123   -221.226   -213.226   -0.103
+  D3   -305.472   -296.472   -305.606   -296.606   -0.133
+
+=== TABLE 2 : model B (exact e', worst-case message M=1^l) ===
+ set  spec DFR UB  code DFR UB    delta   LB spec   LB code  T2 claim   T7 DFR   T7 p*   p*-LB
+  C1     -161.192     -161.607   -0.415  -171.282  -171.695      -160     -161    -170   +1.28
+  C2     -141.527     -141.900   -0.373  -152.720  -153.092      -162     -162    -173  -20.28
+  C3     -163.841     -164.276   -0.435  -175.972  -176.406      -163     -163    -175   +0.97
+  R1     -134.758     -134.942   -0.185  -145.355  -145.540      -133     -134    -145   +0.36
+  R2     -158.806     -159.031   -0.225  -170.332  -170.557      -158     -158    -170   +0.33
+  R3     -147.497     -147.716   -0.220  -160.039  -160.258      -147     -147    -160   +0.04
+  D1     -136.189     -136.267   -0.078  -147.016  -147.094      -136     -136    -147   +0.02
+  D2     -217.308     -217.433   -0.125  -229.036  -229.161      -217     -217    -229   +0.04
+  D3     -300.976     -301.153   -0.177  -313.595  -313.772      -301     -301    -313   +0.59
+
+=== TABLE 3 : diagnostics ===
+ set  eps  A0 spec DFR     cost of eprime WC  slope b/unit  eff. shift (units)  B0 (M=0) DFR
+  C1   18     -161.550                -7.404        0.4113               1.008      -161.254
+  C2   18     -141.806                -6.652        0.3696               1.009      -141.577
+  C3   10     -164.044                -4.328        0.4328               1.005      -163.907
+  R1   26     -134.857                -4.771        0.1835               1.006      -134.770
+  R2   18     -158.903                -4.036        0.2242               1.005      -158.823
+  R3   18     -147.586                -3.928        0.2182               1.006      -147.514
+  D1   58     -136.227                -4.487        0.0774               1.006      -136.191
+  D2   34     -217.365                -4.242        0.1248               1.004      -217.313
+  D3   26     -301.061                -4.588        0.1765               1.003      -300.987
+
+=== TABLE 4 : compressed C* sets (rounded T*_{1/3}), model B, all 16 y ===
+ C1* spec DFR UB  -160.466  code  -160.879  delta -0.413  LB  -170.560  (uncompressed: -161.192)
+ C2* spec DFR UB  -141.293  code  -141.666  delta -0.372  LB  -152.487  (uncompressed: -141.527)
+ C3* spec DFR UB  -163.182  code  -163.615  delta -0.433  LB  -175.316  (uncompressed: -163.841)
+== [4] verification suite V1-V4 (brute-force cross-check, float64 vs longdouble)
+[PASS] V1 blockdist vs brute force chi=(1,2) y=(1, -1, 1, 1) max abs diff 0.000e+00, mass 1.000000000000000/1.000000000000000
+[PASS] V1 blockdist vs brute force chi=(2,9) y=(1, 1, -1, -1) max abs diff 1.776e-15, mass 1.000000000000000/0.999999999999997
+[PASS] V1 blockdist vs brute force chi=(3,3) y=(-1, 1, 1, 1) max abs diff 0.000e+00, mass 1.000000000000000/1.000000000000000
+[PASS] V1 blockdist vs brute force chi=(8,9) y=(1, 1, 1, 1) max abs diff 6.994e-15, mass 1.000000000000000/0.999999999999996
+[PASS] V1 blockdist vs brute force chi=(4,4) y=(1, -1, -1, 1) max abs diff 1.235e-15, mass 1.000000000000000/1.000000000000000
+[PASS] V2 tail2 vs direct convolve+mask max abs diff 4.441e-16
+[PASS] V3 float64 vs longdouble chain, C2 model A float64 2^-143.153750 longdouble 2^-143.153750 diff 0.00e+00 bits
+[PASS] V3 float64 vs longdouble chain, R1 model A float64 2^-137.085659 longdouble 2^-137.085659 diff 0.00e+00 bits
+[PASS] V3 float64 vs longdouble chain, D1 model A float64 2^-138.740854 longdouble 2^-138.740854 diff 0.00e+00 bits
+[PASS] V4 eprime_shift vs polynomial vbar*(m-mbar)/2 0/300 mismatches
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=1 M=0 observed max 4 <= 10
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=1 M=1 observed max 6 <= 10
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=2 M=0 observed max 8 <= 18
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=2 M=1 observed max 10 <= 18
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=3 M=0 observed max 12 <= 26
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=3 M=1 observed max 14 <= 26
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=4 M=0 observed max 16 <= 34
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=4 M=1 observed max 18 <= 34
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=7 M=0 observed max 28 <= 58
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=7 M=1 observed max 30 <= 58
+
+ALL CHECKS PASS
+== [5] Monte-Carlo cross-check of the C2 pairing (5.12e7 samples, real ring arithmetic)
+simulated <e''_j,y> for y=(1,1,1,1):  N=51200000  mean -1.9894  var 2735.67  kurt 3.0042  (outside hist: 0)
+exact model  (chi_f=B1, chi_g=T1/8):   mean -2.0000  var 2736.67  kurt 3.0030
+exact model  (chi_f,chi_g SWAPPED):    mean -0.0000  var 2389.33
+bulk goodness-of-fit vs exact pmf: chi2=281.9 df=270 Wilson-Hilferty z=+0.53
+
+Headlines:
+  C2     -141.527     -141.900   -0.373  -152.720  -153.092      -162     -162    -173  -20.28
+ set  eps  A0 spec DFR     cost of eprime WC  slope b/unit  eff. shift (units)  B0 (M=0) DFR
+  F-0: C2 exact DFR upper bound 2^-141.53, rigorous lower bound 2^-152.72,
+       claim 2^-162 (Table 2) / 2^-173 (Table 7) is below the lower bound => unattainable.
+  F-1: submitted decoder DFR bound is 0.07-0.44 bits LOWER (better) than the spec decoder.

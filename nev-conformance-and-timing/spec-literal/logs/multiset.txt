@@ -1,0 +1,6 @@
+  PARAMS=4 eta=3: sorted-multiset differs in 2000 / 2000 buffers
+  PARAMS=4 eta=7: sorted-multiset differs in 2000 / 2000 buffers
+  PARAMS=7 eta=3: sorted-multiset differs in 2000 / 2000 buffers
+  PARAMS=7 eta=7: sorted-multiset differs in 2000 / 2000 buffers
+  PARAMS=9 eta=3: sorted-multiset differs in 2000 / 2000 buffers
+  PARAMS=9 eta=7: sorted-multiset differs in 2000 / 2000 buffers

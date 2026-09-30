@@ -1,0 +1,22 @@
+[PASS] V1 blockdist vs brute force chi=(1,2) y=(1, -1, 1, 1) max abs diff 0.000e+00, mass 1.000000000000000/1.000000000000000
+[PASS] V1 blockdist vs brute force chi=(2,9) y=(1, 1, -1, -1) max abs diff 1.776e-15, mass 1.000000000000000/0.999999999999997
+[PASS] V1 blockdist vs brute force chi=(3,3) y=(-1, 1, 1, 1) max abs diff 0.000e+00, mass 1.000000000000000/1.000000000000000
+[PASS] V1 blockdist vs brute force chi=(8,9) y=(1, 1, 1, 1) max abs diff 6.994e-15, mass 1.000000000000000/0.999999999999996
+[PASS] V1 blockdist vs brute force chi=(4,4) y=(1, -1, -1, 1) max abs diff 1.235e-15, mass 1.000000000000000/1.000000000000000
+[PASS] V2 tail2 vs direct convolve+mask max abs diff 4.441e-16
+[PASS] V3 float64 vs longdouble chain, C2 model A float64 2^-143.153750 longdouble 2^-143.153750 diff 0.00e+00 bits
+[PASS] V3 float64 vs longdouble chain, R1 model A float64 2^-137.085659 longdouble 2^-137.085659 diff 0.00e+00 bits
+[PASS] V3 float64 vs longdouble chain, D1 model A float64 2^-138.740854 longdouble 2^-138.740854 diff 0.00e+00 bits
+[PASS] V4 eprime_shift vs polynomial vbar*(m-mbar)/2 0/300 mismatches
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=1 M=0 observed max 4 <= 10
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=1 M=1 observed max 6 <= 10
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=2 M=0 observed max 8 <= 18
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=2 M=1 observed max 10 <= 18
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=3 M=0 observed max 12 <= 26
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=3 M=1 observed max 14 <= 26
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=4 M=0 observed max 16 <= 34
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=4 M=1 observed max 18 <= 34
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=7 M=0 observed max 28 <= 58
+[PASS] V4b <e',y> <= k(k*eta+1)/2 for eta=7 M=1 observed max 30 <= 58
+
+ALL CHECKS PASS

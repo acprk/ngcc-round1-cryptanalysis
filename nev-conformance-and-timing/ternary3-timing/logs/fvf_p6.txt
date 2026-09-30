@@ -1,0 +1,18 @@
+# PARAMS=6 NP=32 R=3000  (pair = two fixed honest ciphertexts)
+pair  0  med(tB-tA)=   -80.0
+pair  1  med(tB-tA)=    +8.0
+pair  2  med(tB-tA)=   +46.0
+pair  3  med(tB-tA)=   -40.0
+pair  4  med(tB-tA)=   -62.0
+pair  5  med(tB-tA)=   +18.0
+pair  6  med(tB-tA)=   -68.0
+pair  7  med(tB-tA)=   +52.0
+pair  8  med(tB-tA)=   +28.0
+pair  9  med(tB-tA)=   -12.0
+pair 10  med(tB-tA)=  -106.0
+pair 11  med(tB-tA)=   +10.0
+pair 12  med(tB-tA)=   -86.0
+pair 13  med(tB-tA)=   -66.0
+pair 14  med(tB-tA)=   +80.0
+pair 15  med(tB-tA)=    +4.0
+SUMMARY PARAMS=6  worst |median delta| over 16 fixed pairs = 106.0 cycles ; worst same-ciphertext NULL = 6.0 cycles ; pairs above 40cyc = 9/16 ; sink=0

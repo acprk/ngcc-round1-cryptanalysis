@@ -1,0 +1,17 @@
+# ternary3-timing/data/tam_avx2_p6_USE_ICCS.bin mode=ab PARAMS=6 pairs=2000 batches=15 nA=367 nB=588
+batch  0  med_tA=166772  med_tB=167280  med(tB-tA)=  +502.0  (medB-medA=  +508.0)
+batch  1  med_tA=166795  med_tB=167290  med(tB-tA)=  +488.0  (medB-medA=  +495.0)
+batch  2  med_tA=166792  med_tB=167264  med(tB-tA)=  +472.0  (medB-medA=  +472.0)
+batch  3  med_tA=166800  med_tB=167288  med(tB-tA)=  +486.0  (medB-medA=  +488.0)
+batch  4  med_tA=166816  med_tB=167300  med(tB-tA)=  +480.0  (medB-medA=  +484.0)
+batch  5  med_tA=166790  med_tB=167272  med(tB-tA)=  +476.0  (medB-medA=  +482.0)
+batch  6  med_tA=166806  med_tB=167282  med(tB-tA)=  +474.0  (medB-medA=  +476.0)
+batch  7  med_tA=166806  med_tB=167298  med(tB-tA)=  +484.0  (medB-medA=  +492.0)
+batch  8  med_tA=166790  med_tB=167274  med(tB-tA)=  +486.0  (medB-medA=  +484.0)
+batch  9  med_tA=166758  med_tB=167244  med(tB-tA)=  +492.0  (medB-medA=  +486.0)
+batch 10  med_tA=166772  med_tB=167264  med(tB-tA)=  +488.0  (medB-medA=  +492.0)
+batch 11  med_tA=166774  med_tB=167260  med(tB-tA)=  +483.0  (medB-medA=  +486.0)
+batch 12  med_tA=166808  med_tB=167288  med(tB-tA)=  +480.0  (medB-medA=  +480.0)
+batch 13  med_tA=166820  med_tB=167304  med(tB-tA)=  +477.0  (medB-medA=  +484.0)
+batch 14  med_tA=166782  med_tB=167268  med(tB-tA)=  +482.0  (medB-medA=  +486.0)
+SUMMARY mode=ab  sign-positive batches=15/15  median-of-batch-medians=+483.0 cycles  sink=80000

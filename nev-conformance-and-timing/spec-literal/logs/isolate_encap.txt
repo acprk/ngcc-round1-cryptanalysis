@@ -1,0 +1,26 @@
+which deviation changes ENCAPSULATION? (submitted key set, identical coins)
+ETA_R per set: 1,2,3=none(COMPRESS) 4=3 5=2 6=9 7=7 8=4 9=2 10,11,12=9
+PARAMS=1 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=1 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=2 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=2 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=3 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=3 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=4 ICCS  ct(vs submitted encap):  f1=same  f2=DIFF  f3=same
+PARAMS=4 SHA3  ct(vs submitted encap):  f1=same  f2=DIFF  f3=same
+PARAMS=5 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=5 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=6 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=6 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=7 ICCS  ct(vs submitted encap):  f1=same  f2=DIFF  f3=same
+PARAMS=7 SHA3  ct(vs submitted encap):  f1=same  f2=DIFF  f3=same
+PARAMS=8 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=8 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=9 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=9 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=10 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=10 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=11 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=11 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=12 ICCS  ct(vs submitted encap):  f1=same  f2=same  f3=same
+PARAMS=12 SHA3  ct(vs submitted encap):  f1=same  f2=same  f3=same

@@ -1,0 +1,67 @@
+--- a/owpke.c	(NEV reference, pristine)
++++ b/owpke.c	(SPEC_F3: Algorithm 15 nonce order (g at N=0, f' at N=1))
+@@ -21,6 +21,24 @@
+ 	randombytes(seed, SEED_BYTES);
+ 	Hash(seed, seed, SEED_BYTES);
+ 
++#ifdef SPEC_F3
++	/* Algorithm 15, literal: N := 0; g := SamplePoly_{chi_g}(sigma,N); N := N+1;
++	   f' := SamplePoly_{chi_f}(sigma,N).  g gets nonce 0, f' gets nonce 1. */
++	s = 0;
++	while (!s) {
++		poly_sample_g(&g, seed, nonce++);
++		poly_ntt(&g);
++		s = poly_mont2_inverse(&invg, &g);
++	}
++	s = 0;
++	while (!s)
++	{
++		poly_sample_f(&f, seed, nonce++);
++		poly_add_vinv(&f); // f + v^{-1}
++		poly_ntt(&f);
++		s = poly_mont2_inverse_judge(&f);
++	}
++#else
+ 	s = 0;
+ 	while (!s)
+ 	{
+@@ -35,6 +53,7 @@
+ 		poly_ntt(&g);
+ 		s = poly_mont2_inverse(&invg, &g);
+ 	}
++#endif
+ 
+ 	poly_mont_mul(&h, &invg, &f);
+ 	poly_reduce(&h);
+@@ -100,6 +119,23 @@
+ 	randombytes(seed, SEED_BYTES);
+ 	Hash(seed, seed, SEED_BYTES);
+ 
++#ifdef SPEC_F3
++	/* Algorithm 15, literal: g at nonce 0, f' at nonce 1. */
++	s = 0;
++	while (!s) {
++		poly_sample_g(&g, seed, nonce++);
++		poly_ntt(&g);
++		s = poly_mont2_inverse_judge(&g);
++	}
++	s = 0;
++	while (!s)
++	{
++		poly_sample_f(&f, seed, nonce++);
++		poly_add_vinv(&f); // f + v^{-1}
++		poly_ntt(&f);
++		s = poly_mont2_inverse(&invf, &f);
++	}
++#else
+ 	s = 0;
+ 	while (!s)
+ 	{
+@@ -114,6 +150,7 @@
+ 		poly_ntt(&g);
+ 		s = poly_mont2_inverse_judge(&g);
+ 	}
++#endif
+ 
+ 	poly_mont_mul(&h, &invf, &g);
+ 	poly_reduce(&h);
