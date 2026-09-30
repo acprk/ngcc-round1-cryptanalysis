@@ -23,8 +23,8 @@ README, and a `run_all.sh` / `Makefile` / `build.sh` that builds against the ven
 These are the design-level (severity A) findings. Most accompany the eprint report
 <https://eprint.iacr.org/2026/2232>; `afs-kex-auth-binding` is a standalone protocol-layer
 finding accompanying a public forum comment (not part of that eprint). Implementation-level
-(severity B) findings have been removed from this repository; only fundamental, design-level
-results are retained.
+(severity B) findings have been removed from this repository, with one exception listed in its own
+section below that backs a public comment.
 
 | repo | scheme | category | severity | one-line claim |
 |---|---|---|---|---|
@@ -42,6 +42,15 @@ results are retained.
 
 Severity A = fundamental (full key recovery / forgery / semantic-security break). `A*` =
 category/claim mismatch backed by a working full key recovery (see the package README).
+
+## Implementation-level package (severity B)
+
+Kept separately from the eight design-level packages above because it backs a public comment that
+cites a reproduction package. It contains no key recovery.
+
+| repo | scheme | category | severity | one-line claim |
+|---|---|---|---|---|
+| `yuanyang-dsa-sampler-constant` | YuanYang.DSA | SIG | B (implementation) | -512 wide-sampler rejection constant is 1/(2(16η)²) instead of 1/(2(4η)²): the signature mean becomes (0.458/4)·Â·(𝟙,𝟙), a linear function of the secret Gram root (10σ secret-dependence at 4·10⁵ signatures, cross-key controls at noise); with the public covariance bug this exposes f f̄+g ḡ (the FKTWY EUROCRYPT 2020 quantity); exact recovery projected at ~2³⁵ signatures by simulation only; NO key recovery performed |
 
 ## How to build a package
 

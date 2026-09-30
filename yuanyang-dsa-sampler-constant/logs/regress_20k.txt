@@ -1,0 +1,23 @@
+N=20000  (1-X)/2 * mean regressed on the stored Gram-root rows; theory slope 0.1145
+  OWN   mean(data/key0.txt) s1 on a00      of data/key0.txt: slope +0.1249 +- 0.0495  z= +2.5  resid rms 0.344 (noise pred 0.350)
+  OWN   mean(data/key0.txt) s2 on a10+a11  of data/key0.txt: slope +0.0251 +- 0.0660  z= +0.4  resid rms 0.344 (noise pred 0.350)
+  CROSS mean(data/key0.txt) s1 on a00      of data/key7.txt: slope +0.0443 +- 0.0430  z= +1.0  resid rms 0.346 (noise pred 0.350)
+  CROSS mean(data/key0.txt) s2 on a10+a11  of data/key7.txt: slope +0.0116 +- 0.0520  z= +0.2  resid rms 0.344 (noise pred 0.350)
+  CROSS mean(data/key7.txt) s1 on a00      of data/key0.txt: slope -0.0029 +- 0.0489  z= -0.1  resid rms 0.340 (noise pred 0.350)
+  CROSS mean(data/key7.txt) s2 on a10+a11  of data/key0.txt: slope -0.0890 +- 0.0714  z= -1.2  resid rms 0.372 (noise pred 0.350)
+  OWN   mean(data/key7.txt) s1 on a00      of data/key7.txt: slope +0.0918 +- 0.0422  z= +2.2  resid rms 0.338 (noise pred 0.350)
+  OWN   mean(data/key7.txt) s2 on a10+a11  of data/key7.txt: slope +0.0434 +- 0.0563  z= +0.8  resid rms 0.372 (noise pred 0.350)
+
+Gram-root estimate from the public mean and projection of the signature count (simulation):
+  data/key0.txt: a00 coefficient error 3.003 (432/sqrt(N) = 3.055); sigma^2-1-a00*conj(a00) vs f fbar + g gbar: max dev 1.07e-05
+     N=1e+08: a00 err 0.0425 -> f fbar + g gbar coefficient err rms 2.373, wrong after rounding 419/512
+     N=1e+09: a00 err 0.0134 -> f fbar + g gbar coefficient err rms 0.817, wrong after rounding 270/512
+     N=1e+10: a00 err 0.0042 -> f fbar + g gbar coefficient err rms 0.260, wrong after rounding 20/512
+     N=3e+10: a00 err 0.0025 -> f fbar + g gbar coefficient err rms 0.140, wrong after rounding 0/512
+     N=1e+11: a00 err 0.0013 -> f fbar + g gbar coefficient err rms 0.076, wrong after rounding 0/512
+  data/key7.txt: a00 coefficient error 2.957 (432/sqrt(N) = 3.055); sigma^2-1-a00*conj(a00) vs f fbar + g gbar: max dev 1.17e-05
+     N=1e+08: a00 err 0.0418 -> f fbar + g gbar coefficient err rms 2.360, wrong after rounding 429/512
+     N=1e+09: a00 err 0.0132 -> f fbar + g gbar coefficient err rms 0.815, wrong after rounding 266/512
+     N=1e+10: a00 err 0.0042 -> f fbar + g gbar coefficient err rms 0.250, wrong after rounding 22/512
+     N=3e+10: a00 err 0.0024 -> f fbar + g gbar coefficient err rms 0.142, wrong after rounding 0/512
+     N=1e+11: a00 err 0.0013 -> f fbar + g gbar coefficient err rms 0.076, wrong after rounding 0/512

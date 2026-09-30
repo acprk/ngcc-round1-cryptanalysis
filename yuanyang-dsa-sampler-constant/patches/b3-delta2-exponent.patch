@@ -1,0 +1,10 @@
+--- a/sign.c	2026-09-30 09:36:49.879961730 -0700
++++ b/sign.c	2026-09-30 09:51:59.894714512 -0700
+@@ -323,6 +323,7 @@
+ 
+ 	weight = yuanyang_sign_ntt_delta2_weight(ntt_precomp, err0, err1);
+ 	exponent = fpr_mul(weight, fpr_yuanyang_inv_2sqrsigma_sig);
++	exponent.v = (uint64_t)((int64_t)exponent.v / 4096); /* GAPFIX */
+ 	probability = fpr_q62_mul(
+ 		fpr_expm_p62(exponent), fpr_q62_yuanyang_weak_inv_C);
+ 

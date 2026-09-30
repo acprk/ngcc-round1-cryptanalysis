@@ -1,0 +1,15 @@
+large_zero: mean 0.4580 var 18.4561 (std 4.2961)
+   exact 4eta var 16.8428 ; 16eta var 269.4851
+large mu= 0.00: mean 0.4654 var 18.4907 | exact4eta mean -0.0000 var 16.8428 | exact16eta var 269.4851
+small mu= 0.00: mean -0.0015 var 1.0521 | exact eta mean -0.0000 var 1.0527
+large mu= 0.25: mean 0.4774 var 18.4605 | exact4eta mean 0.2500 var 16.8428 | exact16eta var 269.4851
+small mu= 0.25: mean 0.2497 var 1.0544 | exact eta mean 0.2500 var 1.0527
+large mu= 0.50: mean 0.5027 var 18.5202 | exact4eta mean 0.5000 var 16.8428 | exact16eta var 269.4851
+small mu= 0.50: mean 0.5009 var 1.0490 | exact eta mean 0.5000 var 1.0527
+large mu= 0.75: mean 0.5254 var 18.4375 | exact4eta mean 0.7500 var 16.8428 | exact16eta var 269.4851
+small mu= 0.75: mean 0.7483 var 1.0496 | exact eta mean 0.7500 var 1.0527
+large mu= 3.30: mean 3.4871 var 18.5271 | exact4eta mean 3.3000 var 16.8428 | exact16eta var 269.4851
+small mu= 3.30: mean 3.2985 var 1.0533 | exact eta mean 3.3000 var 1.0527
+large mu=-7.60: mean -7.5102 var 18.4191 | exact4eta mean -7.6000 var 16.8428 | exact16eta var 269.4851
+small mu=-7.60: mean -7.6018 var 1.0505 | exact eta mean -7.6000 var 1.0527
+SE(var)~ var*sqrt(2/N)=0.0022 rel

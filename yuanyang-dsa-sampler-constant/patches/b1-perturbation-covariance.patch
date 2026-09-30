@@ -1,0 +1,19 @@
+--- a/keygen/perturbation.c	2026-09-30 09:36:49.878961716 -0700
++++ b/keygen/perturbation.c	2026-09-30 09:48:05.414453080 -0700
+@@ -88,11 +88,12 @@
+ 	double norm_b1, norm_hat_b2;
+ 	yykg_cplx inner_sum, sigma01;
+ 
+-	norm_b1 = yykg_c_abs2(f) + yykg_c_abs2(g);
+-	norm_hat_b2 = yykg_c_abs2(Fh) + yykg_c_abs2(Gh);
++	/* GAPFIX: Sigma_p = sigma^2 I - B_hat B_hat^H (row outer products), per spec Alg.7 */
++	norm_b1 = yykg_c_abs2(f) + yykg_c_abs2(Fh);
++	norm_hat_b2 = yykg_c_abs2(g) + yykg_c_abs2(Gh);
+ 	inner_sum = yykg_c_add(
+-		yykg_c_mul(yykg_c_conj(f), Fh),
+-		yykg_c_mul(yykg_c_conj(g), Gh));
++		yykg_c_mul(f, yykg_c_conj(g)),
++		yykg_c_mul(Fh, yykg_c_conj(Gh)));
+ 	sigma01 = yykg_c_neg(inner_sum);
+ 	yykg_fft_set(YUANYANG_MAT2_POLY(dst, YUANYANG_MAT2_00),
+ 		slot, yykg_c_make(YYKG_SIGMA_SQ - norm_b1, 0.0));

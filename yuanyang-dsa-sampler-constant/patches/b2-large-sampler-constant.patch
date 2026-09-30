@@ -1,0 +1,24 @@
+--- a/fpr.h	2026-09-30 09:36:49.877961701 -0700
++++ b/fpr.h	2026-09-30 09:39:37.285334406 -0700
+@@ -285,7 +285,7 @@
+ static const fpr fpr_yuanyang_lower_radius_sq = YY_FPR_RAW(0x004b567ae147ae14);
+ static const fpr fpr_yuanyang_radius_sq_span = YY_FPR_RAW(0x001dc9851eb851ec);
+ static const fpr fpr_yuanyang_inv_2sqreta = YY_FPR_RAW(0x000003ccc24a84e8);
+-static const fpr fpr_yuanyang_inv_2sqr_large_sampler_sigma = YY_FPR_RAW(0x00000003ccc24a85);
++static const fpr fpr_yuanyang_inv_2sqr_large_sampler_sigma = YY_FPR_RAW(0x0000003ccc24a84f);
+ 
+ /*
+ * Pre computed constants for testing only
+--- a/sampler.c	2026-09-30 09:36:49.879961730 -0700
++++ b/sampler.c	2026-09-30 09:39:37.331335056 -0700
+@@ -493,7 +493,9 @@
+ yuanyang_samplerz_large_zero(
+ 	int *out, prng *rng)
+ {
+-	return sampler_zero(out,
++	(void)sampler_zero;
++	return sampler(out, fpr_of(0),
++		fpr_yuanyang_inv_2sqr_large_sampler_sigma,
+ 		yuanyang_large_rcdt,
+ 		sizeof yuanyang_large_rcdt / sizeof yuanyang_large_rcdt[0],
+ 		rng);

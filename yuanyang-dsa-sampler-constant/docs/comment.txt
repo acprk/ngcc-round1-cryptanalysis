@@ -1,0 +1,54 @@
+To: pkccomment@niccs.org.cn
+Subject: Round1: Public Comment: YuanYang.DSA — wrong large-sampler constant makes the -512 signature mean a linear function of the secret key
+
+Dear ICCS NGCC evaluation committee, dear YuanYang.DSA team,
+
+We report a first-order transcript leak in the YuanYang.DSA-512 implementations (reference and
+optimized; the -1024/-2048 sets are not affected). It is separate from, and adds to, the perturbation
+covariance issue already listed as ngcc.dev sign-34-1. It is an implementation issue with a
+one-constant fix; the design and the parameters are not affected.
+
+Root cause. The presampler's wide integer sampler uses the RCDT table for width 4η (Table 2 of the
+specification, 4η = 4.104; sampler.c comment "sigma = 4*eta"; L = 4 in sign.c), but its rejection
+constant fpr_yuanyang_inv_2sqr_large_sampler_sigma (fpr.h, 43-bit fixed point, 0x3ccc24a85) decodes
+to 1/(2·(16η)²), 16 times too small; the companion constant fpr_yuanyang_large_sampler_sigma decodes
+to 16.416 = 16η, and the zero-centred BerExp table was generated from the same value. The -1024
+constants decode to exactly 4η. With the rejection almost always accepting, the zero-centred sampler
+outputs −z0 or z0+1 with equal probability: its mean is +0.458 instead of 0 (variance 18.46 instead of
+16.84), and the centred sampler largely ignores the fractional part of its centre.
+
+Effect (measured on the unmodified reference, two keys, 4·10^5 signatures each; s1 from the released
+bytes, s2 = centerlift(m + h·s1) as the verifier computes it). The perturbation inherits E[x] = 0.458·1,
+so E[s] = (0.458/4)·Â·(1,1) + const, where Â is the secret rounded Gram root stored in the signing key.
+The signature mean is non-zero at chi-square z ≈ 2300 with 2·10^4 signatures. Since 1·(1−X) = 2 in
+Z[X]/(X^512+1), multiplying the mean by (1−X)/2 removes the all-ones factor; regressing the result on
+the true a00 gives slope 0.102 ± 0.011 and 0.113 ± 0.010 (predicted 0.1145) on the two keys, and
+0.010 ± 0.010 / −0.011 ± 0.013 against the other key's a00; the s2 half regressed on a10 + a11 gives
+0.128 ± 0.016 and 0.098 ± 0.012, with cross-key slopes at noise level. The residual equals the
+sampling noise, so the mean is an unbiased estimator of the secret Gram root with coefficient error
+432/√N (measured 0.65–0.70 at N = 4·10^5). With sign-34-1 present, a00·ā00 = σ² − 1 − (f f̄ + g ḡ)
+exactly (σ = σ_sig/η), i.e. the transcript exposes the totally positive element that
+Fouque–Kirchner–Tibouchi–Wallet–Yu (EUROCRYPT 2020, ePrint 2019/1180) show suffices, together with the
+public key, to recover the whole secret. In simulation with the measured noise, coefficient-wise
+rounding of f f̄ + g ḡ becomes error-free at about 3·10^10 ≈ 2^35 signatures (20–24 of 512
+coefficients still wrong at 10^10). This is far from practical, but inside the 2^80-signature security
+claim of the specification. We have not carried out the key recovery and do not claim one. The bug
+also widens signatures by 3.2% in variance and raises the norm-rejection rate from about 2% to 15%
+per signature.
+
+Two related points for the fix. (i) At d = 512 the Δ2 exponent constant
+fpr_yuanyang_inv_2sqrsigma_sig decodes to 0.4208 = 1/(2·1.09²), 2^12 times 1/(2σ_sig²) (the
+1024/2048 values are exact). Dividing it by 2^12 brings the Δ2 rejection rate to 1.5%, the 1 − 1/C the
+specification predicts. With the sign-34-1 fix alone, Δ2 rejection rises to 0.4–1.1 rejections per
+signature, so the two fixes should go together. (ii) After fixing the large-sampler constant, Σp
+(B̂B̂ᴴ) and the Δ2 constant, we re-measured the transcript: the mean test gives z ≤ 1.5,
+secret-direction variance ratios R(f,g) = 1.000 ± 0.001 (from 1.06), the s1 autocorrelation falls to
+noise level, and 600/600 signatures verify. Minor: Table 3 lists σ_sig = 128.262 for -2048, but
+η·σ = 0.928 × 127.5 = 118.3, which matches the code (118.22) and γ = 7641.
+
+Suggested fix: set the large-sampler constant for 4η (0x3ccc24a84f) and regenerate the zero-centred
+BerExp table; correct the d = 512 Δ2 constant; add a statistical self-test (mean and per-direction
+variance of signatures) to the KAT suite.
+
+Reproduction package (our harness, patches, keys, logs; no vendor code redistributed):
+https://github.com/acprk/ngcc-round1-cryptanalysis/tree/main/yuanyang-dsa-sampler-constant

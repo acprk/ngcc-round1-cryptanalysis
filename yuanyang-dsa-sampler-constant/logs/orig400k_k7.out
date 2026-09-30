@@ -1,0 +1,6 @@
+key7 N=400000 bad=0  sigma_hat^2=5016.8 (target 4866.5 @69.76)  s1 var 4818.6  s2 var 5214.9  ratio 1.0823
+  per-sig attempts: 1.2365  delta1_rej 0.00000 delta2_rej 0.04672 norm_rej 0.15797 compress_rej 0.03178 (per signature)
+  MEAN: rms(mu1)=5.234 rms(mu2)=4.815  chi2=2064823.9 on 1024 dof -> z=45604.0
+  mu1[0..5]= 4.49 4.70 4.48 4.61 4.86 4.71   mu2[0..5]= 5.21 5.29 5.14 4.92 5.02 5.00
+  s1 autocorr max|P1[j]|/P1[0]=0.02676 at j=287 (white floor ~7.0e-05)
+  R(f,g)=1.0573 z=+7.4 | R(g,-f)=0.9712 z=-3.8 | R(F,G)=1.0555 z=+7.2 | R(G,-F)=0.9665 z=-4.4 | null 1.0003+-0.0077 (n=4)
