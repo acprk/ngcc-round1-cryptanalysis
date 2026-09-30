@@ -35,6 +35,9 @@ tools/qs_cheat.py   scaled GF(2^8) model of one degree-4 QuickSilver constraint:
                     strategy and its d/|Delta| soundness error  (a MODEL, not an attack on SYDO)
 tools/thm25_bound.py  what SYDO's own Theorem 25 yields once the Katz-Wang loss 1/(1-rho_RSD) is
                     included: 157.0 / 254.3 / 509.9, from the spec's Tables 5.2/5.3 alone (no build)
+tools/regsd_min.py  independent RegSD/SD hardness via CryptographicEstimators (background context, not
+                    a finding): min = SDAttack 238.0 / 387.9 / 806.9 vs claimed 160/256/512. CCJ and
+                    CCJLin raise OverflowError at the 512 level and are skipped there.
 results/            our logs: layouts.txt, kat_grind.log, kat_ctr.log, qs_cheat.log,
                     padding_crossverify.log, SWEEP-SUMMARY.md
 ```

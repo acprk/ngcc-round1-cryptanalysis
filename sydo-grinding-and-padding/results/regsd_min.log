@@ -1,0 +1,26 @@
+SYDO-160: n=16461 k=15981 w=59 n/w=279  log2C(n,w)=560.0  log2(n/w)^w=479.3
+    RegularISDPerm   (323.2, 23.1)
+    RegularISDEnum   (269.4, 154.4)
+    RegularISDRep    (266.3, 122.4)
+    CCJ              (251.2, 250.2)
+    CCJLin           (345.3, 22.9)
+    SDAttack         (238.0, 223.0)
+    => MIN SDAttack = 238.0 bits
+SYDO-256: n=26226 k=25458 w=94 n/w=279  log2C(n,w)=894.4  log2(n/w)^w=763.7
+    RegularISDPerm   (497.3, 24.4)
+    RegularISDEnum   (433.0, 175.4)
+    RegularISDRep    (409.6, 196.1)
+    CCJ              (391.9, 390.9)
+    CCJLin           (525.1, 24.3)
+    SDAttack         (387.9, 283.4)
+    => MIN SDAttack = 387.9 bits
+SYDO-512: n=49941 k=48485 w=179 n/w=279  log2C(n,w)=1706.9  log2(n/w)^w=1454.2
+    RegularISDPerm   (919.9, 26.3)
+    RegularISDEnum   (843.5, 192.2)
+    RegularISDRep    (814.0, 209.0)
+    CCJ              skipped (overflow)
+    CCJLin           skipped (overflow)
+    SDAttack         (806.9, 322.2)
+    => MIN SDAttack = 806.9 bits
+
+
