@@ -1,0 +1,5 @@
+# struct=b  (correct-guess T(g))
+g=256  median=0.03s  results=[SAT,SAT,SAT] times=['0.0', '0.0', '0.0']
+g=224  median=0.03s  results=[SAT,SAT,SAT] times=['0.0', '0.0', '0.0']
+g=192  median=0.03s  results=[SAT,SAT,SAT] times=['0.0', '0.0', '0.0']
+g=160  median=0.08s  results=[SAT,SAT,SAT] times=['0.1', '0.1', '0.2']

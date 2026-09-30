@@ -1,0 +1,7 @@
+g=108 0 trial0 UNSAT 12.9s
+g=108 0 trial1 UNSAT 48.6s
+g=108 0 trial2 UNSAT 26.7s
+g=108 0 trial3 UNSAT 11.9s
+g=108 0 trial4 UNSAT 13.7s
+g=108 0 trial5 UNSAT 20.3s
+SUMMARY g=108 0 n=6 mean=22.3 median=17.0 max=48.6

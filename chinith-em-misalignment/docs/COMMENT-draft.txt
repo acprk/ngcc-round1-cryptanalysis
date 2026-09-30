@@ -1,0 +1,38 @@
+Subject: Re: Round1: Public Comment: Chinith -- uBlockith-EM constraint misalignment: honest signatures rejected, and pk2 unbound in the specification
+
+Dear Chinith team,
+
+Following the September 30 clarification of issues 1-4, we would like to report a further defect in the uBlockith-EM constraint system that is not covered by those corrections. It is present in both the June 30 specification and the submitted code, and in the specification it additionally removes the public output from the proven relation. Page numbers are physical PDF pages; code paths are relative to Implementations/Reference_Implementation/ublockith_em_d3_256f/ (the 256s set and both optimized trees are identical at the cited lines).
+
+1. Intended relation
+
+uBlockith-EM proves y = E_x(k) xor k with the full 24-round uBlock-256 (Table 2, R = 24): the witness stores S0 = k and the even-round states S2, ..., S22 (l_enc = 12 x 256 = 3072 bits), and EncCstrnts (p.68) checks 12 double-round transitions, the last of which should land on out = k xor y.
+
+2. The misalignment
+
+In the EM branch of OWFConstraints (p.69), step 9 takes in = w[0..Nblock-1], and step 17 selects w~ = w[l_ke .. l_ke + l_enc - 1] with l_ke = 0, so w~ still begins with S0 = in (p.67 states this explicitly). EncCstrnts step 6 then prepends in once more:
+
+    w* = in || w~ || out = in || in || S2 || S4 || ... || S22 || out   (14 blocks)
+
+Every transition is therefore shifted by one block. The j = 0 iteration enforces DoubleRound_0(in) = in, which an honest witness does not satisfy; iterations j = 1..11 relate prover-chosen blocks to each other; and at i = R-2 (steps 24-27) the algorithm reads w*[(j+1)Nblock ..] = block 12 = S22, not out, although the comment on line 26 says "out = k_bar[R] xor (x0, x1)". Block 13 = out is never read, so pk2 does not enter the relation at all.
+
+The reference code has the same prepend: ublockith_ublock_256.c passes in = w[0..32) separately and also passes w + lke_bytes (= w) as the encryption witness (prover lines 181/190, verifier line 264); ublock_constraints.c:778-784 builds w_aug = in || in || S2 || ... || S20 || out with ENC_W_STATES = R/2 - 1 = 11, dropping S22. Unlike the specification, the code reads out directly in its "i == UBLOCK_ROUNDS - 2" branch, so pk2 is bound in the code.
+
+3. Consequence A (specification and code): completeness failure
+
+We applied the announced issue-1 fix (hash a_tilde_0 into chall_3 in signer and verifier) to an otherwise untouched copy. ublockith_em_d3_256s and _256f then reject all of their own honest signatures (0/5 each, reference and optimized); the non-EM sets verify (5/5), which validates the harness. Shifting the encryption witness by one block (w + 32 bytes; tags/keys + 256 elements) restores 5/5. The submitted KATs pass only because, without a_tilde_0 bound, the constraint values never influence the verdict.
+
+4. Consequence B (specification as written): the relation reduces to a 2-round fixed point
+
+Because blocks 0 and 1 are the same committed value, a spec-conformant verifier accepts any in with DoubleRound_0(in) = in under the public round keys k_bar[0], k_bar[1] derived from pk1, together with the freely computed chain S2..S22, for any message and any pk2. We confirmed this in the clear: for arbitrary x and two unrelated values of pk2, constraints j = 1..11 are satisfied and only j = 0 fails, by exactly DoubleRound_0(x) xor x.
+
+Finding such a fixed point is not generic 2^256 work. Fixing g nibble-interleaved bits of in (both branches) and solving the residual with a SAT solver, wrong guesses are refuted quickly and the cost 2^g x T_wrong is minimized near g = 108: on a real key, 8 wrong guesses were refuted in 17.1 s on average (max 30.7 s), giving about 2^108 x 2^27.5 = 2^135.5 double-round evaluations, versus the claimed 256-bit level. This figure is an extrapolation from measured per-guess cost (the 2^108 enumeration was not run), it is certificational rather than practical, and it applies to the roughly 63% of keys whose DoubleRound_0 has a fixed point. It concerns the specification only; the submitted code binds pk2 and is affected by Consequence A alone.
+
+5. Suggested fix
+
+Either skip S0 when selecting the encryption witness in the EM branch (p.69 step 17: w[Nblock .. l_enc - 1]; code: w + 32 at ublockith_ublock_256.c:190/264) or do not prepend in at EncCstrnts step 6 for EM. Both restore the 24-round chain ending at out. We would also suggest that the revised document state the EM witness layout explicitly (whether l_enc = 3072 includes S0) and that the corrected release be re-validated end to end with a_tilde_0 bound.
+
+All experiments were run locally on the submitted package (SHA-256 4d31ba3f...002283); scripts are available on request.
+
+Best regards,
+[name]

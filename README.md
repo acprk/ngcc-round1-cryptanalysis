@@ -34,6 +34,7 @@ removed from this repository; only fundamental, design-level results are retaine
 | `origami-pk-forgery` | Origami | SIG | A | public-key-only universal forgery accepted by the unmodified verifier at all sets |
 | `polarkem-keyless-decapsulation` | Polar-KEM | KEM | A | keyless decapsulation (10/10 x3); the "secret" isometry is regenerated from a public seed |
 | `facto-dsa-forgery` | Facto-DSA | SIG | A | public-key-only forgery at level 128 accepted by the genuine verifier (correct reject controls); levels 256/512 are bounded extrapolations (OOM), NOT completed |
+| `chinith-em-misalignment` | Chinith (uBlockith-EM) | SIG | A (spec, certificational) | one-block misalignment of the OWF constraint chain (spec p.68/69 + code): honest EM signatures rejected once a_tilde_0 is bound (0/5 -> 5/5 with a one-block shift); in the spec as written pk2 never enters the relation and forgery reduces to a 2-round fixed point findable at ~2^135.5 vs claimed 256 (extrapolated per-guess cost; spec-literal only, the shipped code binds pk2) |
 
 Severity A = fundamental (full key recovery / forgery / semantic-security break). `A*` =
 category/claim mismatch backed by a working full key recovery (see the package README).

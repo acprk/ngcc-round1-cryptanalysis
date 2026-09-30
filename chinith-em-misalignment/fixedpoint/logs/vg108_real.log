@@ -1,0 +1,9 @@
+g=108 real trial0 UNSAT 13.5s
+g=108 real trial1 UNSAT 30.7s
+g=108 real trial2 UNSAT 18.3s
+g=108 real trial3 UNSAT 18.2s
+g=108 real trial4 UNSAT 9.2s
+g=108 real trial5 UNSAT 13.2s
+g=108 real trial6 UNSAT 25.4s
+g=108 real trial7 UNSAT 8.5s
+SUMMARY g=108 real n=8 mean=17.1 median=15.9 max=30.7
