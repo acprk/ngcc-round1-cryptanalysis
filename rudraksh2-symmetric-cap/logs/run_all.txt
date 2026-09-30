@@ -1,0 +1,58 @@
+==============================================================================
+ Finding 1 -- 512-level secret key AND session key are functions of a 256-bit
+              SM3 chaining value (claimed classical 512 / quantum 256)
+==============================================================================
+Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: 50/50 exact
+Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
+
+==============================================================================
+ Finding 2 -- Cortex-M4 128/256 use a different error-correction constant
+              (MINAL_BETA=0) => KAT mismatch and 0-interop with ref/AVX2
+==============================================================================
+-- [2a] KAT vs the submitted Test_Vectors, per implementation:
+  ref-128 KAT MATCH
+  opt-128 KAT MATCH
+  m4-128 KAT MISMATCH
+  ref-256 KAT MATCH
+  opt-256 KAT MATCH
+  m4-256 KAT MISMATCH
+  ref-512 KAT MATCH
+  opt-512 KAT MATCH
+  m4-512 KAT MATCH
+-- [2b] cross-implementation interop (200 sessions per pair, both directions):
+  L128 enc=ref dec=ref: decaps agree 200/200
+  L128 enc=ref dec=opt: decaps agree 200/200
+  L128 enc=ref dec=m4: decaps agree 0/200
+  L128 enc=opt dec=ref: decaps agree 200/200
+  L128 enc=opt dec=opt: decaps agree 200/200
+  L128 enc=opt dec=m4: decaps agree 0/200
+  L128 enc=m4 dec=ref: decaps agree 0/200
+  L128 enc=m4 dec=opt: decaps agree 0/200
+  L128 enc=m4 dec=m4: decaps agree 200/200
+  L256 enc=ref dec=ref: decaps agree 200/200
+  L256 enc=ref dec=opt: decaps agree 200/200
+  L256 enc=ref dec=m4: decaps agree 0/200
+  L256 enc=opt dec=ref: decaps agree 200/200
+  L256 enc=opt dec=opt: decaps agree 200/200
+  L256 enc=opt dec=m4: decaps agree 0/200
+  L256 enc=m4 dec=ref: decaps agree 0/200
+  L256 enc=m4 dec=opt: decaps agree 0/200
+  L256 enc=m4 dec=m4: decaps agree 200/200
+  L512 enc=ref dec=ref: decaps agree 200/200
+  L512 enc=ref dec=opt: decaps agree 200/200
+  L512 enc=ref dec=m4: decaps agree 200/200
+  L512 enc=opt dec=ref: decaps agree 200/200
+  L512 enc=opt dec=opt: decaps agree 200/200
+  L512 enc=opt dec=m4: decaps agree 200/200
+  L512 enc=m4 dec=ref: decaps agree 200/200
+  L512 enc=m4 dec=opt: decaps agree 200/200
+  L512 enc=m4 dec=m4: decaps agree 200/200
+-- [2c] the fix: set the M4 128/256 constant to 220 (spec Table 1); re-test:
+  m4fix-128 KAT MATCH
+  L128 enc=m4fix dec=ref : decaps agree 200/200
+  L128 enc=ref   dec=m4fix: decaps agree 200/200
+  m4fix-256 KAT MATCH
+  L256 enc=m4fix dec=ref : decaps agree 200/200
+  L256 enc=ref   dec=m4fix: decaps agree 200/200
+
+done. Outputs in ./out/ ; logs of our own run are in ./logs/

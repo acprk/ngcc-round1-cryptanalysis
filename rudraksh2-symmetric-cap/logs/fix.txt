@@ -1,0 +1,6 @@
+  m4fix-128 KAT MATCH
+  L128 enc=m4fix dec=ref : decaps agree 200/200
+  L128 enc=ref   dec=m4fix: decaps agree 200/200
+  m4fix-256 KAT MATCH
+  L256 enc=m4fix dec=ref : decaps agree 200/200
+  L256 enc=ref   dec=m4fix: decaps agree 200/200

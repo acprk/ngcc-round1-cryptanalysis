@@ -1,0 +1,14 @@
+Fix the Cortex-M4 128/256 error-correction constant to match the spec (Table 1:
+(B, beta) = (2, 220)) and the reference / AVX2 / M4-512 implementations.
+
+--- a/Additional_Implementations/Cortex_M4/lwekem128/crypto_kem/Rudraksh2/Rudraksh2/minal.c
++++ b/Additional_Implementations/Cortex_M4/lwekem128/crypto_kem/Rudraksh2/Rudraksh2/minal.c
+@@
+-#define MINAL_BETA 0
++#define MINAL_BETA 220
+
+--- a/Additional_Implementations/Cortex_M4/lwekem256/crypto_kem/Rudraksh2/Rudraksh2/minal.c
++++ b/Additional_Implementations/Cortex_M4/lwekem256/crypto_kem/Rudraksh2/Rudraksh2/minal.c
+@@
+-#define MINAL_BETA 0
++#define MINAL_BETA 220

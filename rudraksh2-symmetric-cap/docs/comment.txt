@@ -1,0 +1,95 @@
+To: pkccomment@niccs.org.cn
+Subject: Round1: Public Comment: Rudraksh2 — the 512 parameter sets have only 256-bit symmetric strength, and the Cortex-M4 128/256 code does not interoperate with the reference
+
+Dear NGCC evaluation committee, dear Rudraksh2 team,
+
+Two findings, with a self-contained reproduction package (builds against your
+Reference_Implementation / Optimized_Implementation / Cortex_M4 trees; it modifies nothing under
+them and redistributes none of your code).
+
+1. Rudraksh2-512-I and -512-II do not reach their claimed 512-bit classical / 256-bit quantum level
+
+Rudraksh2 instantiates G, H and the PRF/XOF as an SM3-based counter-mode wrapper (spec §2.6.2); SM3
+has a 256-bit chaining value. On the 512 sets lenK = KEM_SYMBYTES = 64 bytes = exactly one SM3
+message block. Two consequences follow.
+
+  (a) Secret key. indcpa_keypair draws noiseseed (64 B) and sets s, e = CBD(pseudoXOF(noiseseed||i)),
+      with pseudoXOF(x) = SM3(x||ctr_1) || SM3(x||ctr_2) || ... . Every such SM3 call shares the
+      first-block chaining value CV = CF(IV, noiseseed) (256 bits); the bytes after the first block
+      (i, the 32-bit counter, padding, length) are public constants. So the whole secret key is a
+      deterministic function of the 256-bit CV.
+
+  (b) Session key. In kem_enc, buf = m (64 B) || H(pk) (64 B) and (K, seed_r) = hash_g(buf); the
+      message m is the first block, so K = F(CF(IV, m), H(pk)).
+
+We ran your UNMODIFIED kem_keygen and kem_enc and then rebuilt, using only a 32-byte chaining
+value, (a) the secret-key bytes from CV(noiseseed) and (b) the session key K from CV(m):
+
+  Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: 50/50 exact
+  Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
+
+An attacker therefore searches CV in {0,1}^256 rather than the nominal 512-bit key space: for each
+candidate CV, derive s and test whether b - A*s is short (key recovery), or recompute seed_r,
+re-encrypt and compare with ct (session-key recovery). This is about 2^256 classical and about 2^128
+under Grover, versus the claimed classical 512 / quantum 256 for both 512 sets. The 256 sets
+(lenK = 32) are unaffected, and so are the 128 sets (Grover about 2^64 vs claimed quantum 80). We do
+NOT run the 2^256/2^128 search; the reduction of the key and the session key to a single 256-bit
+value is the finding. The spec does not analyse the symmetric strength of the 512 sets.
+
+Suggested fix: for the 512 sets use a XOF whose chaining value / capacity is at least 1024 bits
+(e.g. a wide-pipe or sponge construction with capacity >= 512), or relabel 512-I/512-II.
+
+2. The Cortex-M4 128/256 implementation uses a different error-correction constant (MINAL_BETA = 0)
+
+In Additional_Implementations/Cortex_M4/lwekem128 and lwekem256
+(.../crypto_kem/Rudraksh2/Rudraksh2/minal.c:15) the constant is
+
+  #define MINAL_BETA 0
+
+The specification (Table 1: (B, beta) = (2, 220)), the reference implementation, the AVX2
+implementation, and Cortex-M4-512 all use 220 (M4-512 uses 510, also correct). beta enters the 2-D
+B2-Minal code that maps message bits to coefficients, so the M4 128/256 decapsulator recovers a
+different message from the same ciphertext:
+
+  KAT vs the submitted Test_Vectors:   m4-128 MISMATCH, m4-256 MISMATCH  (ref, AVX2, m4-512 all MATCH)
+  interop, 200 sessions each direction: enc=M4 dec=ref 0/200, enc=ref dec=M4 0/200  (ref<->AVX2 200/200)
+
+Every honest M4<->reference session silently falls through to implicit rejection (the two sides
+derive different keys). By your own shipped DFR table the beta=0 code is also slightly worse
+(128-I: 2^-94.5 vs claimed <=2^-100; 256-I: 2^-150.6 vs 2^-161) — still negligible, so this is an
+interoperability/correctness bug, not a security break.
+
+Fix (one line per file):
+
+  #define MINAL_BETA 220
+
+With the fix, the M4 128/256 KATs become byte-identical to the submitted Test_Vectors and M4<->ref
+interoperate 200/200 both ways.
+
+3. Minor (for completeness)
+
+- The Rudraksh2-II sets ship no implementation, and 128-II is 4.5-6.4 bits below ML-KEM-512 in every
+  model we ran (lattice-estimator, exact CBD): usvp CoreSVP 2^113.6, dual_hybrid CoreSVP 2^109.3,
+  MATZOV 2^133.3 vs the ML-KEM-512 anchor 2^118.6 / 2^115.5 / 2^139.7; your Table 14 CSVP for 128-II
+  is 2^114.
+- §3.3.3 states tight multi-target security ("the cost to compromise any one of the T users remains
+  proportional to the Core-SVP hardness"). With a 128-bit, unsalted m on the 128 sets, collecting
+  2^t ciphertexts for one public key lets an attacker recover one session key in about 2^(128-t)
+  (FrodoKEM, which your FO variant cites, adds a salt for exactly this). H(pk) truncated to 128 bits
+  also gives pk-binding collisions at 2^64. No attack below the AES-128 baseline; the wording of the
+  claim is what is inaccurate.
+- Doc/code: §3.3.4 says "32-byte z" (code: z = KEM_SYMBYTES = 16/32/64 B); the spec writes
+  G(H(pk)||m) but the code hashes m||H(pk); the "log2 p < ceil(log2 q)" premise (§ compression) is
+  violated by 128-I (p=2^12, ceil(log2 q)=12) and 512-I (p=2^13=q width); level naming is
+  inconsistent (Table 1 128/256/512 vs §3.2.6 "Level 1/3/5" vs p.? "levels 2 and 3"); kex.c is
+  dead Kyber-era code that does not compile (already excluded in CMake); pseudoXOF's malloc-failure
+  return code is ignored at all call sites (a failure would use an uninitialised buffer as a seed).
+
+Reproduction: https://github.com/acprk/ngcc-round1-cryptanalysis (rudraksh2-symmetric-cap), run with
+  REF=/path/to/Rudraksh2/Implementations ./run_all.sh [--latt]
+
+This analysis was prepared with AI assistance; every number above comes from running the submitted
+code (reference, AVX2 and Cortex-M4 trees) and the lattice-estimator.
+
+Best regards,
+[NAME]

@@ -1,0 +1,2 @@
+Rudraksh2-512 secret key rebuilt from 256-bit SM3 chaining value: 50/50 exact
+Rudraksh2-512 session key  rebuilt from 256-bit SM3 chaining value: 50/50 exact
