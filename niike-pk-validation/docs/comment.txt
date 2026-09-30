@@ -6,7 +6,7 @@ We evaluated NIIKE (reference, optimized, and additional implementations) agains
 
 1. No public-key validation; a malformed peer key yields an attacker-known shared secret
 
-NIIKE is a non-interactive key exchange with static keys on both sides, proposed in Section 1.2 for X3DH, TLS 1.3, IKEv2 and KEMTLS/OPTLS. The reference performs no validation of a received public key. decode_bundlevertex (NIIKE-lv*/protocols/bundleprotocols_internal.c) returns void and only fp2_decodes each x-coordinate. fp_decode (gf/fp.c) does compute a canonicality flag (returns -1 if < p, else 0, zeroing the limbs) and fp2_decode returns re & im, but all 15 call sites discard it. kex_derive_ss_a/b (ngccapi/KEX_AlgorithmInstance.c) then run the action and return 0 (success) unconditionally. A grep for supersingularity / point-on-curve / order / A != +-2 / cycle-consistency / canonicality checks finds none.
+NIIKE is a non-interactive key exchange with static keys on both sides, proposed in Section 1.2 for X3DH, TLS 1.3, IKEv2 and KEMTLS/OPTLS. The reference performs no validation of a received public key. decode_bundlevertex (NIIKE-lv*/protocols/bundleprotocols_internal.c) returns void and only fp2_decodes each x-coordinate. fp_decode (NIIKE-lv*/gf/fp.c) does compute a canonicality flag (returns -1 if < p, else 0, zeroing the limbs) and fp2_decode returns re & im, but all 15 call sites (5 per level) discard it. kex_derive_ss_a/b (ngccapi/KEX_AlgorithmInstance.c) then run the action and return 0 (success) unconditionally. A grep for supersingularity / point-on-curve / order / A != +-2 / cycle-consistency / canonicality checks finds none.
 
 Measured, NIIKE-lv128, kex_derive_ss with a freshly generated victim keypair (the result is independent of the victim key; see below), Release build, all return code 0 = success:
 
@@ -45,7 +45,7 @@ Also, Definition 9.1.6's title reads "HKR-CKS-1" (digit one) while its body and 
 
 5. Default build is -O0 with live asserts; a Release build is less safe
 
-No CMAKE_BUILD_TYPE is set; across 57 compile commands, none carry -O* or -DNDEBUG, so the default build is -O0 with all 25 assert()s live (including a #ifndef NDEBUG block that recomputes j-invariants and exit(1)s). The default build is about 4.4x slower than -O2 -DNDEBUG (the asserts themselves cost about 1.5%); published cycle counts should state which configuration produced them. More importantly, in the default build a byte-flipped public key trips the debug j-invariant assert and aborts, but in a Release build the same input is accepted and yields the garbage shared secret of item 1 - so the configuration a deployer actually ships is less safe than the default.
+No CMAKE_BUILD_TYPE is set and no CMakeLists adds -O* or -DNDEBUG, so the default build is -O0 with all 25 assert()s live (including a #ifndef NDEBUG block that recomputes j-invariants and exit(1)s). The default build is about 4.4x slower than -O2 -DNDEBUG (the asserts themselves cost about 1.5%); published cycle counts should state which configuration produced them. More importantly, in the default build a byte-flipped public key trips the debug j-invariant assert and aborts, but in a Release build the same input is accepted and yields the garbage shared secret of item 1 - so the configuration a deployer actually ships is less safe than the default.
 
 6. NGCC-III is the CSIDH setting; NGCC-I misses the spec's own Table 9.1
 
