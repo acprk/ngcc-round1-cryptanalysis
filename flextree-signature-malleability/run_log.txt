@@ -1,0 +1,37 @@
+=== Flextree-160s [Reference_Implementation] ===
+Flextree-160s[Reference]: 10/10 honest sigs have padding (avg 104.0 B); 10/10 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 10/10, wrong-msg rejected 10/10
+=== Flextree-160f [Reference_Implementation] ===
+Flextree-160f[Reference]: 7/10 honest sigs have padding (avg 37.1 B); 7/7 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 7/7, wrong-msg rejected 7/7
+=== Flextree-256s [Reference_Implementation] ===
+Flextree-256s[Reference]: 10/10 honest sigs have padding (avg 473.6 B); 10/10 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 10/10, wrong-msg rejected 10/10
+=== Flextree-256f [Reference_Implementation] ===
+Flextree-256f[Reference]: 6/10 honest sigs have padding (avg 176.0 B); 6/6 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 6/6, wrong-msg rejected 6/6
+=== Flextree-384s [Reference_Implementation] ===
+Flextree-384s[Reference]: 6/10 honest sigs have padding (avg 304.0 B); 6/6 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 6/6, wrong-msg rejected 6/6
+=== Flextree-384f [Reference_Implementation] ===
+Flextree-384f[Reference]: 10/10 honest sigs have padding (avg 240.0 B); 10/10 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 10/10, wrong-msg rejected 10/10
+=== Flextree-512s [Reference_Implementation] ===
+Flextree-512s[Reference]: 7/10 honest sigs have padding (avg 256.0 B); 7/7 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 7/7, wrong-msg rejected 7/7
+=== Flextree-512f [Reference_Implementation] ===
+Flextree-512f[Reference]: 10/10 honest sigs have padding (avg 236.8 B); 10/10 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 10/10, wrong-msg rejected 10/10
+=== Flextree-160s [Optimized_Implementation] ===
+Flextree-160s[Optimized]: 6/10 honest sigs have padding (avg 70.0 B); 6/6 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 6/6, wrong-msg rejected 6/6
+=== Flextree-160f [Optimized_Implementation] ===
+Flextree-160f[Optimized]: 8/10 honest sigs have padding (avg 47.5 B); 8/8 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 8/8, wrong-msg rejected 8/8
+=== Flextree-256s [Optimized_Implementation] ===
+Flextree-256s[Optimized]: 9/10 honest sigs have padding (avg 394.7 B); 9/9 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 9/9, wrong-msg rejected 9/9
+=== Flextree-256f [Optimized_Implementation] ===
+Flextree-256f[Optimized]: 8/10 honest sigs have padding (avg 100.0 B); 8/8 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 8/8, wrong-msg rejected 8/8
+=== Flextree-384s [Optimized_Implementation] ===
+Flextree-384s[Optimized]: 7/10 honest sigs have padding (avg 281.1 B); 7/7 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 7/7, wrong-msg rejected 7/7
+=== Flextree-384f [Optimized_Implementation] ===
+Flextree-384f[Optimized]: 8/10 honest sigs have padding (avg 204.0 B); 8/8 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 8/8, wrong-msg rejected 8/8
+=== Flextree-512s [Optimized_Implementation] ===
+Flextree-512s[Optimized]: 7/10 honest sigs have padding (avg 292.6 B); 7/7 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 7/7, wrong-msg rejected 7/7
+=== Flextree-512f [Optimized_Implementation] ===
+Flextree-512f[Optimized]: 9/10 honest sigs have padding (avg 263.1 B); 9/9 mauled sigs ACCEPTED by crypto_sign_open | controls: honest accepted 10/10, boundary-node flip rejected 9/9, wrong-msg rejected 9/9
+
+real	15m35.128s
+user	15m1.303s
+sys	0m10.189s
+rc=0
