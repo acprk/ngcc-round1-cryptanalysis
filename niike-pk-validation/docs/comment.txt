@@ -1,0 +1,71 @@
+Subject: Re: Round1: Public Comment: NIIKE - no public-key validation (attacker-known shared secret) and a non-functional NGCC-III
+
+Dear NIIKE Team, dear all,
+
+We evaluated NIIKE (reference, optimized, and additional implementations) against the spec. We did not find a break of the underlying Houben/Wang-Lai-Lin-Zhao group action. The findings below are about the submission as delivered. All numbers come from building and running the submitted code; a reproduction package is linked at the end.
+
+1. No public-key validation; a malformed peer key yields an attacker-known shared secret
+
+NIIKE is a non-interactive key exchange with static keys on both sides, proposed in Section 1.2 for X3DH, TLS 1.3, IKEv2 and KEMTLS/OPTLS. The reference performs no validation of a received public key. decode_bundlevertex (NIIKE-lv*/protocols/bundleprotocols_internal.c) returns void and only fp2_decodes each x-coordinate. fp_decode (gf/fp.c) does compute a canonicality flag (returns -1 if < p, else 0, zeroing the limbs) and fp2_decode returns re & im, but all 15 call sites discard it. kex_derive_ss_a/b (ngccapi/KEX_AlgorithmInstance.c) then run the action and return 0 (success) unconditionally. A grep for supersingularity / point-on-curve / order / A != +-2 / cycle-consistency / canonicality checks finds none.
+
+Measured, NIIKE-lv128, kex_derive_ss with the shipped KAT row-0 key (Release build, all return code 0 = success):
+
+  honest peer pk            -> correct, non-zero shared secret
+  all-zero peer pk          -> shared secret = 00 x 64
+  non-canonical x (>= p)    -> shared secret = 00 x 64
+  pseudo-random peer pk     -> shared secret = 00 x 64
+  honest pk, one bit flip   -> different non-zero secret (accepted, not rejected)
+
+The degenerate shared secret does not depend on the victim's long-term key: three unrelated secret keys all produce 00...0 for an all-zero or non-canonical peer key. This reproduces identically on NIIKE-lv256 (00 x 128). So an active attacker who can place a public key in front of a victim - the threat a NIKE must withstand - makes the victim derive a shared secret the attacker already knows, with no secret knowledge and no confirmation step to catch it.
+
+This is not only an implementation omission. Validating an oriented public key in the large-discriminant setting is, by the construction's own author, an open problem: Houben (ePrint 2025/1098, Section 7) states that public-key validation is required to prevent active attacks, that checking tr(tau) = tr(sigma) mod M "is not sufficient", and "we leave determining the best algorithm to validate public keys as a topic for future research." A cheap necessary check the scheme still omits: e_M(P_j, Q_j) equals a public constant computable from the distinguished origin, so two Weil pairings per cycle element would reject every malformed key in the table above (this is necessary, not sufficient - it does not stop GPST-style adaptive attacks).
+
+2. NGCC-III is non-functional and its KATs are not genuine outputs
+
+Three independent facts, any one of which is disqualifying for the top-security parameter set:
+
+(a) The secret key is hard-coded. make_SecretKey in NIIKE-lv512/protocols/bundleprotocols_internal.c (reference and optimized trees) ignores its DRNG_ctx* argument and copies one of two fixed 759-entry arrays temp1/temp2, chosen by a mutable global bool state that flips each call; the real sampling loop is commented out. In the shipped KAT, Seed takes 10 distinct values but SKa, SKb, PKa, PKb, SS each take exactly one (A = temp1, B = temp2 every row). NGCC-III as delivered has zero key entropy, and bool state is a non-thread-safe global in a submission whose stated advantage is parallelism.
+
+(b) It aborts before producing a key in the shipped default build. In bundleeval_action_stra (protocols/bundleprotocols.c) the second (E[p-1]) block sets top = 1, loops for (i = P_LEN; i < P_LEN + M_LEN; i++), then executes assert(top == 0). For lv512, M_LEN == 0, so the loop body never runs and top is still 1 at the assert. The default build sets no CMAKE_BUILD_TYPE (see item 5), so NDEBUG is undefined and the assert is live: lv512 aborts (SIGABRT). The top-security parameter set cannot complete a single operation in its own default build, so its shipped KAT cannot have been produced by its shipped build configuration.
+
+(c) About 40% of the public key is placeholder data. Because M- = 1, the twisted side is empty and the Pt/Qt slots of bundle_base_cycle are the degenerate point (0:1) at every cycle position (4/4 zero for lv512; 0/26 for the lv128 control). The action still pushes them through all 1517 isogeny steps, and the encoder still ships them: 16400 of 41000 public-key bytes.
+
+For contrast, we regenerated the lv128 KAT byte-for-byte (full 10 rows, md5 identical) and lv256 row 0 byte-for-byte, so the irreproducibility is specific to NGCC-III.
+
+3. NGCC-III implementation prime differs from the spec prime, and the spec prime violates the spec's own rule
+
+The reference compiles a 16394-bit prime (NIIKE-lv512/gf/fp.c: Nbits 16394, 0x288c3c52...), p = 7 mod 8. The spec (Section 5.5) prints a different 16392-bit prime (0xb101ae10...), p = 3 mod 8. NGCC-III uses sigma = pi - 1, and Section 5.3 itself requires p = 7 mod 8 for that choice, so the spec's own printed prime violates the spec's own requirement; only the code's prime satisfies it. The shipped NGCC-III KAT uses 2049-byte field elements (16392-bit, matching the spec prime), while the code uses 2050-byte elements with PUBLICKEY_BYTES = 41000 (the KAT has 40980). The three artifacts are mutually inconsistent.
+
+4. Shared secret is the raw j-invariant; the proof uses a random oracle the algorithm does not
+
+Algorithm 5 and the code return ss = j(E) directly (SHAREDKEY_BYTES = 64/128/4100), with no hash, no KDF and no identity binding. The proof of Theorem 9.1.7 instead has the challenger return "the real session key digest H(K)"; the random oracle H appears only in the proof, not in Definition 9.1.6, Algorithm 5, or the code, while the hardness assumption (Problem 9.1.2) is computational CDH. Two consequences for the scheme as specified:
+ - It is not HKR-CKS-light secure: the secret space is F_{p^2}, but a real shared secret is always a supersingular j-invariant (density about p/12 = 2^-254 in F_{p^2} at lv128), and supersingularity is efficiently testable, so an adversary distinguishes with advantage about 1 - 2^-254 and zero oracle queries. Only the hashed variant is covered.
+ - Because ss is unbound to identities, the scheme is broken in the standard NIKE model (Freire-Hofheinz-Kiltz-Paterson, PKC 2013, footnote 5): register an honest party's public key as your own and query the shared key with a third party.
+Also, Definition 9.1.6's title reads "HKR-CKS-1" (digit one) while its body and proof read "HKR-CKS-l" (the lowercase-ell "light" notion, whose experiment is copied from SWOOSH). The fix is standard: ss = H(context, pk_A, pk_B, canonical(j)) with a canonical ordering of the two keys.
+
+5. Default build is -O0 with live asserts; a Release build is less safe
+
+No CMAKE_BUILD_TYPE is set; across 57 compile commands, none carry -O* or -DNDEBUG, so the default build is -O0 with all 25 assert()s live (including a #ifndef NDEBUG block that recomputes j-invariants and exit(1)s). The default build is about 4.4x slower than -O2 -DNDEBUG (the asserts themselves cost about 1.5%); published cycle counts should state which configuration produced them. More importantly, in the default build a byte-flipped public key trips the debug j-invariant assert and aborts, but in a Release build the same input is accepted and yields the garbage shared secret of item 1 - so the configuration a deployer actually ships is less safe than the default.
+
+6. NGCC-III is the CSIDH setting; NGCC-I misses the spec's own Table 9.1
+
+sigma = pi - 1 gives tr = -2, Nrd = p+1, Disc = -4p, so Z[sigma] = Z[pi]: the plain CSIDH acting order. The "large discriminant decoupled from p" innovation is unused at level III. From the shipped constants M = (p+1)/2 (the spec's M+ = p+1 is off by a factor 2), and the table's r = 2 is inconsistent with Nrd(sigma) = M^r; the consistent value is r = 1, which the single-triple Algorithm 7 confirms. Separately, at NGCC-I we compute |Disc(O)| = 4*M^13 = 2^4046, below the spec's own Table 9.1 requirement 2^4096 by about 50 bits, and log2 p = 254.39 < 256 (the Section 5.5 text misprints this as 248). NGCC-II clears its |Disc| target (2^8482) but log2 p = 510.6 < 512. These are not attacks, but the scheme does not meet its own stated requirements at level I.
+
+7. Minor observations
+
+- Section 9.3 argues that determinism + constant-time + dummy-free makes any injected fault harmless and masking unnecessary. That is a C-safe-error argument; it does not cover memory-safe-errors on cswap(R0, R1, b) with secret b (Algorithm 2, lines 6 and 11), disorientation faults, or multi-trace DPA against a reused static key. The scheme's own source (Houben, ePrint 2025/847, Section 4.2) leaves fault analysis "for future research" rather than claiming resistance.
+- NIIKE-lv128/precomp/torsion_constants.c ships dead #elif 8*DIGIT_LEN == 16/32 branches whose prime ordering is globally sorted; a -DRADIX_32 build selects them, and then 10 of 31 primes in the E[p+1] loop do not divide p+1 and p_plus_minus_bitlength[] mismatches 30/49 - a silently wrong isogeny walk. lv256/lv512 define the arrays unconditionally and are clean.
+- kex_derive_ss_a/b never write *ss_len_bytes (even on the valid path); the KAT driver only survives because it pre-sets it from kex_get_ss_len_bytes().
+- NIIKE-lv256 make_SecretKey overwrites sk[0] = 0 after sampling (a publicly-known coordinate; the key-space count of Eq. 4.1 over-counts by about 6.1 bits).
+- secretkey_t is int[..] but the API passes unsigned char* to niike_PublicKey; only -Wno-error=incompatible-pointer-types lets it build.
+- Algorithm 3 line 11 swaps on the input integer b rather than the loop bit b'; Section 4.2 prose ("min(s_k,0)") contradicts Algorithm 4 ("max(min(s_k,e_k),0)"); Table 7.1's NGCC-III shared-secret size (2049 B) contradicts the code (4100 B).
+
+What we checked and found correct (not filing): the secret-key rejection sampler is uniform (masks are exactly tight; only rejected draws affect timing), and the ell=2 group-action step is properly special-cased with genuine degree-2 formulas and constant-time selection (the TORSION_ODD_PRIMES name is a misnomer only).
+
+Reproduction package (items 1, 2, 3, 6; builds against the vendor tree via REF=/REFROOT=, no reference code redistributed):
+https://github.com/acprk/ngcc-round1-cryptanalysis/tree/main/niike-pk-validation
+
+This analysis was prepared with AI assistance; all numbers come from running the submitted code.
+
+Best regards,
+[NAME]

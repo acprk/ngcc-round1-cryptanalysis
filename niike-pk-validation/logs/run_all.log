@@ -1,0 +1,79 @@
+=== 1. parameter / KAT verifier (items 2,3,6) ===
+REFROOT = $REFROOT
+==========================================================================
+parameter arithmetic (from the vendor reference)
+==========================================================================
+
+--- NIIKE-lv128 (NGCC-I)  B=35 r=13
+  log2 p = 254.389  p mod 8 = 7  prime = True
+  M+|p+1 True  M-|p-1 True  M|p^2-1 True  log2 M = 311.08  smallest ell = 3^4
+  key space = 2^256.276  (Eq 4.1 needs 2^256)  classical MITM 2^128.14
+  sqrt(p) = 2^127.19 (target 128)   p^(1/4) = 2^63.60 (target 64)
+  |Disc| = 4 M^r = 2^4046.0   spec Table 9.1 needs 2^4096  ->  -50.0 bits
+
+--- NIIKE-lv256 (NGCC-II)  B=70 r=14
+  log2 p = 510.625  p mod 8 = 7  prime = True
+  M+|p+1 True  M-|p-1 True  M|p^2-1 True  log2 M = 605.71  smallest ell = 2^6
+  key space = 2^521.708  (Eq 4.1 needs 2^512)  classical MITM 2^260.85
+  sqrt(p) = 2^255.31 (target 256)   p^(1/4) = 2^127.66 (target 128)
+  |Disc| = 4 M^r = 2^8481.9   spec Table 9.1 needs 2^8192  ->  +289.9 bits
+
+--- NIIKE-lv512 (NGCC-III)  B=1 r=2
+  log2 p = 16393.342  p mod 8 = 7  prime = True
+  M+|p+1 True  M-|p-1 True  M|p^2-1 True  log2 M = 16392.34  smallest ell = 2^2
+  key space = 2^1202.402  (Eq 4.1 needs 2^1024)  classical MITM 2^601.20
+  sqrt(p) = 2^8196.67 (target 512)   p^(1/4) = 2^4098.34 (target 256)
+  sigma = pi-1 => tr=-2, Nrd=p+1, |Disc|=4p=2^16395.3 (Z[sigma]=Z[pi], the CSIDH order)
+  M = (p+1)/2  (spec M+ = p+1 is off by this factor); Nrd = p+1 != M^r
+
+==========================================================================
+spec Section 5.5 NGCC-III prime vs code prime
+==========================================================================
+  code prime: 16394 bits, p mod 8 = 7
+  spec prime (Section 5.5): 16392 bits, p = 3 mod 8  [documented; leading digits b101ae10306a5ae9...]
+  code head = 288c3c52faa9ace5   spec head = b101ae10306a5ae9   (different numbers)
+  Section 5.3 requires p = 7 mod 8 for sigma = pi-1:  code True  spec FALSE (3 mod 8)
+
+==========================================================================
+shipped test-vector statistics
+==========================================================================
+
+--- lv128: 10 rows
+    Seed  10/10 distinct
+    SKa   10/10 distinct
+    SKb   10/10 distinct
+    PKa   10/10 distinct
+    PKb   10/10 distinct
+    SS    10/10 distinct
+    KAT PK 4160 B => FP2 = 64 B (FP = 32 B = 256 bits);  code FP2 = 64 B, PUBLICKEY_BYTES = 4160
+
+--- lv256: 10 rows
+    Seed  10/10 distinct
+    SKa   10/10 distinct
+    SKb   10/10 distinct
+    PKa   10/10 distinct
+    PKb   10/10 distinct
+    SS    10/10 distinct
+    KAT PK 8960 B => FP2 = 128 B (FP = 64 B = 512 bits);  code FP2 = 128 B, PUBLICKEY_BYTES = 8960
+
+--- lv512: 10 rows
+    Seed  10/10 distinct
+    SKa   1/10 distinct   <== 1 value for all rows (hard-coded key!)
+    SKb   1/10 distinct   <== 1 value for all rows (hard-coded key!)
+    PKa   1/10 distinct   <== 1 value for all rows (hard-coded key!)
+    PKb   1/10 distinct   <== 1 value for all rows (hard-coded key!)
+    SS    1/10 distinct   <== 1 value for all rows (hard-coded key!)
+    KAT PK 40980 B => FP2 = 4098 B (FP = 2049 B = 16392 bits);  code FP2 = 4100 B, PUBLICKEY_BYTES = 41000
+
+=== 2. public-key validation probe (item 1), lv128 ===
+pk=4160 sk=196 ss=64
+(0) honest peer                rc=0  ss_allzero=0  ss=4e2b952f1162f297d72a73832615c18bb7fe6cd05e913f5bf2e9f821c71a582e...
+(1) all-zero peer pk           rc=0  ss_allzero=1
+(2) all-0xFF (non-canonical)   rc=0  ss_allzero=1
+(3) pseudo-random peer pk      rc=0  ss_allzero=1
+(4) honest peer, 1 bit flipped rc=0  ss_allzero=0  ss=659a0b1be22bb97c31adc60f61455b0a2c6170464caa62b090fa3ec74ac5071f...
+(5) 2nd victim + all-zero peer  ss_allzero=1  (== independent of victim secret)
+
+RESULT: malformed peer keys accepted with rc=0 and attacker-known (all-zero) ss: CONFIRMED
+
+done.
