@@ -18,11 +18,7 @@ README, and a `run_all.sh` / `Makefile` / `build.sh` that builds against the ven
   how many coefficients were recovered / to confirm a forgery), never to guide the attack; every
   such use is marked in-source (`grep` for `SCORING` / `[ground truth]` / `SK-READ`).
 - **Timings** are on a **104-core / 251 GB** machine, core-pinned with `taskset` where timing matters.
-- One package, **`polarlac-timing-leak`**, is an **honest negative result**: a real
-  non-constant-time decapsulation that is **not** exploitable into a key recovery (timing recovery
-  is 0/512). It is included for completeness and is **not** a break.
-
-## The 17 packages
+## The 16 packages
 
 | repo | scheme | category | severity | one-line claim |
 |---|---|---|---|---|
@@ -42,7 +38,6 @@ README, and a `run_all.sh` / `Makefile` / `build.sh` that builds against the ven
 | `uvw-always-accept` | UVW | SIG | B | verifier runs the full check then discards the verdict and returns accept -> universal forgery; verify ~0.2 s (the check still runs) |
 | `tins-key-recovery` | Tins | SIG | B | witness/key recovery from ONE signature (GGM child seeds ignore the parent) + accepted forgery at 256; 128/512 obstructed by level-specific reference defects |
 | `cmultiurag-decaps-dos` | C-Multi-UR-AG | KEM | B | decapsulation SIGSEGV DoS via unsigned-degree underflow; ~74% single-bit-flip crashes at level 256, 0% at 128/512; ~0.6 s per faulting decap |
-| `polarlac-timing-leak` | PolarLAC | KEM | (negative) | **NOT a break** — real non-constant-time decapsulation (FO rejection count R leaks ~9k cyc/rejection) that is NOT exploitable into key recovery (0/512 via genuine timing) |
 
 Severity A = fundamental (full key recovery / forgery / semantic-security break); B = serious
 implementation defect (one-query CCA / decryption oracle / DoS). `A*` = category/claim mismatch
