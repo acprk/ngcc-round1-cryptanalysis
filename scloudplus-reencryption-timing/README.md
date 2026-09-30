@@ -84,6 +84,19 @@ src/analyze.py        count distribution; per-seed-median timing by class + Welc
 run_all.sh            builds against REF, runs [1] counts [2] timing [3] decoder div/cmov check
 ```
 
+## Two further observations (own subdirectories, run separately)
+
+- `dfr/dfr_model.py` (self-contained pure Python; no vendor code): the spec Sec. 3.1.4 / Table 16
+  DFR is **not a ball-failure upper bound**. It reproduces Table 16 under the spec's Gaussian marginal
+  (A column = -138.5/-220.9/-271.8/-457.7/-552.6) and shows the exact coordinate marginal (B) and the
+  key-conditional model (C) are heavier — up to **+34 bits at L512** — so the margin over 2^-512
+  collapses to single digits. A proof gap, not a demonstrated failure (the ball bound is very
+  pessimistic for this decoder). See `dfr/README.md`.
+- `estimator/weak_key_scan.py` (needs Sage + lattice-estimator via `ESTIMATOR=`): a cost/advantage
+  (T/eps) adversary against the i.i.d. BD(1/12) L512 secret reaches **2^487.6-490.8 (CoreSVP)**, about
+  21-24 bits below 512 — metric-dependent (the primal hybrid stays at 2^555.8) and not practical
+  (still 2^488); L128-384 unaffected. See `estimator/README.md`.
+
 ## Severity and fix
 
 **Medium**, `kem-30-1` (PolarLAC) analogue. Measured, repeatable, secret-derived; coarser than
