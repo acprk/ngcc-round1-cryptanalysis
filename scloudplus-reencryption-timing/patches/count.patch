@@ -1,0 +1,37 @@
+--- a/common/sample.c
++++ b/common/sample.c
+@@ -90,8 +90,10 @@
+ 										   size_t byte_count, uint8_t *bits);
+ #endif
+ 
++unsigned long long g_xof_refills=0, g_rej_batches=0, g_straddle=0;
+ static void reader_refill(sample_reader *r)
+ {
++	g_xof_refills++;
+ 	r->block_len = sizeof(r->block);
+ #if defined(SAMPLE_XOF_SM3)
+ 	sm3_bounded_xof_squeezeblocks(r->block, SAMPLE_SM3_BLOCKS, &r->state);
+@@ -152,6 +154,7 @@
+ 	{
+ 		return buf;
+ 	}
++	g_straddle++;
+ 	for (size_t i = 0U; i < bytes; i++)
+ 	{
+ 		tmp[i] = reader_byte(r);
+@@ -326,6 +329,7 @@
+ {
+ 	do
+ 	{
++		g_rej_batches++;
+ 		uint8_t tmp[SAMPLE_BD6_BATCH_BYTES];
+ 		const uint8_t *bytes = reader_bytes(&reader->reader,
+ 											SAMPLE_BD6_BATCH_BYTES, tmp);
+@@ -402,6 +406,7 @@
+ {
+ 	do
+ 	{
++		g_rej_batches++;
+ 		uint8_t tmp[SAMPLE_BD12_BATCH_BYTES];
+ 		const uint8_t *bytes = reader_bytes(&reader->reader,
+ 											SAMPLE_BD12_BATCH_BYTES, tmp);
