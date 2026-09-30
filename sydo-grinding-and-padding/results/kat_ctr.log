@@ -1,0 +1,1 @@
+sydo_160f: KAT grinding counters mean=5.8 (spec Table 5.5 expects 20.9, i.e. with 2 fewer bits ≈ 5.2); ctr=[0, 6, 4, 1, 17, 1, 18, 1, 5, 5]

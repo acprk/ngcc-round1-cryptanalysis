@@ -1,0 +1,15 @@
+== 160f trial 0
+gen ok pk=80 sig=6724 self_verify=0
+bavc_open=[3120,6680) free_tail_bytes=140 (orig all-zero=1) mutated_all_free -> ref_verify=0
+  opt: verify(sig.bin)=0 verify(sig_mut.bin)=-1
+  ref: verify(sig.bin)=0 verify(sig_mut.bin)=0
+== 160f trial 1
+gen ok pk=80 sig=6724 self_verify=0
+bavc_open=[3120,6680) free_tail_bytes=60 (orig all-zero=1) mutated_all_free -> ref_verify=0
+  opt: verify(sig.bin)=0 verify(sig_mut.bin)=-1
+  ref: verify(sig.bin)=0 verify(sig_mut.bin)=0
+== 160f trial 2
+gen ok pk=80 sig=6724 self_verify=0
+bavc_open=[3120,6680) free_tail_bytes=120 (orig all-zero=1) mutated_all_free -> ref_verify=0
+  opt: verify(sig.bin)=0 verify(sig_mut.bin)=-1
+  ref: verify(sig.bin)=0 verify(sig_mut.bin)=0

@@ -1,0 +1,1 @@
+sydo_160f lambda=160 tau=20 zero_bits_param=2 delta_bits=160 enforced_zero_bits=0 delta_off=6680 delta_size=20 iv_off=6700 iv_size=20 grind_off=6720 total=6724
