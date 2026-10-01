@@ -1,0 +1,3 @@
+[salted (submitted code)] seed=1 T=64 MBITS=16: hit ciphertext #16 after 44305 encryptions (expected ~1008 unsalted, ~64527 salted); M=692 (true 692); session key recovered: YES; control (other ciphertext's key): differs (correct)
+[salted (submitted code)] seed=2 T=64 MBITS=16: hit ciphertext #6 after 44743 encryptions (expected ~1008 unsalted, ~64527 salted); M=699 (true 699); session key recovered: YES; control (other ciphertext's key): differs (correct)
+[salted (submitted code)] seed=3 T=64 MBITS=16: hit ciphertext #4 after 2565 encryptions (expected ~1008 unsalted, ~64527 salted); M=40 (true 40); session key recovered: YES; control (other ciphertext's key): differs (correct)

@@ -1,0 +1,3 @@
+Frost-128: |M|=128 bits; salt public in ct: yes; check(true M)=1, recovered ss==honest ss: yes; check(M^1)=0
+Frost-256: |M|=256 bits; salt public in ct: yes; check(true M)=1, recovered ss==honest ss: yes; check(M^1)=0
+Frost-512: |M|=512 bits; salt public in ct: yes; check(true M)=1, recovered ss==honest ss: yes; check(M^1)=0
