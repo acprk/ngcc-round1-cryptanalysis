@@ -1,0 +1,14 @@
+Implementations/Reference_Implementation/TRIKE-2/src/decoder.c:61:            count += (s[idx_to >> 3] >> (idx_to & 7)) & 1;
+Implementations/Reference_Implementation/TRIKE-2/src/decoder.c:93:        gf2x_shift(temp, e0, idx0[k]);
+Implementations/Reference_Implementation/TRIKE-2/src/decoder.c:99:        gf2x_shift(temp, e1, idx1[k]);
+Implementations/Reference_Implementation/TRIKE-2/src/decoder.c:105:        gf2x_shift(temp, e2, idx2[k]);
+Implementations/Optimized_Implementation/TRIKE-2/src/gf2x.c:351:    uint32_t shift_64 = shift >> 6;
+Implementations/Optimized_Implementation/TRIKE-2/src/gf2x.c:355:        __m512i va = _mm512_loadu_si512((__m512i *)(in_64 + shift_64 + i));
+Implementations/Optimized_Implementation/TRIKE-2/src/decoder.c:189:            gf2x_shift(aligned_v, aligned_s, idx0[k]);
+Implementations/Optimized_Implementation/TRIKE-2/src/decoder.c:198:            gf2x_shift(aligned_v, aligned_s, idx1[k]);
+Implementations/Optimized_Implementation/TRIKE-2/src/decoder.c:207:            gf2x_shift(aligned_v, aligned_s, idx2[k]);
+Implementations/Optimized_Implementation/TRIKE-2/src/decoder.c:258:            count += (s[idx_to >> 3] >> (idx_to & 7)) & 1;
+Implementations/Optimized_Implementation/TRIKE-2/src/decoder.c:290:        gf2x_shift(temp, e0, idx0[k]);
+Implementations/Optimized_Implementation/TRIKE-2/src/decoder.c:296:        gf2x_shift(temp, e1, idx1[k]);
+Implementations/Optimized_Implementation/TRIKE-2/src/decoder.c:302:        gf2x_shift(temp, e2, idx2[k]);
+Implementations/Reference_Implementation/TRIKE-2/src/KEM_AlgorithmInstance.c:133:	return -(memcmp(vec1, vec2, len_bytes) != 0);

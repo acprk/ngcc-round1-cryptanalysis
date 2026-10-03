@@ -1,0 +1,6 @@
+  ref TRIKE-2: decaps=200  heap in use before=21680 after=434512  delta=412832  per-decap=2064.2 bytes
+  ref TRIKE-5: decaps=200  heap in use before=42800 after=1684624  delta=1641824  per-decap=8209.1 bytes
+  ref TRIKE-7: decaps=200  heap in use before=77504 after=3357600  delta=3280096  per-decap=16400.5 bytes
+  ref TRIKE-9: decaps=200  heap in use before=111248 after=3391248  delta=3280000  per-decap=16400.0 bytes
+  opt TRIKE-2: decaps=200  heap in use before=21680 after=434512  delta=412832  per-decap=2064.2 bytes
+  opt TRIKE-9: decaps=200  heap in use before=111248 after=3391248  delta=3280000  per-decap=16400.0 bytes

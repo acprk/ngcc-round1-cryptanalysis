@@ -1,0 +1,11 @@
+Implementations/Reference_Implementation/TRIKE-2/ICCS/drng.h:#define SEEDLEN (55)
+Implementations/Reference_Implementation/TRIKE-5/ICCS/drng.h:#define SEEDLEN (55)
+Implementations/Reference_Implementation/TRIKE-7/ICCS/drng.h:#define SEEDLEN (55)
+Implementations/Reference_Implementation/TRIKE-9/ICCS/drng.h:#define SEEDLEN (55)
+DRNG (ICCS SM3_DRNG, drng.h): state V = 55 bytes = 440 bits; C=f(V); so <=440 bits of entropy
+  TRIKE-1   claimed 128 classical /  64 quantum | true key entropy      800 bits, but generator caps at 440 -> classical 128 ok; Grover 220 ok
+  TRIKE-2   claimed 128 classical /  80 quantum | true key entropy     1063 bits, but generator caps at 440 -> classical 128 ok; Grover 220 ok
+  TRIKE-3   claimed 192 classical /  96 quantum | true key entropy     1281 bits, but generator caps at 440 -> classical 192 ok; Grover 220 ok
+  TRIKE-5   claimed 256 classical / 128 quantum | true key entropy     1764 bits, but generator caps at 440 -> classical 256 ok; Grover 220 ok
+  TRIKE-7   claimed 384 classical / 192 quantum | true key entropy     2764 bits, but generator caps at 440 -> classical 384 ok; Grover 220 ok
+  TRIKE-9   claimed 512 classical / 256 quantum | true key entropy     3798 bits, but generator caps at 440 -> classical 440 *** BELOW CLAIM; Grover 220 *** BELOW CLAIM

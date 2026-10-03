@@ -1,0 +1,4 @@
+R=15581 d=35 S=46 SS=83 keys=20000: rejected=31 (0.1550%)  [intra 0.1550%, inter 0.0000%]  mean intra s0=21.43 (max 58)  mean inter=45.46 (max 77)
+R=35363 d=55 S=105 SS=172 keys=20000: rejected=11 (0.0550%)  [intra 0.0400%, inter 0.0150%]  mean intra s0=60.22 (max 116)  mean inter=124.84 (max 178)
+R=69691 d=83 S=235 SS=405 keys=20000: rejected=11 (0.0550%)  [intra 0.0450%, inter 0.0100%]  mean intra s0=162.26 (max 247)  mean inter=332.43 (max 419)
+R=114043 d=111 S=433 SS=737 keys=20000: rejected=51 (0.2550%)  [intra 0.0050%, inter 0.2500%]  mean intra s0=320.93 (max 434)  mean inter=653.84 (max 757)

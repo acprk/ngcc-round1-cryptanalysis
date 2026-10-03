@@ -1,0 +1,8 @@
+  Reference TRIKE-2  allocs=12 frees=11 h0_freed=NO
+  Reference TRIKE-5  allocs=12 frees=11 h0_freed=NO
+  Reference TRIKE-7  allocs=12 frees=11 h0_freed=NO
+  Reference TRIKE-9  allocs=12 frees=11 h0_freed=NO
+  Optimized TRIKE-2  allocs=12 frees=11 h0_freed=NO
+  Optimized TRIKE-5  allocs=12 frees=11 h0_freed=NO
+  Optimized TRIKE-7  allocs=12 frees=11 h0_freed=NO
+  Optimized TRIKE-9  allocs=12 frees=11 h0_freed=NO

@@ -1,0 +1,8 @@
+TRIKE-2 KEY [46743,31162,105]: Prange 208.44 (spec 208.44) Stern 185.71 (spec 185.71) BJMM 186.02 (spec 186.02) | best-log2r=171.78 (spec 171.78)
+TRIKE-2 MSG [46743,15581,263]: Prange 196.93 (spec 196.93) Stern 175.29 (spec 175.29) BJMM 175.20 (spec 175.16) | best-0.5log2r=168.23 (spec 167.86) claimed 128
+TRIKE-5 KEY [106089,70726,165]: Prange 306.97 (spec 306.97) Stern 281.72 (spec 281.72) BJMM 281.96 (spec 281.9) | best-log2r=266.61 (spec 266.61)
+TRIKE-5 MSG [106089,35363,429]: Prange 297.54 (spec 297.54) Stern 273.11 (spec 273.11) BJMM 272.76 (spec 272.63) | best-0.5log2r=265.20 (spec 264.86) claimed 256
+TRIKE-7 KEY [209073,139382,249]: Prange 442.98 (spec 442.98) Stern 415.44 (spec 415.44) BJMM 415.23 (spec 414.98) | best-log2r=399.14 (spec 398.81)
+TRIKE-7 MSG [209073,69691,659]: Prange 435.03 (spec 435.03) Stern 408.17 (spec 408.17) BJMM 407.17 (spec 406.97) | best-0.5log2r=399.13 (spec 398.77) claimed 384
+TRIKE-9 KEY [342129,228086,333]: Prange 578.22 (spec 578.22) Stern 549.05 (spec 549.05) BJMM 548.92 (spec 548.21) | best-log2r=532.12 (spec 531.41)
+TRIKE-9 MSG [342129,114043,877]: Prange 564.68 (spec 564.68) Stern 536.19 (spec 536.19) BJMM 535.33 (spec 534.67) | best-0.5log2r=526.93 (spec 526.21) claimed 512

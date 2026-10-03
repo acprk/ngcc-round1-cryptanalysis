@@ -1,0 +1,2 @@
+Direct leak of 8192 byte(s) in 4 object(s) allocated from:
+    #1 0x4038ea in kem_dec $SUBROOT/Implementations/Reference_Implementation/TRIKE-2/src/KEM_AlgorithmInstance.c:306

@@ -1,0 +1,27 @@
+inst      type  m0  specDens  myDens   | bnd  bndDens  +expDFR   claimedDFR  shortfall
+TRIKE-1   I      6    -25.07   -25.07  |   5   -16.20   -37.87      -128      90.1
+TRIKE-1   II     7    -28.06   -28.06  |   6   -20.64   -42.31      -128      85.7
+TRIKE-1   III    8    -34.31   -34.31  |   7   -26.63   -48.30      -128      79.7
+TRIKE-2   I      7    -34.07   -34.07  |   6   -25.00   -46.67      -128      81.3
+TRIKE-2   II     8    -33.07   -33.07  |   7   -25.71   -47.38      -128      80.6
+TRIKE-2   III   10    -47.12   -47.12  |   9   -39.28   -60.95      -128      67.1
+TRIKE-3   I      8    -44.16   -44.16  |   7   -34.82   -56.49      -192     135.5
+TRIKE-3   II     9    -40.00   -40.00  |   8   -32.45   -54.12      -192     137.9
+TRIKE-3   III   11    -54.36   -54.36  |  10   -46.39   -68.06      -192     123.9
+TRIKE-5   I      9    -54.15   -54.15  |   8   -44.59   -66.26      -256     189.7
+TRIKE-5   II    12    -59.87   -59.87  |  11   -52.06   -73.73      -256     182.3
+TRIKE-5   III   14    -74.60   -74.60  |  13   -66.47   -88.14      -256     167.9
+TRIKE-7   I     12    -85.00   -85.00  |  11   -75.09   -93.44      -384     290.6
+TRIKE-7   II    17    -93.91   -93.91  |  16   -85.85  -104.20      -384     279.8
+TRIKE-7   III   21    -93.91  -125.97  |  20  -117.45  -135.80      -384     248.2  <-- SPEC MISMATCH
+TRIKE-9   I     14    -65.49  -107.12  |  13   -96.93  -115.28      -512     396.7  <-- SPEC MISMATCH
+TRIKE-9   II    22   -130.02  -130.02  |  21  -121.73  -140.08      -512     371.9
+TRIKE-9   III   28   -130.02  -180.29  |  27  -171.47  -189.82      -512     322.2  <-- SPEC MISMATCH
+
+required DFR of boundary keys to reach the claimed DFR (bits), vs measurable bound:
+  TRIKE-1   worst boundary density 2^ -16.20 -> need DFR <= 2^ -111.80; measured bound 2^-21.67 (gap -90 bits)
+  TRIKE-2   worst boundary density 2^ -25.00 -> need DFR <= 2^ -103.00; measured bound 2^-21.67 (gap -81 bits)
+  TRIKE-3   worst boundary density 2^ -32.45 -> need DFR <= 2^ -159.55; measured bound 2^-21.67 (gap -138 bits)
+  TRIKE-5   worst boundary density 2^ -44.59 -> need DFR <= 2^ -211.41; measured bound 2^-21.67 (gap -190 bits)
+  TRIKE-7   worst boundary density 2^ -75.09 -> need DFR <= 2^ -308.91; measured bound 2^-18.35 (gap -291 bits)
+  TRIKE-9   worst boundary density 2^ -96.93 -> need DFR <= 2^ -415.07; measured bound 2^-18.35 (gap -397 bits)
