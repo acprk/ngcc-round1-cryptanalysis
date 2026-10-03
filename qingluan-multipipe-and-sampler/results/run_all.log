@@ -1,0 +1,58 @@
+=== [A1] Joux second preimage on a P-pipe concatenation (scaled pipe width n0) ===
+    * JOUX multicollision+MITM        -> expected 2^{(P-1) n0} (slope P-1)
+  ================  P = 2 pipes  (spec claims preimage = 2^(P*n0) = 2^{2*n0})
+    8 | JOUX   | K=12  (=(P-1)n0+4) | log2(calls)~  12.0 | OK 2nd-preimage, K=12
+   10 | JOUX   | K=14  (=(P-1)n0+4) | log2(calls)~  13.0 | OK 2nd-preimage, K=14
+   12 | JOUX   | K=16  (=(P-1)n0+4) | log2(calls)~  17.0 | OK 2nd-preimage, K=16
+   14 | JOUX   | K=18  (=(P-1)n0+4) | log2(calls)~  23.0 | OK 2nd-preimage, K=18
+   16 | JOUX   | K=20  (=(P-1)n0+4) | log2(calls)~  24.0 | OK 2nd-preimage, K=20
+    -> JOUX  d K / d n0 = 1.00   (predict P-1 = 1)  <-- clean structural exponent
+    -> NAIVE fitted slope d log2(trial-work)/d n0 = 3.00   (predict P = 2; noisy, few pts)
+  ================  P = 3 pipes  (spec claims preimage = 2^(P*n0) = 2^{3*n0})
+    5 | JOUX   | K=14  (=(P-1)n0+4) | log2(calls)~  20.0 | OK 2nd-preimage, K=14
+    6 | JOUX   | K=16  (=(P-1)n0+4) | log2(calls)~  18.0 | OK 2nd-preimage, K=16
+    7 | JOUX   | K=18  (=(P-1)n0+4) | log2(calls)~  26.0 | OK 2nd-preimage, K=18
+    -> JOUX  d K / d n0 = 2.00   (predict P-1 = 2)  <-- clean structural exponent
+    -> NAIVE fitted slope d log2(trial-work)/d n0 = 0.00   (predict P = 3; noisy, few pts)
+  ================  P = 4 pipes  (spec claims preimage = 2^(P*n0) = 2^{4*n0})
+    3 | JOUX   | K=13  (=(P-1)n0+4) | log2(calls)~  15.0 | OK 2nd-preimage, K=13
+    4 | JOUX   | K=16  (=(P-1)n0+4) | log2(calls)~  24.0 | OK 2nd-preimage, K=16
+    -> JOUX  d K / d n0 = 3.00   (predict P-1 = 3)  <-- clean structural exponent
+    -> NAIVE fitted slope d log2(trial-work)/d n0 = 2.00   (predict P = 4; noisy, few pts)
+
+=== [A2] multi-target: distinct salt prefixes vs shared-salt positive control ===
+    * DISTINCT-salt  (the real construction): predict cost flat in T ~ 2^{n0}
+    * SHARED-salt    (control, same IV):       predict cost ~ 2^{n0}/T  (real /T)
+        T |   DISTINCT log2(calls) |  SHARED(control) log2(calls)
+      -> DISTINCT slope d log2(calls)/d log2(T) = -0.15   (predict 0 = NO multi-target speedup)
+      -> SHARED   slope d log2(calls)/d log2(T) = -1.10   (predict -1 = real /T; proves the harness can see a speedup)
+        T |   DISTINCT log2(calls) |  SHARED(control) log2(calls)
+      -> DISTINCT slope d log2(calls)/d log2(T) = +0.05   (predict 0 = NO multi-target speedup)
+      -> SHARED   slope d log2(calls)/d log2(T) = -1.25   (predict -1 = real /T; proves the harness can see a speedup)
+
+=== [C] eta re-expansion trace (sign.c ExpandSK -> rsdp_gen_secret_exp -> rsdp_csprng_fz) ===
+  sign.c:57:    rsdp_gen_secret_exp(eta_sk, seed_e);
+  rsdp.c:68:uint8_t rsdp_csprng_fz(xof_ctx_t *xof)
+  rsdp.c:69-{
+  rsdp.c:70-    uint8_t buf;
+  rsdp.c:71-    for (;;) {
+  rsdp.c:72-        xof_squeeze(xof, &buf, 1);
+  rsdp.c:73-        buf &= 0x07;                 /* z = 7 -> 3 bits */
+  rsdp.c:74-        if (buf < PARAM_Z) return buf;
+  rsdp.c:75-    }
+  QingLuan-128: keys=3000  rejections min/mean/max = 6/18.1/37  distinct values=30  identical on re-expansion: 3000/3000
+     corr(rejections, sum eta) = -0.0160   corr(rejections, #eta==0) = +0.0450   (5% significance threshold |r| > 0.036)
+  QingLuan-256: keys=3000  rejections min/mean/max = 15/35.9/65  distinct values=46  identical on re-expansion: 3000/3000
+     corr(rejections, sum eta) = +0.0127   corr(rejections, #eta==0) = -0.0120   (5% significance threshold |r| > 0.036)
+  QingLuan-384: keys=3000  rejections min/mean/max = 30/52.9/81  distinct values=51  identical on re-expansion: 3000/3000
+     corr(rejections, sum eta) = -0.0080   corr(rejections, #eta==0) = -0.0330   (5% significance threshold |r| > 0.036)
+  QingLuan-512: keys=3000  rejections min/mean/max = 40/70.1/100  distinct values=58  identical on re-expansion: 3000/3000
+     corr(rejections, sum eta) = +0.0072   corr(rejections, #eta==0) = -0.0031   (5% significance threshold |r| > 0.036)
+
+real	3m49.320s
+user	3m47.980s
+sys	0m0.992s
+
+=== [C-recheck] QingLuan-128 with KEYS=30000 (the KEYS=3000 run had one of 8 correlations at +0.045, above the single-test 5% line) ===
+  QingLuan-128: keys=30000  rejections min/mean/max = 4/18.2/40  distinct values=36  identical on re-expansion: 30000/30000
+     corr(rejections, sum eta) = -0.0068   corr(rejections, #eta==0) = +0.0037   (5% significance threshold |r| > 0.011)

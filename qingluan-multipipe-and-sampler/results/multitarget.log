@@ -1,0 +1,80 @@
+
+Qing Luan (sign-20) — does the <=2^80 MULTI-TARGET model actually lower the
+message-binding second-preimage cost, i.e. is L256 pushed below its target?
+
+Spec §3.3 / Theorem 1 price message binding as multi-target eTCR = 2^{2λ-80}
+(i.e. they assume T=2^80 targets give a /T speedup over 2^{2λ}).  But the salt
+enters as a PREFIX:  digest_Msg = H_w(0x0A | Salt | pk_hash | Msg).  T distinct
+salts => T distinct effective IVs.  The generic /T multi-target speedup only
+exists when ONE hash evaluation can be tested against all T targets at once
+(shared IV, membership lookup).  With distinct IVs, each target costs its own
+hash evaluation, so the real WORK (compression calls) should stay flat in T.
+
+This script measures it, with a positive control:
+  * DISTINCT-salt  (the real construction): predict cost flat in T ~ 2^{n0}
+  * SHARED-salt    (control, same IV):       predict cost ~ 2^{n0}/T  (real /T)
+Work unit = compression-function calls (the honest metric; counting 'messages
+tried' instead of calls is exactly the spec's mistake).
+
+We isolate the multi-target question at P=1 (single pipe, no Joux confound); the
+concatenation inherits the same per-target-recompute mechanism, and the Joux
+(P-1) factor is orthogonal (already confirmed in joux_secondpreimage.py).
+
+
+========================================================================
+Multi-target 2nd-preimage: compression calls vs #targets T
+
+ n0=12   (single-target ~ 2^12)
+      T |   DISTINCT log2(calls) |  SHARED(control) log2(calls)
+      1 |                     12 |                           12
+      4 |                     12 |                           10
+     16 |                     12 |                            8
+     64 |                     11 |                            6
+    256 |                     11 |                            3
+    -> DISTINCT slope d log2(calls)/d log2(T) = -0.15   (predict 0 = NO multi-target speedup)
+    -> SHARED   slope d log2(calls)/d log2(T) = -1.10   (predict -1 = real /T; proves the harness can see a speedup)
+
+ n0=14   (single-target ~ 2^14)
+      T |   DISTINCT log2(calls) |  SHARED(control) log2(calls)
+      1 |                     14 |                           15
+      4 |                     14 |                           12
+     16 |                     14 |                           11
+     64 |                     15 |                            7
+    256 |                     14 |                            5
+    -> DISTINCT slope d log2(calls)/d log2(T) = +0.05   (predict 0 = NO multi-target speedup)
+    -> SHARED   slope d log2(calls)/d log2(T) = -1.25   (predict -1 = real /T; proves the harness can see a speedup)
+
+ n0=16   (single-target ~ 2^16)
+      T |   DISTINCT log2(calls) |  SHARED(control) log2(calls)
+      1 |                     16 |                           16
+      4 |                     17 |                           14
+     16 |                     17 |                           12
+     64 |                     16 |                           10
+    256 |                     15 |                            7
+    -> DISTINCT slope d log2(calls)/d log2(T) = -0.15   (predict 0 = NO multi-target speedup)
+    -> SHARED   slope d log2(calls)/d log2(T) = -1.10   (predict -1 = real /T; proves the harness can see a speedup)
+
+CONCLUSION
+  DISTINCT-salt slope ~ 0  => the <=2^80 multi-target model gives NO reduction in
+  actual work for Qing Luan's message binding: each of the T salts is a distinct
+  prefix/IV and costs its own hash evaluation.  The SHARED-salt control shows
+  slope ~ -1, confirming the harness WOULD see a /T speedup if one existed.
+
+  Therefore, back at width n=256:
+     real multi-target 2nd-preimage  =  real single-target  =  2^{(P-1)*256}
+     L256 (P=2): 2^256  ==  classical target 256   -> margin EXACTLY 0, NOT below.
+     L384 (P=3): 2^512  >= 384 ;  L512 (P=4): 2^768 >= 512.
+
+  => The 'L256 dips below 256 under 2^80 multi-target' hypothesis is FALSIFIED.
+     The salt does its job: no /T. What remains true and reportable:
+       (1) spec's numbers (2^{2λ} single, 2^{2λ-80} multi) are WRONG by up to
+           256 bits (overstated), and
+       (2) L256 message binding has ZERO margin (2^256 == target), so any future
+           improvement to concatenation preimage, or any unsalted hash use, breaks
+           it -- but as submitted, no level is demonstrably below its target here.
+  This is the falsify-first outcome: we tried to push L256 under and could not.
+
+
+real	0m13.041s
+user	0m13.031s
+sys	0m0.010s
