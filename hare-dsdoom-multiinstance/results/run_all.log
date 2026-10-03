@@ -1,0 +1,139 @@
+doom.py: https://github.com/Gabsadio/Multi-Instance-KEM @ 39b78dcc077793cfa3ccdce8d032ece76825ca55  sha256 d53e8bb0b668f581
+
+=== [kat] vendor KAT replay (vendor Self_Evaluation/tests/verify_kat_kem.c, unmodified) ===
+  verify_kat_pass HARE-128-kr records=10 pk=2629 sk=2677 ct=4688 ss=16
+  verify_kat_pass HARE-256-kr records=10 pk=6580 sk=6676 ct=11790 ss=32
+  verify_kat_pass HARE-384-kr records=10 pk=13157 sk=13301 ct=23693 ss=48
+  verify_kat_pass HARE-512-kr records=10 pk=21812 sk=22004 ct=39294 ss=64
+
+=== [cal] official doom.py vs ngcc.dev kem-05-2 ===
+  BIKE-MLThre-128 SD[24646,12322,134] rot=12323 Q=2^69: T=2^127.890 mem=2^96.189   ngcc.dev kem-05-2: 127.890 / 96.189
+  BIKE-MLThre-256 SD[81946,40972,264] rot=40973 Q=2^73: T=2^255.780 mem=2^103.648   ngcc.dev kem-05-2: 255.780 / 103.648
+
+=== [est] HARE same-key DS-DOOM, official doom.py ===
+  --- HARE-128 (HARE-2): n=20899 wr=79 SD[41798,20897,158] rot=n claimed=128
+    Q=2^0  T=2^ 180.778  mem=2^ 30.287  
+    Q=2^40 T=2^ 163.440  mem=2^ 68.707  
+    Q=2^56 T=2^ 157.722  mem=2^ 84.707  
+    Q=2^60 T=2^ 156.443  mem=2^ 88.708  
+    Q=2^61 T=2^ 155.914  mem=2^ 89.711  
+    Q=2^62 T=2^ 155.777  mem=2^ 90.708  
+    Q=2^63 T=2^ 154.872  mem=2^ 91.708  
+    Q=2^64 T=2^ 154.754  mem=2^ 92.708  
+    Q=2^66 T=2^ 153.848  mem=2^ 94.708  
+    Q=2^68 T=2^ 153.065  mem=2^ 96.708  
+    Q=2^70 T=2^ 152.417  mem=2^ 98.708  
+    Q=2^72 T=2^ 151.906  mem=2^100.708  
+    Q=2^74 T=2^ 151.077  mem=2^102.709  
+    Q=2^76 T=2^ 150.078  mem=2^104.709  
+    Q=2^78 T=2^ 149.225  mem=2^106.709  
+    Q=2^80 T=2^ 148.517  mem=2^108.709  
+    k-sensitivity @Q=2^80: k=n 148.537  k=n-1 148.527  k=n-2 148.517
+    => first Q below claimed: none up to 2^80
+  --- HARE-256 (HARE-5): n=52379 wr=131 SD[104758,52377,262] rot=n claimed=256
+    Q=2^0  T=2^ 286.500  mem=2^ 32.938  
+    Q=2^40 T=2^ 268.732  mem=2^ 71.359  
+    Q=2^56 T=2^ 262.503  mem=2^ 87.356  
+    Q=2^60 T=2^ 260.589  mem=2^ 91.356  
+    Q=2^61 T=2^ 259.807  mem=2^ 92.356  
+    Q=2^62 T=2^ 259.776  mem=2^ 93.356  
+    Q=2^63 T=2^ 259.113  mem=2^ 94.356  
+    Q=2^64 T=2^ 259.083  mem=2^ 95.356  
+    Q=2^66 T=2^ 258.258  mem=2^ 97.364  
+    Q=2^68 T=2^ 257.467  mem=2^ 99.356  
+    Q=2^70 T=2^ 256.374  mem=2^101.356  
+    Q=2^72 T=2^ 255.426  mem=2^103.356  BELOW claimed
+    Q=2^74 T=2^ 254.607  mem=2^105.356  BELOW claimed
+    Q=2^76 T=2^ 253.928  mem=2^107.356  BELOW claimed
+    Q=2^78 T=2^ 253.394  mem=2^109.356  BELOW claimed
+    Q=2^80 T=2^ 252.993  mem=2^111.356  BELOW claimed
+    k-sensitivity @Q=2^80: k=n 253.007  k=n-1 253.000  k=n-2 252.993
+    => first Q below claimed: 2^72
+  --- HARE-384 (HARE-7): n=104869 wr=193 SD[209738,104867,386] rot=n claimed=384
+    Q=2^0  T=2^ 411.408  mem=2^ 34.941  
+    Q=2^40 T=2^ 393.715  mem=2^ 73.379  
+    Q=2^56 T=2^ 386.948  mem=2^ 89.366  
+    Q=2^60 T=2^ 385.088  mem=2^ 93.358  
+    Q=2^61 T=2^ 385.005  mem=2^ 94.358  
+    Q=2^62 T=2^ 384.081  mem=2^ 95.358  
+    Q=2^63 T=2^ 384.035  mem=2^ 96.358  
+    Q=2^64 T=2^ 383.165  mem=2^ 97.358  BELOW claimed
+    Q=2^66 T=2^ 382.352  mem=2^ 99.358  BELOW claimed
+    Q=2^68 T=2^ 381.663  mem=2^101.358  BELOW claimed
+    Q=2^70 T=2^ 381.114  mem=2^103.358  BELOW claimed
+    Q=2^72 T=2^ 380.258  mem=2^105.360  BELOW claimed
+    Q=2^74 T=2^ 379.296  mem=2^107.358  BELOW claimed
+    Q=2^76 T=2^ 378.281  mem=2^109.358  BELOW claimed
+    Q=2^78 T=2^ 377.369  mem=2^111.358  BELOW claimed
+    Q=2^80 T=2^ 376.566  mem=2^113.358  BELOW claimed
+    k-sensitivity @Q=2^80: k=n 376.576  k=n-1 376.571  k=n-2 376.566
+    => first Q below claimed: 2^64
+  --- HARE-512 (HARE-9): n=173981 wr=259 SD[347962,173979,518] rot=n claimed=512
+    Q=2^0  T=2^ 544.445  mem=2^ 36.402  
+    Q=2^40 T=2^ 526.551  mem=2^ 74.818  
+    Q=2^56 T=2^ 519.258  mem=2^ 90.818  
+    Q=2^60 T=2^ 518.144  mem=2^ 94.818  
+    Q=2^61 T=2^ 517.285  mem=2^ 95.819  
+    Q=2^62 T=2^ 517.284  mem=2^ 96.818  
+    Q=2^63 T=2^ 516.301  mem=2^ 97.818  
+    Q=2^64 T=2^ 516.236  mem=2^ 98.818  
+    Q=2^66 T=2^ 515.260  mem=2^100.818  
+    Q=2^68 T=2^ 514.343  mem=2^102.818  
+    Q=2^70 T=2^ 513.501  mem=2^104.818  
+    Q=2^72 T=2^ 512.763  mem=2^106.818  
+    Q=2^74 T=2^ 512.155  mem=2^108.818  
+    Q=2^76 T=2^ 511.686  mem=2^110.818  BELOW claimed
+    Q=2^78 T=2^ 510.690  mem=2^112.818  BELOW claimed
+    Q=2^80 T=2^ 509.692  mem=2^114.818  BELOW claimed
+    k-sensitivity @Q=2^80: k=n 509.701  k=n-1 509.696  k=n-2 509.692
+    => first Q below claimed: 2^76
+  --- HARE-1 (spec only): n=16067 wr=66 SD[32134,16065,132] rot=n claimed=128
+    Q=2^0  T=2^ 154.421  mem=2^ 30.971  
+    Q=2^40 T=2^ 137.961  mem=2^ 67.949  
+    Q=2^56 T=2^ 131.684  mem=2^ 83.950  
+    Q=2^60 T=2^ 130.556  mem=2^ 87.950  
+    Q=2^61 T=2^ 130.221  mem=2^ 88.951  
+    Q=2^62 T=2^ 129.355  mem=2^ 89.951  
+    Q=2^63 T=2^ 129.256  mem=2^ 90.951  
+    Q=2^64 T=2^ 128.478  mem=2^ 91.951  
+    Q=2^66 T=2^ 127.761  mem=2^ 93.951  BELOW claimed
+    Q=2^68 T=2^ 127.200  mem=2^ 95.951  BELOW claimed
+    Q=2^70 T=2^ 126.775  mem=2^ 97.951  BELOW claimed
+    Q=2^72 T=2^ 126.360  mem=2^ 99.952  BELOW claimed
+    Q=2^74 T=2^ 125.383  mem=2^101.952  BELOW claimed
+    Q=2^76 T=2^ 124.541  mem=2^103.952  BELOW claimed
+    Q=2^78 T=2^ 123.838  mem=2^105.952  BELOW claimed
+    Q=2^80 T=2^ 124.538  mem=2^107.952  BELOW claimed
+    k-sensitivity @Q=2^80: k=n 124.538  k=n-1 124.538  k=n-2 124.538
+    => first Q below claimed: 2^66
+  --- HARE-3 (spec only): n=32653 wr=100 SD[65306,32651,200] rot=n claimed=192
+    Q=2^0  T=2^ 223.602  mem=2^ 31.575  
+    Q=2^40 T=2^ 206.261  mem=2^ 69.992  
+    Q=2^56 T=2^ 199.619  mem=2^ 85.993  
+    Q=2^60 T=2^ 198.106  mem=2^ 89.993  
+    Q=2^61 T=2^ 198.074  mem=2^ 90.993  
+    Q=2^62 T=2^ 197.563  mem=2^ 91.993  
+    Q=2^63 T=2^ 197.526  mem=2^ 92.993  
+    Q=2^64 T=2^ 197.076  mem=2^ 93.997  
+    Q=2^66 T=2^ 196.069  mem=2^ 95.994  
+    Q=2^68 T=2^ 195.088  mem=2^ 97.994  
+    Q=2^70 T=2^ 194.236  mem=2^ 99.994  
+    Q=2^72 T=2^ 193.519  mem=2^101.994  
+    Q=2^74 T=2^ 192.946  mem=2^103.994  
+    Q=2^76 T=2^ 192.510  mem=2^105.994  
+    Q=2^78 T=2^ 191.588  mem=2^107.994  BELOW claimed
+    Q=2^80 T=2^ 190.594  mem=2^109.994  BELOW claimed
+    k-sensitivity @Q=2^80: k=n 190.611  k=n-1 190.603  k=n-2 190.594
+    => first Q below claimed: 2^78
+
+=== [e2e] real implementation: ciphertext -> SD instance -> (decoder output) -> session key, 20 trials/set ===
+  HARE-128: n=20899 wr=79 we=145 trials=20 | [api] 20  [syn] u==r1+h*r2 20  [wt] 20  [rot] 20  [K] recovered w/o sk 20  [neg] wrong output rejected 20
+  HARE-256: n=52379 wr=131 we=224 trials=20 | [api] 20  [syn] u==r1+h*r2 20  [wt] 20  [rot] 20  [K] recovered w/o sk 20  [neg] wrong output rejected 20
+  HARE-384: n=104869 wr=193 we=361 trials=20 | [api] 20  [syn] u==r1+h*r2 20  [wt] 20  [rot] 20  [K] recovered w/o sk 20  [neg] wrong output rejected 20
+  HARE-512: n=173981 wr=259 we=449 trials=20 | [api] 20  [syn] u==r1+h*r2 20  [wt] 20  [rot] 20  [K] recovered w/o sk 20  [neg] wrong output rejected 20
+
+ALL CHECKS PASSED
+
+real	1m12.163s
+user	1m9.308s
+sys	0m2.897s
