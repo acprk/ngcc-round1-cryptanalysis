@@ -1,0 +1,8 @@
+TRIKE r=114043 l=512 | scale B=8 T=2^2 trials=6 | expected work 2^B/(T+1)=51.2
+trial  0: hit target #3 after 60 re-encs (2^5.91)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  1: hit target #0 after 22 re-encs (2^4.46)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  2: hit target #3 after 106 re-encs (2^6.73)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  3: hit target #2 after 26 re-encs (2^4.70)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  4: hit target #2 after 38 re-encs (2^5.25)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  5: hit target #3 after 54 re-encs (2^5.75)  ss==Encaps:YES ss==Decaps(sk):YES
+SUMMARY B=8 logT=2: mean work=2^5.67  mean(work/expected)=0.996  all-ss-match=YES  98.44 ms/enc

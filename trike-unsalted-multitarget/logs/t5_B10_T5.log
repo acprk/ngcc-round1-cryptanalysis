@@ -1,0 +1,26 @@
+TRIKE r=35363 l=256 | scale B=10 T=2^5 trials=24 | expected work 2^B/(T+1)=31.0
+trial  0: hit target #10 after 9 re-encs (2^3.17)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  1: hit target #28 after 20 re-encs (2^4.32)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  2: hit target #4 after 10 re-encs (2^3.32)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  3: hit target #15 after 7 re-encs (2^2.81)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  4: hit target #9 after 7 re-encs (2^2.81)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  5: hit target #19 after 27 re-encs (2^4.75)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  6: hit target #15 after 10 re-encs (2^3.32)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  7: hit target #2 after 15 re-encs (2^3.91)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  8: hit target #19 after 3 re-encs (2^1.58)  ss==Encaps:YES ss==Decaps(sk):YES
+trial  9: hit target #11 after 4 re-encs (2^2.00)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 10: hit target #11 after 28 re-encs (2^4.81)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 11: hit target #11 after 10 re-encs (2^3.32)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 12: hit target #7 after 71 re-encs (2^6.15)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 13: hit target #9 after 4 re-encs (2^2.00)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 14: hit target #23 after 15 re-encs (2^3.91)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 15: hit target #19 after 30 re-encs (2^4.91)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 16: hit target #17 after 24 re-encs (2^4.58)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 17: hit target #7 after 43 re-encs (2^5.43)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 18: hit target #13 after 34 re-encs (2^5.09)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 19: hit target #3 after 15 re-encs (2^3.91)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 20: hit target #18 after 135 re-encs (2^7.08)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 21: hit target #27 after 28 re-encs (2^4.81)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 22: hit target #9 after 12 re-encs (2^3.58)  ss==Encaps:YES ss==Decaps(sk):YES
+trial 23: hit target #15 after 45 re-encs (2^5.49)  ss==Encaps:YES ss==Decaps(sk):YES
+SUMMARY B=10 logT=5: mean work=2^4.66  mean(work/expected)=0.814  all-ss-match=YES  30.10 ms/enc
