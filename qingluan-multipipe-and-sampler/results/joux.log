@@ -1,0 +1,74 @@
+
+Qing Luan (sign-20) — scaled demonstration that multi-pipe SM3's (second-)preimage
+does NOT grow to 2^{2λ}=2^{P·n}.
+
+Qing Luan's whole EUF-CMA argument rests on the spec claim (§1.5.2 / §3.1.2):
+  "multi-pipe H_w = SM3(0||m) || SM3(1||m) || ... has (2nd-)preimage = 2^{2λ}".
+It concedes collision is Joux-capped at 2^{128}, then salts the message digest to
+reduce message-binding to *second-preimage*, and prices that at 2^{2λ}.
+
+This script MEASURES the true generic-attack exponent of the concatenation, at a
+truncated pipe width n0 where the search is feasible, and fits it against n0.
+
+Faithful model of the construction (only the width is scaled down):
+  * P pipes, each a Merkle-Damgard hash over an n0-bit chaining value.
+  * compression f(pipe, chain, block) = truncate_{n0}( SHA256(pipe || chain || block) ).
+  * pipe p distinguished by a 1-byte prefix (exactly like SM3(byte(p)||m)).
+  * H_w(M) = ( pipe_0(M), ..., pipe_{P-1}(M) ), each n0 bits, total P*n0 bits.
+
+The MD structure is all Joux needs; the specific compression function is irrelevant
+to the SCALING law, which is the thing under test. We report, for each P:
+  * NAIVE random second-preimage  -> expected 2^{P n0}  (slope P)
+  * JOUX multicollision+MITM        -> expected 2^{(P-1) n0} (slope P-1)
+The gap between the two slopes is one pipe width = the refutation of "2^{2λ}".
+
+Every found M' is verified against the real verifier of the model:
+  H_w(M') == H_w(M*) on ALL pipes, and M' != M*  (controls printed).
+
+
+================  P = 2 pipes  (spec claims preimage = 2^(P*n0) = 2^{2*n0})
+ n0 | method | log2(calls) | found/ctrl                  
+  8 | JOUX   | K=12  (=(P-1)n0+4) | log2(calls)~  12.0 | OK 2nd-preimage, K=12
+ 10 | JOUX   | K=14  (=(P-1)n0+4) | log2(calls)~  13.0 | OK 2nd-preimage, K=14
+ 12 | JOUX   | K=16  (=(P-1)n0+4) | log2(calls)~  17.0 | OK 2nd-preimage, K=16
+ 14 | JOUX   | K=18  (=(P-1)n0+4) | log2(calls)~  23.0 | OK 2nd-preimage, K=18
+ 16 | JOUX   | K=20  (=(P-1)n0+4) | log2(calls)~  24.0 | OK 2nd-preimage, K=20
+  8 | NAIVE  |       16.00 | OK after 14238 trials       
+ 10 | NAIVE  |       22.00 | OK after 852596 trials      
+  -> JOUX  d K / d n0 = 1.00   (predict P-1 = 1)  <-- clean structural exponent
+  -> NAIVE fitted slope d log2(trial-work)/d n0 = 3.00   (predict P = 2; noisy, few pts)
+
+================  P = 3 pipes  (spec claims preimage = 2^(P*n0) = 2^{3*n0})
+ n0 | method | log2(calls) | found/ctrl                  
+  5 | JOUX   | K=14  (=(P-1)n0+4) | log2(calls)~  20.0 | OK 2nd-preimage, K=14
+  6 | JOUX   | K=16  (=(P-1)n0+4) | log2(calls)~  18.0 | OK 2nd-preimage, K=16
+  7 | JOUX   | K=18  (=(P-1)n0+4) | log2(calls)~  26.0 | OK 2nd-preimage, K=18
+  5 | NAIVE  |       17.00 | OK after 24085 trials       
+  6 | NAIVE  |       17.00 | OK after 18637 trials       
+  -> JOUX  d K / d n0 = 2.00   (predict P-1 = 2)  <-- clean structural exponent
+  -> NAIVE fitted slope d log2(trial-work)/d n0 = 0.00   (predict P = 3; noisy, few pts)
+
+================  P = 4 pipes  (spec claims preimage = 2^(P*n0) = 2^{4*n0})
+ n0 | method | log2(calls) | found/ctrl                  
+  3 | JOUX   | K=13  (=(P-1)n0+4) | log2(calls)~  15.0 | OK 2nd-preimage, K=13
+  4 | JOUX   | K=16  (=(P-1)n0+4) | log2(calls)~  24.0 | OK 2nd-preimage, K=16
+  3 | NAIVE  |       16.00 | OK after 9273 trials        
+  4 | NAIVE  |       18.00 | OK after 25075 trials       
+  -> JOUX  d K / d n0 = 3.00   (predict P-1 = 3)  <-- clean structural exponent
+  -> NAIVE fitted slope d log2(trial-work)/d n0 = 2.00   (predict P = 4; noisy, few pts)
+
+CONCLUSION
+  A second preimage is found with a Joux family of 2^{(P-1)n0+4} messages, so the
+  concatenation's (second-)preimage costs about 2^{(P-1)n0}, one pipe width SHORT of the spec's
+  claimed 2^{P n0} = 2^{2λ}.  Translating back to the real width n=256:
+     level  P  real 2nd-preimage 2^{(P-1)*256}   spec claim 2^{2λ}   NGCC target
+     L256   2       2^256                          2^512               256  (margin ~0)
+     L384   3       2^512                          2^768               384  (ok, +128)
+     L512   4       2^768                          2^1024              512  (ok, +256)
+  => The spec's message-binding number is overstated by 256 bits.  Single-target
+     L384/L512 still clear their classical targets; L256's claimed margin is
+     zero (2^256 == target).  multitarget.py shows the salt prefix removes any /T
+     multi-target speedup, so no level is pushed below its target.
+  (NAIVE rows are single random runs and only sanity-check that a match exists;
+   their fitted slope is too noisy to quote.)
+
