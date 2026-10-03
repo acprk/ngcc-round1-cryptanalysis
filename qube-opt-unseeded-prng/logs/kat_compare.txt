@@ -1,0 +1,13 @@
+== [1] ICCS KAT harness, UNMODIFIED optimized code, API DRNG seeded with nonce 'seed' vs 'ZZZZ'
+  QUBE-128  Seed(rec0) 927F06B594798A4D vs 01AB39099377A7EF | all 10 records: PK identical, CT identical, SS identical
+  QUBE-256  Seed(rec0) 927F06B594798A4D vs 01AB39099377A7EF | all 10 records: PK identical, CT identical, SS identical
+  QUBE-384  Seed(rec0) 927F06B594798A4D vs 01AB39099377A7EF | all 10 records: PK identical, CT identical, SS identical
+  QUBE-512  Seed(rec0) 927F06B594798A4D vs 01AB39099377A7EF | all 10 records: PK identical, CT identical, SS identical
+== [2] control: same harness, optimized code with patches/seed-prng-from-drng.patch
+  QUBE-128  PK differ, CT differ, SS differ
+  QUBE-256  PK differ, CT differ, SS differ
+  QUBE-384  PK differ, CT differ, SS differ
+  QUBE-512  PK differ, CT differ, SS differ
+== [3] control: same harness, unmodified REFERENCE implementation
+  QUBE-128  PK differ, CT differ, SS differ
+  QUBE-512  PK differ, CT differ, SS differ

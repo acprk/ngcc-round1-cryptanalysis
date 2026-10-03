@@ -49,12 +49,14 @@ category/claim mismatch backed by a working full key recovery (see the package R
 ## Implementation-level packages (severity B)
 
 Kept separately from the design-level packages above because each backs a public comment that
-cites a reproduction package. They contain no key recovery.
+cites a reproduction package. None of them breaks the design; only `qube-opt-unseeded-prng` recovers
+keys, and only because one shipped implementation never seeds its PRNG.
 
 | repo | scheme | category | severity | one-line claim |
 |---|---|---|---|---|
 | `yuanyang-dsa-sampler-constant` | YuanYang.DSA | SIG | B (implementation) | -512 wide-sampler rejection constant is 1/(2(16η)²) instead of 1/(2(4η)²): the signature mean becomes (0.458/4)·Â·(𝟙,𝟙), a linear function of the secret Gram root (10σ secret-dependence at 4·10⁵ signatures, cross-key controls at noise); with the public covariance bug this exposes f f̄+g ḡ (the FKTWY EUROCRYPT 2020 quantity); exact recovery projected at ~2³⁵ signatures by simulation only; NO key recovery performed |
 | `weaver-bch-decoder` | Weaver | KEM | B (implementation) | Berlekamp–Massey discrepancy loop `j <= i+1` mis-decodes some ≤t-error patterns (W-1024 t=4: 0.39–1.66% at e=4; W-2048 t=7: 0.2–3%), still present at GitHub ca99d0f; one-line fix, KATs unchanged; submitted W-1024 (no high-layer BCH decode) has real DFR ≈2^-45.5–2^-47.5 vs claimed 2^-231.7 (exact model validated on 3·10⁸ coefficients); failure-boosting cost table only, NO key recovery |
+| `qube-opt-unseeded-prng` | QUBE | KEM | B (implementation; Critical class, cf. ngcc.dev kem-17-1) | Optimized_Implementation (QUBE-128/256/384/512) draws keygen and encaps randomness from a file-scope SHAKE-256 PRNG that is never seeded on the API path (DRNG calls commented out): PK/CT/SS byte-identical under different harness seeds (10/10 records x 4 sets); attacker reproduces the secret key in its own process and decapsulates, and predicts the sender's session key even for an honest recipient key; controls: one-function patch and the unaffected reference implementation both vary with the seed |
 
 ## Design-level comment package (certificational)
 

@@ -1,0 +1,22 @@
+== [4] attacker recovers the KAT record-0 key and session key (victim run used nonce 'ZZZZ')
+ QUBE-128
+  attacker pk == KAT record 0 PK : YES
+  recovered ss == KAT record 0 SS : YES
+ QUBE-256
+  attacker pk == KAT record 0 PK : YES
+  recovered ss == KAT record 0 SS : YES
+ QUBE-384
+  attacker pk == KAT record 0 PK : YES
+  recovered ss == KAT record 0 SS : YES
+ QUBE-512
+  attacker pk == KAT record 0 PK : YES
+  recovered ss == KAT record 0 SS : YES
+== [5] API DRNG seeded from /dev/urandom in every process (what a correct integrator does)
+  QUBE-128 (a) attacker pk == Alice pk: YES | attacker sk == Alice sk: YES | attacker ss == Bob ss: YES
+  QUBE-128 (b) attacker ct == Dave ct: YES | attacker ss == Dave ss: YES | [scoring] Carol decaps == Dave ss: YES
+  QUBE-256 (a) attacker pk == Alice pk: YES | attacker sk == Alice sk: YES | attacker ss == Bob ss: YES
+  QUBE-256 (b) attacker ct == Dave ct: YES | attacker ss == Dave ss: YES | [scoring] Carol decaps == Dave ss: YES
+  QUBE-384 (a) attacker pk == Alice pk: YES | attacker sk == Alice sk: YES | attacker ss == Bob ss: YES
+  QUBE-384 (b) attacker ct == Dave ct: YES | attacker ss == Dave ss: YES | [scoring] Carol decaps == Dave ss: YES
+  QUBE-512 (a) attacker pk == Alice pk: YES | attacker sk == Alice sk: YES | attacker ss == Bob ss: YES
+  QUBE-512 (b) attacker ct == Dave ct: YES | attacker ss == Dave ss: YES | [scoring] Carol decaps == Dave ss: YES

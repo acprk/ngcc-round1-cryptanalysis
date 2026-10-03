@@ -1,0 +1,15 @@
+--- a/src/common/symmetric.c
++++ b/src/common/symmetric.c
+@@ -41,8 +41,11 @@
+  * @param[out] output Pointer to output
+  * @param[in] outlen length of output in bytes
+  */
++#include "drng.h"
++extern DRNG_ctx drng_algorithm;
+ void prng_get_bytes(uint8_t *output, uint32_t outlen) {
+-    shake256_inc_squeeze(output, outlen, &shake256_prng_ctx);
++    /* Draw from the ICCS API DRNG that the harness/integrator seeds, as the reference does. */
++    get_random_number(&drng_algorithm, output, (unsigned long long)outlen * 8);
+ }
+ void my_prng_get_bytes(uint64_t *output, uint32_t outlen) {
+     shake256_inc_squeeze((uint8_t*)output, outlen, &shake256_prng_ctx);
