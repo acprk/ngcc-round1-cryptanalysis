@@ -92,7 +92,7 @@ tpk = calloc(m1_len_bytes, 1); memcpy(tpk, m1, m1_len_bytes);   // buffer size =
 ```
 
 Built under ASan with each buffer sized to exactly the bytes received (what a real
-network receiver does), truncated `m1`/`m2` give `heap-buffer-overflow READ`. Typical:
+network receiver does), truncated `m1`/`m2` give an invalid-memory READ in all 150 cases (25 instances x {m1,m2} x 3 lengths): 148 heap-buffer-overflow, 2 heap-use-after-free; no OOB write. Typical:
 
 ```
 READ of size 615  poly_publickey_unpack (ZEN_128/poly.c:496)

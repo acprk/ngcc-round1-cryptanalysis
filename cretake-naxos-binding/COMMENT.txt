@@ -23,9 +23,9 @@ ephemeral key no longer binds the long-term secret. A single permitted StateReve
 kex-03-2 is Critical.
 
 Ran (repro below; builds against the submission, does not modify it): 22 S2K/S2S
-variants (Ref 12/12, Opt 10/12) recover 20/20, honest 20/20; a forged sk =
-pk_i||random recovers 20/20; changing only this call to *8 drops recovery to 0/20.
-K2K/K2S unaffected (there LCP = 0).
+variants (Ref 12/12, Opt 10/12) recover 20/20, honest 20/20; a forged sk = pk_i||0
+(public data only) recovers 20/20; changing only this call to *8 drops recovery to
+0/20. K2K/K2S unaffected (there LCP(pk,sk)=0, so a genuine KEM secret is absorbed).
 
 De-dup vs kex-03-1: it names this same call but judges it harmless on *entropy*
 grounds. The right measure is the lost ephemeral/long-term binding. Vs kex-03-1
@@ -36,9 +36,10 @@ uniform length fix would repair it; please verify with a StateReveal test, not K
 Issue 2 (Medium). kex_generate_pass2_msg_b / kex_derive_ss_a (void) the caller
 message lengths and parse at constant offsets; no instance checks the length. For
 K2S/K2K the first message is unsigned (pre-auth). Under ASan, sizing each buffer to
-the bytes received, 149/150 truncated cases give heap-buffer-overflow READs (e.g.
-READ 615 in poly_publickey_unpack <- pke_enc <- kex_generate_pass2_msg_b:148). Fix:
-check length before splitting.
+the bytes received, all 150 truncated cases (25 instances x {m1,m2} x 3 lengths)
+give an invalid-memory READ -- 148 heap-buffer-overflow, 2 heap-use-after-free; no
+OOB write (e.g. READ 615 in poly_publickey_unpack <- pke_enc <-
+kex_generate_pass2_msg_b:148). Fix: check length before splitting.
 
 (Minor, Opt tree: ZEN instances vmovdqa the caller m1/m2 buffers, which the
 interface need not align; six segfault on honest sessions at offset 16 mod 32 --

@@ -1,5 +1,5 @@
 === CreTAKE kex-03: NAXOS binding (F1) + caller-length OOB read (F2) ===
-REF=<REF>   date=2026-10-05T04:19:40Z   host=Linux 6.8.0-138-generic x86_64
+REF=<REF>   date=2026-10-05T04:47:30Z   host=Linux 6.8.0-138-generic x86_64
 
 --- [F1] single state reveal recovers the session key (recovered should be N/N) ---
 [Reference_Implementation] CreTAKE-S2K-BiT128-PLAC128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
@@ -67,35 +67,165 @@ REF=<REF>   date=2026-10-05T04:19:40Z   host=Linux 6.8.0-138-generic x86_64
 [Reference_Implementation/fix0301] CreTAKE-S2S-BiT512-ePLAC512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
 [Reference_Implementation/fix0301] RESULT CreTAKE-S2S-BiT512-ePLAC512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
 
---- [F1 witness] LCP(pk,sk): every absorbed sk byte is a public-key byte (absorbed_is_public=YES) ---
+--- [F1 witness] LCP(pk,sk): affected S2K/S2S absorb only public bytes (YES); K2K/K2S absorb a KEM secret (no) ---
 CreTAKE-S2S-BiT128-eZEN128 pk=1048 sk=1864 LCP(pk,sk)=1048 absorbed_sk_bytes=177(=(64+1864)/8-64) absorbed_is_public=YES
 CreTAKE-S2S-BiT256-ePLAC256 pk=2144 sk=4160 LCP(pk,sk)=2144 absorbed_sk_bytes=464(=(64+4160)/8-64) absorbed_is_public=YES
 CreTAKE-S2S-BiT512-ePLAC512 pk=5056 sk=9024 LCP(pk,sk)=5056 absorbed_sk_bytes=1072(=(64+9024)/8-64) absorbed_is_public=YES
+CreTAKE-S2K-BiT128-PLAC128 pk=1048 sk=1864 LCP(pk,sk)=1048 absorbed_sk_bytes=177(=(64+1864)/8-64) absorbed_is_public=YES
+CreTAKE-K2S-ZEN128-BiT128 pk=615 sk=1303 LCP(pk,sk)=0 absorbed_sk_bytes=106(=(64+1303)/8-64) absorbed_is_public=no
+CreTAKE-K2K-ZEN128 pk=615 sk=1303 LCP(pk,sk)=0 absorbed_sk_bytes=106(=(64+1303)/8-64) absorbed_is_public=no
+CreTAKE-K2K-PLAC128 pk=530 sk=1570 LCP(pk,sk)=0 absorbed_sk_bytes=140(=(64+1570)/8-64) absorbed_is_public=no
 
---- [F2] truncated message -> heap-buffer-overflow READ (ASan) ---
+--- [F2] truncated message -> heap-buffer-overflow READ (ASan), all 25 instances ---
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-PLAC128 m1 L=1 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-PLAC128 m1 L=16 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-PLAC128 m1 L=63 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-PLAC128 m2 L=1 -> heap-buffer-overflow READ of size 1280
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-PLAC128 m2 L=16 -> heap-buffer-overflow READ of size 1280
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-PLAC128 m2 L=63 -> heap-buffer-overflow READ of size 1280
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-ZEN128 m1 L=1 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-ZEN128 m1 L=16 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-ZEN128 m1 L=63 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-ZEN128 m2 L=1 -> heap-buffer-overflow READ of size 1024
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-ZEN128 m2 L=16 -> heap-buffer-overflow READ of size 1024
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2K-ZEN128 m2 L=63 -> heap-buffer-overflow READ of size 1024
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-PLAC128-BiT128 m1 L=1 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-PLAC128-BiT128 m1 L=16 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-PLAC128-BiT128 m1 L=63 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-PLAC128-BiT128 m2 L=1 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-PLAC128-BiT128 m2 L=16 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-PLAC128-BiT128 m2 L=63 -> heap-buffer-overflow READ of size 640
 [Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m1 L=1 -> heap-buffer-overflow READ of size 615
 [Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m1 L=16 -> heap-buffer-overflow READ of size 615
 [Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m1 L=63 -> heap-buffer-overflow READ of size 615
 [Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m2 L=1 -> heap-buffer-overflow READ of size 512
 [Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m2 L=16 -> heap-buffer-overflow READ of size 512
 [Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m2 L=63 -> heap-buffer-overflow READ of size 512
-[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=1 -> heap-buffer-overflow READ of size 1
-[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=16 -> heap-buffer-overflow READ of size 1
-[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=63 -> heap-buffer-overflow READ of size 1
-[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=1 -> heap-buffer-overflow READ of size 1
-[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=16 -> heap-buffer-overflow READ of size 1
-[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 m1 L=1 -> heap-buffer-overflow READ of size 1170
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 m1 L=16 -> heap-buffer-overflow READ of size 1170
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 m1 L=63 -> heap-buffer-overflow READ of size 1170
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 m2 L=1 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 m2 L=16 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 m2 L=63 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-ZEN128 m1 L=1 -> heap-buffer-overflow READ of size 1127
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-ZEN128 m1 L=16 -> heap-buffer-overflow READ of size 1127
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-ZEN128 m1 L=63 -> heap-buffer-overflow READ of size 1127
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-ZEN128 m2 L=1 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-ZEN128 m2 L=16 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2K-BiT128-ZEN128 m2 L=63 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-ePLAC128 m1 L=1 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-ePLAC128 m1 L=16 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-ePLAC128 m1 L=63 -> heap-buffer-overflow READ of size 530
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-ePLAC128 m2 L=1 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-ePLAC128 m2 L=16 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-ePLAC128 m2 L=63 -> heap-buffer-overflow READ of size 640
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=1 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=16 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=63 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=1 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=16 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=63 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-PLAC256 m1 L=1 -> heap-buffer-overflow READ of size 1060
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-PLAC256 m1 L=16 -> heap-buffer-overflow READ of size 1060
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-PLAC256 m1 L=63 -> heap-buffer-overflow READ of size 1060
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-PLAC256 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-PLAC256 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-PLAC256 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-ZEN256 m1 L=1 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-ZEN256 m1 L=16 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-ZEN256 m1 L=63 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-ZEN256 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-ZEN256 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2K-ZEN256 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-PLAC256-BiT256 m1 L=1 -> READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-PLAC256-BiT256 m1 L=16 -> READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-PLAC256-BiT256 m1 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-PLAC256-BiT256 m2 L=1 -> heap-buffer-overflow READ of size 1280
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-PLAC256-BiT256 m2 L=16 -> heap-buffer-overflow READ of size 1280
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-PLAC256-BiT256 m2 L=63 -> heap-buffer-overflow READ of size 1280
 [Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m1 L=1 -> heap-buffer-overflow READ of size 1229
 [Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m1 L=16 -> heap-buffer-overflow READ of size 1229
 [Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m1 L=63 -> heap-buffer-overflow READ of size 1229
 [Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m2 L=1 -> heap-buffer-overflow READ of size 1024
 [Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m2 L=16 -> heap-buffer-overflow READ of size 1024
 [Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m2 L=63 -> heap-buffer-overflow READ of size 1024
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-PLAC256 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-PLAC256 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-PLAC256 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-PLAC256 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-PLAC256 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-PLAC256 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-ZEN256 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-ZEN256 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-ZEN256 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-ZEN256 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-ZEN256 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2K-BiT256-ZEN256 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-eZEN256 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-eZEN256 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-eZEN256 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-eZEN256 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-eZEN256 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-S2S-BiT256-eZEN256 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512 m1 L=1 -> heap-buffer-overflow READ of size 2116
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512 m1 L=16 -> heap-buffer-overflow READ of size 2116
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512 m1 L=63 -> heap-buffer-overflow READ of size 2116
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512Star m1 L=1 -> heap-buffer-overflow READ of size 2522
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512Star m1 L=16 -> heap-buffer-overflow READ of size 2522
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512Star m1 L=63 -> heap-buffer-overflow READ of size 2522
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512Star m2 L=1 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512Star m2 L=16 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-PLAC512Star m2 L=63 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-ZEN512 m1 L=1 -> heap-buffer-overflow READ of size 2458
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-ZEN512 m1 L=16 -> heap-buffer-overflow READ of size 2458
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-ZEN512 m1 L=63 -> heap-buffer-overflow READ of size 2458
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-ZEN512 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-ZEN512 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2K-ZEN512 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-PLAC512-BiT512 m1 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-PLAC512-BiT512 m1 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-PLAC512-BiT512 m1 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-PLAC512-BiT512 m2 L=1 -> heap-buffer-overflow READ of size 2560
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-PLAC512-BiT512 m2 L=16 -> heap-buffer-overflow READ of size 2560
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-PLAC512-BiT512 m2 L=63 -> heap-buffer-overflow READ of size 2560
 [Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m1 L=1 -> heap-buffer-overflow READ of size 2458
 [Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m1 L=16 -> heap-buffer-overflow READ of size 2458
 [Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m1 L=63 -> heap-buffer-overflow READ of size 2458
 [Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m2 L=1 -> heap-buffer-overflow READ of size 2048
 [Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m2 L=16 -> heap-buffer-overflow READ of size 2048
 [Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m2 L=63 -> heap-buffer-overflow READ of size 2048
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-PLAC512 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-PLAC512 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-PLAC512 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-PLAC512 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-PLAC512 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-PLAC512 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-ZEN512 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-ZEN512 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-ZEN512 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-ZEN512 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-ZEN512 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2K-BiT512-ZEN512 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-eZEN512 m1 L=1 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-eZEN512 m1 L=16 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-eZEN512 m1 L=63 -> heap-buffer-overflow READ of size 64
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-eZEN512 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-eZEN512 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-S2S-BiT512-eZEN512 m2 L=63 -> heap-buffer-overflow READ of size 1
 
 === done.  Full transcript in logs/run.txt ===

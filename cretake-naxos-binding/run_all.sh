@@ -70,12 +70,13 @@ run_state(){ # $1 = tree  $2 = instance subpath  $3 = variant(""|fixed|fix0301)
 }
 
 # ---- Experiment 1b: LCP(pk, sk) and which bytes are absorbed -----------------
+# Links every instance object (so K2K, which ships twokem.o, also links).
 run_lcp(){ # $1 = tree  $2 = instance subpath
-  local d="$W/$1/$2"; prep_tree "$1"
+  local d="$W/$1/$2" objs; prep_tree "$1"
   ( cd "$d" && make -s clean all >/dev/null 2>&1 ) || return
   inst_flags "$d"
-  ( cd "$d" && $CC -O2 -w -std=c99 $INC "$SRC/lcp.c" KEX_AlgorithmInstance.o \
-        auxfunc.o drng.o secure_bzero.o $LIBS -o lcp && ./lcp ) | tee -a "$LOG"
+  objs=$(cd "$d" && ls *.o 2>/dev/null | grep -vE 'KAT_KEX|test_' | tr '\n' ' ')
+  ( cd "$d" && $CC -O2 -w -std=c99 $INC "$SRC/lcp.c" $objs $LIBS -o lcp && ./lcp ) | tee -a "$LOG"
   rm -f "$d/lcp"
 }
 
@@ -87,8 +88,9 @@ run_trunc(){ # $1 = tree  $2 = instance subpath
   ( cd "$d" && make -s CC="gcc -fsanitize=address,undefined -fno-omit-frame-pointer -g" clean all >/dev/null 2>&1 ) \
     || { say "[asan-build-fail] $tree/$inst"; return; }
   inst_flags "$d"
+  local objs; objs=$(cd "$d" && ls *.o 2>/dev/null | grep -vE 'KAT_KEX|test_' | tr '\n' ' ')
   ( cd "$d" && gcc -fsanitize=address,undefined -fno-omit-frame-pointer -g -O1 -w -std=c99 $INC \
-        "$SRC/poc_trunc.c" KEX_AlgorithmInstance.o auxfunc.o drng.o secure_bzero.o $LIBS -o poc ) \
+        "$SRC/poc_trunc.c" $objs $LIBS -o poc ) \
     || { say "[asan-link-fail] $tree/$inst"; return; }
   for which in m1 m2; do for L in 1 16 63; do
     rc=$(cd "$d" && ASAN_OPTIONS=detect_leaks=0 ./poc "$L" "$which" 2>&1 \
@@ -136,15 +138,16 @@ for i in CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 CreTAKE128/CreTAKE-S2S-BiT128-eZE
   run_state Reference_Implementation "$i" fix0301
 done
 say ""
-say "--- [F1 witness] LCP(pk,sk): every absorbed sk byte is a public-key byte (absorbed_is_public=YES) ---"
-for i in CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 \
-         CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 ; do
+say "--- [F1 witness] LCP(pk,sk): affected S2K/S2S absorb only public bytes (YES); K2K/K2S absorb a KEM secret (no) ---"
+for i in \
+  CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 CreTAKE256/CreTAKE-S2S-BiT256-ePLAC256 CreTAKE512/CreTAKE-S2S-BiT512-ePLAC512 \
+  CreTAKE128/CreTAKE-S2K-BiT128-PLAC128 \
+  CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 CreTAKE128/CreTAKE-K2K-ZEN128 CreTAKE128/CreTAKE-K2K-PLAC128 ; do
   run_lcp Reference_Implementation "$i"
 done
 say ""
-say "--- [F2] truncated message -> heap-buffer-overflow READ (ASan) ---"
-for i in CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 \
-         CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 ; do
+say "--- [F2] truncated message -> heap-buffer-overflow READ (ASan), all 25 instances ---"
+for i in $(cd "$REF/Reference_Implementation" && ls -d CreTAKE*/CreTAKE-* ) ; do
   run_trunc Reference_Implementation "$i"
 done
 say ""
