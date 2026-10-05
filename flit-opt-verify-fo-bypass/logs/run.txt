@@ -1,0 +1,63 @@
+########################################################################
+# [0] honest round-trip (optimized FLIT128) — the defect is invisible here
+########################################################################
+honest keygen/enc/dec round-trip: ok (ct=512 bytes)
+
+########################################################################
+# [1] verify() accept rate on INVALID ciphertexts (should be 0 for a
+#     correct constant-time equality check: every differing pair -> reject)
+########################################################################
+-- opt128 (optimized)
+  random 1-4 bit flips (199994 differing ct): verify() called EQUAL 6850, NOT-equal 193144 -> accept rate 3.4251%
+  exhaustive single-bit flips (4096): called EQUAL 0, NOT-equal 4096
+-- opt256 (optimized)
+  random 1-4 bit flips (199994 differing ct): verify() called EQUAL 6891, NOT-equal 193103 -> accept rate 3.4456%
+  exhaustive single-bit flips (8192): called EQUAL 0, NOT-equal 8192
+-- opt512 (optimized)
+  random 1-4 bit flips (199997 differing ct): verify() called EQUAL 6988, NOT-equal 193009 -> accept rate 3.4941%
+  exhaustive single-bit flips (18432): called EQUAL 0, NOT-equal 18432
+-- fopt128 (optimized)
+  random 1-4 bit flips (199994 differing ct): verify() called EQUAL 6850, NOT-equal 193144 -> accept rate 3.4251%
+  exhaustive single-bit flips (4096): called EQUAL 0, NOT-equal 4096
+-- ref128 (reference, control)
+  random 1-4 bit flips (199994 differing ct): verify() called EQUAL 0, NOT-equal 199994 -> accept rate 0.0000%
+  exhaustive single-bit flips (4096): called EQUAL 0, NOT-equal 4096
+-- ref256 (reference, control)
+  random 1-4 bit flips (199994 differing ct): verify() called EQUAL 0, NOT-equal 199994 -> accept rate 0.0000%
+  exhaustive single-bit flips (8192): called EQUAL 0, NOT-equal 8192
+-- fix128 (optimized + patches/verify-fix.patch, control)
+  random 1-4 bit flips (199994 differing ct): verify() called EQUAL 0, NOT-equal 199994 -> accept rate 0.0000%
+  exhaustive single-bit flips (4096): called EQUAL 0, NOT-equal 4096
+
+########################################################################
+# [2] verify()/cmov micro-behaviour (optimized FLIT128 vs reference)
+########################################################################
+-- opt128 (optimized): verify mismatch returns -1; cmov with b=0xFF moves only bit 0
+  verify(equal)          = 0 (expect 0)
+  verify(differ@byte7b7) = -1
+  verify(differ@byte100) = -1  (mismatch return value)
+  cmov(r=AA.., x=55.., b=verify-mismatch): r -> ABABABABABABABAB
+  (full move would give 55.., bit-0-only move gives AB..)
+-- ref128 (reference): verify mismatch returns 1; cmov with b=1 moves the whole byte
+  verify(equal)          = 0 (expect 0)
+  verify(differ@byte7b7) = 1
+  verify(differ@byte100) = 1  (mismatch return value)
+  cmov(r=AA.., x=55.., b=verify-mismatch): r -> 5555555555555555
+  (full move would give 55.., bit-0-only move gives AB..)
+
+########################################################################
+# [3] plaintext-checking oracle (optimized FLIT128): on each accepted
+#     invalid ct', decapsulation == KDF(G(m'||H(pk))||H(ct')) recomputed
+#     from public data; correct m' matches, wrong m' does not
+########################################################################
+  accepted invalid ct' #1 (2 bit-flips): oracle == predict(correct m'): YES ; == predict(wrong m'): NO
+     oracle ss        = 2D4014A608E68BA29FCE510B73242C13
+     predict(m')      = 2D4014A608E68BA29FCE510B73242C13
+     predict(m' xor 1)= 1D1F71718FBAC03388C382C612071816
+  accepted invalid ct' #2 (2 bit-flips): oracle == predict(correct m'): YES ; == predict(wrong m'): NO
+  accepted invalid ct' #3 (3 bit-flips): oracle == predict(correct m'): YES ; == predict(wrong m'): NO
+  accepted invalid ct' #4 (3 bit-flips): oracle == predict(correct m'): YES ; == predict(wrong m'): NO
+  accepted invalid ct' #5 (3 bit-flips): oracle == predict(correct m'): YES ; == predict(wrong m'): NO
+  summary: tested 14 invalid ct', verify() ACCEPTED 5 (FO bypass).
+  On every accepted ct' the decapsulation output is reproducible from (pk, ct', m') alone
+  via the scheme's own G/H/KDF => plaintext-checking oracle.
