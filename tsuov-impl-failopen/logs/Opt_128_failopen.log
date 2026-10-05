@@ -1,0 +1,5 @@
+verify(sig1, m1)              = 0
+verify(sig1, m2)              = -1
+verify(sig1, m1) again        = 0
+verify(sig1, m2, len=2^62)    = 0   (0 = ACCEPT)
+sign(m2, len=2^62) returns 0; that sig verifies on m1? -1

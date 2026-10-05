@@ -1,0 +1,52 @@
+verify with 20-byte pk buffer (declared 20)...
+=================================================================
+==3024702==ERROR: AddressSanitizer: unknown-crash on address 0x503000000040 at pc 0x5f5291694936 bp 0x7ffff2ca3210 sp 0x7ffff2ca3200
+READ of size 32 at 0x503000000040 thread T0
+    #0 0x5f5291694935 in memcpy /usr/include/x86_64-linux-gnu/bits/string_fortified.h:29
+    #1 0x5f5291694935 in restore_TSUOV_SEED <pkg>/work/Ref_256/tsuov_core.h:84
+    #2 0x5f5291694935 in sig_verify <pkg>/work/Ref_256/SIG_AlgorithmInstance.c:111
+    #3 0x5f529168ca66 in main <pkg>/src/asan2.c:17
+    #4 0x73ea13e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #5 0x73ea13e29e3f in __libc_start_main_impl ../csu/libc-start.c:392
+    #6 0x5f529168c4a4 in _start (<pkg>/work/Ref_256/asan2+0x24a4)
+
+0x503000000054 is located 0 bytes to the right of 20-byte region [0x503000000040,0x503000000054)
+allocated by thread T0 here:
+    #0 0x73ea142b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5f529168c9d7 in main <pkg>/src/asan2.c:16
+    #2 0x73ea13e29d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: unknown-crash /usr/include/x86_64-linux-gnu/bits/string_fortified.h:29 in memcpy
+Shadow bytes around the buggy address:
+  0x0a067fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a067fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a067fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a067fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a067fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0a067fff8000: fa fa 00 00 00 fa fa fa[00]00 04 fa fa fa fa fa
+  0x0a067fff8010: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a067fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a067fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a067fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a067fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==3024702==ABORTING

@@ -1,0 +1,24 @@
+<pkg>/src/failopen_rl.c: In function ‘vmsize’:
+<pkg>/src/failopen_rl.c:10:70: warning: ignoring return value of ‘fscanf’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   10 | static size_t vmsize(){FILE*f=fopen("/proc/self/statm","r");size_t a;fscanf(f,"%zu",&a);fclose(f);return a*4096;}
+      |                                                                      ^~~~~~~~~~~~~~~~~~
+<pkg>/src/failopen_rl.c: In function ‘vmsize’:
+<pkg>/src/failopen_rl.c:10:70: warning: ignoring return value of ‘fscanf’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   10 | static size_t vmsize(){FILE*f=fopen("/proc/self/statm","r");size_t a;fscanf(f,"%zu",&a);fclose(f);return a*4096;}
+      |                                                                      ^~~~~~~~~~~~~~~~~~
+<pkg>/src/failopen_rl.c: In function ‘vmsize’:
+<pkg>/src/failopen_rl.c:10:70: warning: ignoring return value of ‘fscanf’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   10 | static size_t vmsize(){FILE*f=fopen("/proc/self/statm","r");size_t a;fscanf(f,"%zu",&a);fclose(f);return a*4096;}
+      |                                                                      ^~~~~~~~~~~~~~~~~~
+<pkg>/src/failopen_rl.c: In function ‘vmsize’:
+<pkg>/src/failopen_rl.c:10:70: warning: ignoring return value of ‘fscanf’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   10 | static size_t vmsize(){FILE*f=fopen("/proc/self/statm","r");size_t a;fscanf(f,"%zu",&a);fclose(f);return a*4096;}
+      |                                                                      ^~~~~~~~~~~~~~~~~~
+<pkg>/src/failopen_rl.c: In function ‘vmsize’:
+<pkg>/src/failopen_rl.c:10:70: warning: ignoring return value of ‘fscanf’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   10 | static size_t vmsize(){FILE*f=fopen("/proc/self/statm","r");size_t a;fscanf(f,"%zu",&a);fclose(f);return a*4096;}
+      |                                                                      ^~~~~~~~~~~~~~~~~~
+<pkg>/src/failopen_rl.c: In function ‘vmsize’:
+<pkg>/src/failopen_rl.c:10:70: warning: ignoring return value of ‘fscanf’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   10 | static size_t vmsize(){FILE*f=fopen("/proc/self/statm","r");size_t a;fscanf(f,"%zu",&a);fclose(f);return a*4096;}
+      |                                                                      ^~~~~~~~~~~~~~~~~~

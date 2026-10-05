@@ -1,0 +1,12 @@
+TSUOV_128 cross-verify Opt: honest 8/8
+TSUOV_128 cross-verify Opt: non-canonical (all-zeros->31 in sig AND pk) 8/8 accepted
+TSUOV_128 cross-verify Ref: honest 8/8
+TSUOV_128 cross-verify Ref: non-canonical (all-zeros->31 in sig AND pk) 8/8 accepted
+TSUOV_256 cross-verify Opt: honest 8/8
+TSUOV_256 cross-verify Opt: non-canonical (all-zeros->31 in sig AND pk) 8/8 accepted
+TSUOV_256 cross-verify Ref: honest 8/8
+TSUOV_256 cross-verify Ref: non-canonical (all-zeros->31 in sig AND pk) 8/8 accepted
+TSUOV_512 cross-verify Opt: honest 8/8
+TSUOV_512 cross-verify Opt: non-canonical (all-zeros->31 in sig AND pk) 8/8 accepted
+TSUOV_512 cross-verify Ref: honest 8/8
+TSUOV_512 cross-verify Ref: non-canonical (all-zeros->31 in sig AND pk) 8/8 accepted

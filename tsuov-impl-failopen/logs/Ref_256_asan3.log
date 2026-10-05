@@ -1,0 +1,57 @@
+verify with m_len = 2^64-32 ...
+=================================================================
+==3024719==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x502000000011 at pc 0x7d705c43a2c3 bp 0x7ffcb960bd60 sp 0x7ffcb960b508
+WRITE of size 32 at 0x502000000011 thread T0
+    #0 0x7d705c43a2c2 in __interceptor_memcpy ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:827
+    #1 0x57c4232cb7c4 in memcpy /usr/include/x86_64-linux-gnu/bits/string_fortified.h:29
+    #2 0x57c4232cb7c4 in Expand_mu <pkg>/work/Ref_256/tsuov_core.c:421
+    #3 0x57c4232d15d2 in TSUOV_Verify <pkg>/work/Ref_256/tsuov_core.c:997
+    #4 0x57c4232caab7 in sig_verify <pkg>/work/Ref_256/SIG_AlgorithmInstance.c:118
+    #5 0x57c4232c2b2c in main <pkg>/src/asan2.c:19
+    #6 0x7d705c029d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #7 0x7d705c029e3f in __libc_start_main_impl ../csu/libc-start.c:392
+    #8 0x57c4232c24a4 in _start (<pkg>/work/Ref_256/asan2+0x24a4)
+
+0x502000000011 is located 0 bytes to the right of 1-byte region [0x502000000010,0x502000000011)
+allocated by thread T0 here:
+    #0 0x7d705c4b4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x57c4232cb7ac in Expand_mu <pkg>/work/Ref_256/tsuov_core.c:418
+    #2 0x57c4232d15d2 in TSUOV_Verify <pkg>/work/Ref_256/tsuov_core.c:997
+    #3 0x57c4232caab7 in sig_verify <pkg>/work/Ref_256/SIG_AlgorithmInstance.c:118
+    #4 0x57c4232c2b2c in main <pkg>/src/asan2.c:19
+    #5 0x7d705c029d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:827 in __interceptor_memcpy
+Shadow bytes around the buggy address:
+  0x0a047fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a047fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x0a047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x0a047fff8000: fa fa[01]fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a047fff8010: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a047fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==3024719==ABORTING

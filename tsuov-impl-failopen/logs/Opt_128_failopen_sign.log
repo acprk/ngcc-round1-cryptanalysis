@@ -1,0 +1,3 @@
+verify(junk, M*)  = -1
+sign(len=2^62) ret=0 ; resulting sig valid on M*? -1 (0=yes)
+sign-after-sign: stale sig valid on previous message? 0 (0=yes)

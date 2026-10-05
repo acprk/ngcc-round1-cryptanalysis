@@ -1,0 +1,4 @@
+verify(sig1, m1)              = 0
+verify(sig1, 256MiB m2) no RL = -1
+verify(sig1, m1)              = 0
+verify(sig1, 256MiB m2) RLIMIT= 0   (0 = ACCEPT)

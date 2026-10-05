@@ -1,0 +1,53 @@
+verify 100-byte sig buffer (declared 100)...
+=================================================================
+==3024700==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50b0000023b4 at pc 0x5dfe113019fc bp 0x7ffec5771860 sp 0x7ffec5771850
+READ of size 1 at 0x50b0000023b4 thread T0
+    #0 0x5dfe113019fb in restore_bits <pkg>/work/Ref_256/Fql.h:76
+    #1 0x5dfe113019fb in restore_Fq <pkg>/work/Ref_256/Fql.h:95
+    #2 0x5dfe113019fb in restore_TSUOV_SIGNATURE <pkg>/work/Ref_256/tsuov_core.h:113
+    #3 0x5dfe113019fb in sig_verify <pkg>/work/Ref_256/SIG_AlgorithmInstance.c:116
+    #4 0x5dfe112f99a6 in main <pkg>/src/asan2.c:15
+    #5 0x742bab629d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #6 0x742bab629e3f in __libc_start_main_impl ../csu/libc-start.c:392
+    #7 0x5dfe112f94a4 in _start (<pkg>/work/Ref_256/asan2+0x24a4)
+
+0x50b0000023b4 is located 0 bytes to the right of 100-byte region [0x50b000002350,0x50b0000023b4)
+allocated by thread T0 here:
+    #0 0x742babab4887 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:145
+    #1 0x5dfe112f9917 in main <pkg>/src/asan2.c:14
+    #2 0x742bab629d8f in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow <pkg>/work/Ref_256/Fql.h:76 in restore_bits
+Shadow bytes around the buggy address:
+  0x0a167fff8420: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
+  0x0a167fff8430: fd fd fd fd fd fa fa fa fa fa fa fa fa fa fd fd
+  0x0a167fff8440: fd fd fd fd fd fd fd fd fd fd fd fa fa fa fa fa
+  0x0a167fff8450: fa fa fa fa fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0a167fff8460: fd fa fa fa fa fa fa fa fa fa 00 00 00 00 00 00
+=>0x0a167fff8470: 00 00 00 00 00 00[04]fa fa fa fa fa fa fa fa fa
+  0x0a167fff8480: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a167fff8490: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a167fff84a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a167fff84b0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0a167fff84c0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+  Shadow gap:              cc
+==3024700==ABORTING

@@ -1,0 +1,10 @@
+TSUOV_512 pk=21319 sig=2939 sig_elems=4600 pk_elems=34008 pk_pad_bits=0
+ t=0 sig zeros=119 ->31 ACCEPT | pk zeros=1104 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+ t=1 sig zeros=158 ->31 ACCEPT | pk zeros=1124 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+ t=2 sig zeros=154 ->31 ACCEPT | pk zeros=1058 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+ t=3 sig zeros=138 ->31 ACCEPT | pk zeros=1122 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+ t=4 sig zeros=173 ->31 ACCEPT | pk zeros=1142 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+ t=5 sig zeros=146 ->31 ACCEPT | pk zeros=1022 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+ t=6 sig zeros=164 ->31 ACCEPT | pk zeros=1074 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+ t=7 sig zeros=141 ->31 ACCEPT | pk zeros=1062 ->31 ACCEPT | both ACCEPT | pkpad n/a | sn_len+16 ACCEPT | sn_len-1 ACCEPT | pk_len=1 ACCEPT
+SUMMARY TSUOV_512 honest 8/8 sigNC 8/8 pkNC 8/8 pkpad 0/8 trailing 8/8 short 8/8 pklen1 8/8
