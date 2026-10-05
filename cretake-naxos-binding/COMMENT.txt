@@ -1,166 +1,109 @@
-Subject: Re: Round1: Public Comment: CreTAKE - the initiator-side units error removes the NAXOS state/long-term binding (state reveal alone recovers the session key), and the KEX wrappers ignore caller message lengths
+Subject: Re: Round1: Public Comment: CreTAKE - the initiator-side units error removes the NAXOS state/long-term binding (a single state reveal recovers the session key), plus pre-authentication out-of-bounds reads
 
 Dear CreTAKE Team, dear all,
 
-We report two implementation issues in the CreTAKE KEX wrappers
-(Implementations/{Reference,Optimized}_Implementation/*/KEX_AlgorithmInstance.c).
-They are present in the archived NICCS package in both the Reference and the
-Optimized trees. The first is closely related to kex-03-1 (ngcc.dev) and to the
-authors' 22 Sep acknowledgement of a systematic bit-vs-byte confusion; we think
-its impact has been understated and we make that precise below. The second is, to
-our knowledge, not yet raised in this thread or on ngcc.dev.
+We report two implementation issues in the KEX wrappers
+(Implementations/{Reference,Optimized}_Implementation/*/KEX_AlgorithmInstance.c),
+present in the archived NICCS package in both trees. Issue 1 concerns the same
+initiator-side call as kex-03-1 (ngcc.dev); we do not claim a new code location,
+but we think its impact has been measured wrongly and is in fact Critical. Issue 2
+is, to our knowledge, not yet raised here or on ngcc.dev.
 
-=====================================================================
-Issue 1 (re: kex-03-1 -- impact correction; Critical if filed as a distinct item).
-The initiator-side length-unit error removes the NAXOS binding between the
-ephemeral key and the long-term secret, so a single state reveal -- which the
-security model explicitly allows -- recovers the session key. No search is needed,
-and this is not the responder-side 2^64 call of kex-03-1. We do not claim a new
-code location: kex-03-1 names this same call and judges it harmless on entropy
-grounds. Our point is that the right measure here is not entropy but the loss of
-the ephemeral/long-term binding, and under that measure the call is not harmless.
-=====================================================================
+== Issue 1 (Critical). The units error removes the NAXOS binding; one state reveal recovers the key ==
 
-The specification's resistance to state leakage is the NAXOS trick
-sk~ = wGen(G(ski, re)): the ephemeral KEM key is derived from BOTH the long-term
-secret ski and fresh randomness re. The specification states (Sec. 4.2.1/4.2.2)
-that "revealing either the signing key or the session state alone does not expose
-the wKEM secret", and the proof sketches of Theorems 3/4 argue that, since
-sk~ is generated using G(ski, re), the adversary cannot compute sk~ without both
-inputs. In IND-StAA / IND-AA, revealing only the session state (not the long-term
-key) is a permitted query.
-
-In the implementation, G is instantiated as (S2S shown; S2K identical, two call
-sites per instance -- kex_generate_pass1_msg_a and kex_derive_ss_a):
+1. Cause. CreTAKE resists state leakage with the NAXOS trick sk~ = wGen(G(ski, re)):
+the ephemeral key is derived from BOTH the long-term secret ski and fresh
+randomness re. The spec states (Sec. 4.2.1/4.2.2) that "revealing either the
+signing key or the session state alone does not expose the wKEM secret", and the
+proofs of Theorems 3/4 argue sk~ cannot be computed without both inputs. In
+IND-StAA/IND-AA, revealing the session state alone (not the long-term key) is a
+permitted query. The implementation instantiates G as (S2S shown; S2K identical;
+kex_generate_pass1_msg_a and kex_derive_ss_a, e.g.
+CreTAKE128/CreTAKE-S2S-BiT128-eZEN128/KEX_AlgorithmInstance.c:117,187):
 
     memcpy(buf + SEED_BYTES, ska, SKI_LEN);
     pseudohash(SEED_BYTES * 8, buf, SEED_BYTES + SKI_LEN, seed_kg);
 
-e.g. CreTAKE128/CreTAKE-S2S-BiT128-eZEN128/KEX_AlgorithmInstance.c lines 117 and
-187. The third pseudohash argument is a BIT length (auxfunc.c:460,
-"int pseudohash(int digest_len_bits, const unsigned char *msg,
-unsigned long long msg_len_bits, ...)"), but the code passes the BYTE count
-SEED_BYTES + SKI_LEN. So pseudohash absorbs only (SEED_BYTES + SKI_LEN)/8 bytes:
-the 64-byte random value r in full, plus the first 177 / 464 / 1072 bytes of ska
-at the 128 / 256 / 512 levels.
+The third pseudohash argument is a BIT length (auxfunc.c:460), but the code passes
+the BYTE count SEED_BYTES + SKI_LEN. So only (SEED_BYTES + SKI_LEN)/8 bytes are
+absorbed: r in full (64 B) plus the first 177/464/1072 bytes of ska at the
+128/256/512 levels. Those leading ska bytes are PUBLIC: in BiT, pack_sk begins
+with the packed public key in pack_pk order (the KEX code relies on this when it
+recovers the peer key via memcpy(pkI, ska, PKI_LEN)). LCP(pk,sk) = 1048/2144/5056
+(measured), and 177/464/1072 <= those, so EVERY absorbed ska byte is public. The
+long-term secret bytes entering seed_kg number ZERO:
 
-The key point is what those leading ska bytes are. In BiT, pack_sk begins with
-the packed public key (seed_A || b1), in the same order as pack_pk; the KEX code
-relies on exactly this when it recovers the peer public key with
-memcpy(pkI, ska, PKI_LEN). The longest common prefix LCP(pk, sk) is 1048 / 2144 /
-5056 bytes (measured). Since 177 / 464 / 1072 <= 1048 / 2144 / 5056, EVERY absorbed
-ska byte is a public-key byte. The number of long-term SECRET bytes entering
-seed_kg is therefore ZERO:
+    seed_kg = pseudohash( r || (a public prefix of pk_i) ).
 
-    seed_kg = pseudohash( r || (a public prefix of pk_i) ),
+The ephemeral key now depends only on the state r and on public data; the NAXOS
+binding to the long-term key is gone.
 
-i.e. the ephemeral key depends only on the fresh randomness r (which is the
-session state) and on public data. The NAXOS binding to the long-term key is gone.
+2. Attack (inside the model, no search). Given a single state reveal (state is r
+for S2S; r || c_j || k_j for S2K) plus the public pk_i and the on-wire messages,
+the attacker recomputes seed_kg, regenerates (tpk, tsk), decrypts to k~, and
+recomputes the session key. This is a polynomial-time distinguisher under one
+permitted StateReveal on the test session's owner with the peer uncorrupted -- the
+same class of model-level break for which kex-03-2 is rated Critical.
 
-Consequence (inside the model). Given a state reveal -- session state is r for
-S2S; r || c_j || k_j for S2K -- together with the public pk_i and the on-wire
-messages, the attacker recomputes seed_kg, regenerates (tpk, tsk) via
-pke_keygen_derand / twokem_keygen2_withseed, decrypts the observed ciphertext to
-k~, and recomputes the session key. This is a polynomial-time distinguisher under
-a single permitted StateReveal on the test session's owner, with the peer
-uncorrupted -- the same class of model-level break that kex-03-2 is rated Critical
-for.
+3. What we ran (reproduction package below; builds against the submission via REF=,
+copies the trees, does not modify them).
+- 22 runnable S2K/S2S variants (Reference 12/12, Optimized 10/12 -- two ZEN256
+  optimized instances segfault for the unrelated AVX2 alignment reason in the P.S.):
+  session key recovered 20/20, honest sessions match 20/20.
+- Public-data-only attacker: a "forged sk" = (pk_i || random garbage) after PKI_LEN
+  still recovers 20/20.
+- Causality control: changing only this call to (SEED_BYTES + SKI_LEN) * 8 drops
+  recovery to 0/20, honest sessions still 20/20 (4 instances).
+- LCP witness: absorbed_is_public = YES at all three levels.
+- K2K/K2S are NOT affected (there the absorbed prefix is a KEM secret key with
+  LCP(pk,sk) = 0, so 106-779 genuine secret bytes enter seed_kg).
 
-What we ran (reproduction notes below; the harness builds copies of the submission
-and does not modify the submitted sources):
-  - 22 runnable variants (Reference: 12/12; Optimized: 10/12 -- the two
-    CreTAKE-S2{K,S}-*ZEN256 optimized instances segfault for an unrelated AVX2
-    alignment reason, see the P.S.): session key recovered in 20/20 trials each,
-    honest sessions match in 20/20.
-  - The attacker uses only public data: setting the "forged sk" to
-    (pk_i || random garbage) after PKI_LEN still recovers 20/20.
-  - Causality control: changing only this one call to the intended
-    (SEED_BYTES + SKI_LEN) * 8 drops recovery to 0/20 while honest sessions still
-    match 20/20 (4 instances).
-  - K2K / K2S are NOT affected: there the absorbed prefix is a KEM secret key whose
-    LCP with its public key is 0, so genuine secret bytes (106-779 of them) enter
-    seed_kg.
+4. Relation to kex-03-1 (de-duplication). kex-03-1 names this same call and judges
+it harmless because "all 64 random bytes are still absorbed and this ... does not
+reduce entropy further". That is right about entropy but measures the wrong thing:
+the damage is the loss of the ephemeral/long-term binding on which NAXOS and
+Theorems 3/4 rest. Relative to kex-03-1 this adds (a) a model-internal state-reveal
+key recovery with no search; (b) a new affected set, S2K, for which kex-03-1 only
+claimed a 2^64 weak-forward-secrecy loss after the complementary key is
+compromised; and (c) it survives the responder-side fix named by kex-03-1 (we
+re-ran with only that fix applied: still 20/20). We regard it as Critical whether
+filed separately or folded into kex-03-1. The authors' announced uniform
+length-parameter fix would also repair it; we suggest verifying the fix with an
+explicit StateReveal test, since the KATs never exercise a state reveal.
 
-Relation to kex-03-1 (please read as de-duplication, not a new call site).
-kex-03-1 already mentions this initiator-side call and concludes that "all 64
-random bytes are still absorbed and this second units error does not reduce
-entropy further". That is correct about entropy, but it measures the wrong thing:
-the damage is not a loss of entropy in seed_kg, it is the loss of the
-ephemeral/long-term binding that the NAXOS construction and Theorems 3/4 rely on.
-Relative to kex-03-1 this adds (a) a new mechanism -- a model-internal state-reveal
-key recovery with no search -- ; (b) a new affected set, S2K, for which kex-03-1
-only claimed a 2^64 weak-forward-secrecy degradation after the complementary key
-is compromised; and (c) it still holds after the responder-side call named by
-kex-03-1 is fixed (we re-ran with only that fix applied: still 20/20). We would
-regard this as Critical whether it is filed as a distinct item or folded into
-kex-03-1 as "same root cause, new mechanism, new affected set, model-internal
-impact". If the authors' announced uniform length-parameter fix is applied
-consistently it will also repair this; we note it because it is the specification's
-central security feature and we suggest it be verified with an explicit
-StateReveal test on the fixed code, not only with the standard KATs (which never
-exercise a state reveal).
+== Issue 2 (Medium). Caller message lengths are ignored -> pre-authentication out-of-bounds reads ==
 
-=====================================================================
-Issue 2 (Medium). The KEX wrappers ignore the caller-supplied message lengths and
-split incoming messages at constant offsets, giving pre-authentication
-out-of-bounds reads on truncated messages.
-=====================================================================
+kex_generate_pass2_msg_b and kex_derive_ss_a discard the length arguments
+((void)m1_len_bytes / (void)mb_len_bytes, or use them only to size a buffer) and
+parse at constant offsets (m1 + TPK_LEN, m2 + C_TILDE_LEN, ...); no instance checks
+the received length. For K2S/K2K the first message carries no signature, so this is
+a PRE-authentication path. The clearest case is K2S,
+tpk = calloc(m1_len_bytes,1); memcpy(tpk, m1, m1_len_bytes)
+(CreTAKE-K2S-ZEN128-BiT128/KEX_AlgorithmInstance.c:127,135) -- buffer size is the
+attacker's length field -- after which PKE_Encrypt reads TPK_LEN bytes from it.
+Under ASan, allocating each buffer to exactly the bytes received (what a real
+receiver does), 25 instances x {m1,m2} x L in {1,16,63} = 150 cases give 149
+heap-buffer-overflow READs (one takes an early-exit branch); all reads, no OOB
+write. Typical: READ of size 615 in poly_publickey_unpack (ZEN_128/poly.c:496) <-
+pke_enc <- kex_generate_pass2_msg_b:148. Fix: validate the received length against
+the expected length before splitting. We rate this Medium.
 
-kex_generate_pass2_msg_b and kex_derive_ss_a discard the length arguments --
-either "(void)m1_len_bytes;" / "(void)mb_len_bytes;" or using them only to size a
-buffer -- and then parse the message at fixed constant offsets (m1 + TPK_LEN,
-m2 + C_TILDE_LEN, ...). No instance checks that the received message is long
-enough. For K2S and K2K the first message carries no signature, so this is a
-PRE-authentication path.
-
-The clearest case is K2S, where the responder does
-    tpk = calloc(m1_len_bytes, 1); memcpy(tpk, m1, m1_len_bytes);
-(CreTAKE-K2S-ZEN128-BiT128/KEX_AlgorithmInstance.c:127,135) -- the buffer size is
-the attacker's length field -- and then PKE_Encrypt reads TPK_LEN bytes from it.
-
-Built with ASan/UBSan and allocating each buffer to exactly the number of bytes
-received (what a real network receiver does), 25 instances x {m1, m2} x
-L in {1, 16, 63} = 150 cases give 149 heap-buffer-overflow READs (the one
-exception takes an early-exit branch). All are reads; we saw no out-of-bounds
-write. Representative stack:
-
-    READ of size 615  poly_publickey_unpack (ZEN_128/poly.c:496)
-                      <- pke_enc <- kex_generate_pass2_msg_b:148
-    (buffer from calloc(m1_len_bytes) at KEX_AlgorithmInstance.c:127)
-
-Reproduce:
-    cd .../CreTAKE-K2S-ZEN128-BiT128
-    ASAN_OPTIONS=detect_leaks=0 ./poc 16 m1   # heap-buffer-overflow READ of size 615
-    ASAN_OPTIONS=detect_leaks=0 ./poc 16 m2   # READ of size 512
-
-If a caller pre-allocates with kex_get_total_msg_len_bytes() (as the shipped
-test_correctness does) the overflow does not occur, but a short message is still
-processed as if complete (stale/uninitialised bytes read). The fix is to validate
-the received length against the expected length in every parse routine before
-splitting. We rate this Medium, in line with the caller-length/malformed-input
-findings elsewhere in this round.
-
-=====================================================================
-
-P.S. (minor, Optimized tree only). In the Optimized tree the ZEN-based instances
-apply vmovdqa directly to the caller-provided m1/m2 buffers, which the interface
-does not require to be 32-byte aligned; six instances segfault on honest sessions
-whenever the message length places the buffer at 16 mod 32. The shipped
-test_correctness happens to get an aligned buffer and so does not see it. This is
-why two optimized ZEN256 instances are excluded from the Issue 1 counts above. We
-can detail this separately if useful.
+P.S. (minor, Optimized tree only). The ZEN-based optimized instances apply vmovdqa
+directly to the caller-provided m1/m2 buffers, which the interface does not require
+to be 32-byte aligned; six instances segfault on honest sessions when the message
+length places the buffer at 16 mod 32 (test_correctness happens to get an aligned
+buffer). This is why two optimized ZEN256 instances are excluded from Issue 1 above.
 
 Reproduction package (builds against the submission via REF=, copies the trees and
-never modifies $REF; a few minutes):
+does not modify them; a few minutes):
 https://github.com/acprk/ngcc-round1-cryptanalysis/tree/cretake-naxos-binding/cretake-naxos-binding
-  - run_all.sh        : F1 (state-reveal recovery + the *8 control + the kex-03-1
-                        responder-only fix still recovering + the LCP(pk,sk) witness)
-                        and F2 (truncated-message ASan reads)
-  - src/              : attack_state.c, attack_state2.c, lcp.c, poc_trunc.c
-  - logs/run.txt      : our run against the archived NICCS package
+  - run_all.sh   : Issue 1 (state-reveal recovery + the *8 control + the kex-03-1
+                   responder-only fix still recovering + the LCP witness) and Issue 2
+  - src/         : attack_state.c, attack_state2.c, lcp.c, poc_trunc.c
+  - logs/run.txt : our run against the archived NICCS package
 
-All measurements above come from running the submitted code on our machine; this
-analysis was prepared with AI assistance.
+This analysis was prepared with AI assistance; every number above comes from running
+the submitted code.
 
 Best regards,
 Zhenyu Xiong and Mingsheng Wang
