@@ -1,0 +1,7 @@
+work/
+work-asan/
+*.o
+*.a
+atk
+lcp
+poc

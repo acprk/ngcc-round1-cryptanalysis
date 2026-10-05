@@ -1,0 +1,101 @@
+=== CreTAKE kex-03: NAXOS binding (F1) + caller-length OOB read (F2) ===
+REF=<REF>   date=2026-10-05T04:19:40Z   host=Linux 6.8.0-138-generic x86_64
+
+--- [F1] single state reveal recovers the session key (recovered should be N/N) ---
+[Reference_Implementation] CreTAKE-S2K-BiT128-PLAC128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2K-BiT128-PLAC128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2K-BiT128-ZEN128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2K-BiT128-ZEN128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2S-BiT128-ePLAC128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2S-BiT128-ePLAC128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2S-BiT128-eZEN128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2S-BiT128-eZEN128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2K-BiT256-PLAC256: SEED_BYTES=64 SKI_LEN=4160 PKI_LEN=2144 absorbed_bytes=528 (r=64 + sk_prefix=464) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2K-BiT256-PLAC256 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2K-BiT256-ZEN256: SEED_BYTES=64 SKI_LEN=4160 PKI_LEN=2144 absorbed_bytes=528 (r=64 + sk_prefix=464) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2K-BiT256-ZEN256 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2S-BiT256-ePLAC256: SEED_BYTES=64 SKI_LEN=4160 PKI_LEN=2144 absorbed_bytes=528 (r=64 + sk_prefix=464) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2S-BiT256-ePLAC256 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2S-BiT256-eZEN256: SEED_BYTES=64 SKI_LEN=4160 PKI_LEN=2144 absorbed_bytes=528 (r=64 + sk_prefix=464) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2S-BiT256-eZEN256 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2K-BiT512-PLAC512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2K-BiT512-PLAC512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2K-BiT512-ZEN512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2K-BiT512-ZEN512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2S-BiT512-ePLAC512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2S-BiT512-ePLAC512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation] CreTAKE-S2S-BiT512-eZEN512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Reference_Implementation] RESULT CreTAKE-S2S-BiT512-eZEN512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+
+--- [F1] same, Optimized tree (two ZEN256 instances segfault for the unrelated AVX2 alignment reason; see P.S. in the comment) ---
+[Optimized_Implementation] CreTAKE-S2K-BiT128-PLAC128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2K-BiT128-PLAC128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2K-BiT128-ZEN128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2K-BiT128-ZEN128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2S-BiT128-ePLAC128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2S-BiT128-ePLAC128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2S-BiT128-eZEN128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2S-BiT128-eZEN128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2K-BiT256-PLAC256: SEED_BYTES=64 SKI_LEN=4160 PKI_LEN=2144 absorbed_bytes=528 (r=64 + sk_prefix=464) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2K-BiT256-PLAC256 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2S-BiT256-ePLAC256: SEED_BYTES=64 SKI_LEN=4160 PKI_LEN=2144 absorbed_bytes=528 (r=64 + sk_prefix=464) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2S-BiT256-ePLAC256 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2K-BiT512-PLAC512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2K-BiT512-PLAC512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2K-BiT512-ZEN512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2K-BiT512-ZEN512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2S-BiT512-ePLAC512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2S-BiT512-ePLAC512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Optimized_Implementation] CreTAKE-S2S-BiT512-eZEN512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Optimized_Implementation] RESULT CreTAKE-S2S-BiT512-eZEN512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+
+--- [F1 control] change only this call to *8 bits -> recovered should drop to 0/N ---
+[Reference_Implementation/fixed] CreTAKE-S2K-BiT128-PLAC128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation/fixed] RESULT CreTAKE-S2K-BiT128-PLAC128 honest_match=20/20 staterev_key_recovered=0/20 (attacker sk = pk||0)
+[Reference_Implementation/fixed] CreTAKE-S2S-BiT128-eZEN128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation/fixed] RESULT CreTAKE-S2S-BiT128-eZEN128 honest_match=20/20 staterev_key_recovered=0/20 (attacker sk = pk||0)
+[Reference_Implementation/fixed] CreTAKE-S2K-BiT512-ZEN512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Reference_Implementation/fixed] RESULT CreTAKE-S2K-BiT512-ZEN512 honest_match=20/20 staterev_key_recovered=0/20 (attacker sk = pk||0)
+[Reference_Implementation/fixed] CreTAKE-S2S-BiT512-ePLAC512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Reference_Implementation/fixed] RESULT CreTAKE-S2S-BiT512-ePLAC512 honest_match=20/20 staterev_key_recovered=0/20 (attacker sk = pk||0)
+
+--- [F1 de-dup] fix ONLY the responder call named by kex-03-1 -> still N/N ---
+[Reference_Implementation/fix0301] CreTAKE-S2K-BiT128-PLAC128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation/fix0301] RESULT CreTAKE-S2K-BiT128-PLAC128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation/fix0301] CreTAKE-S2S-BiT128-eZEN128: SEED_BYTES=64 SKI_LEN=1864 PKI_LEN=1048 absorbed_bytes=241 (r=64 + sk_prefix=177) sk_prefix_is_public=yes
+[Reference_Implementation/fix0301] RESULT CreTAKE-S2S-BiT128-eZEN128 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+[Reference_Implementation/fix0301] CreTAKE-S2S-BiT512-ePLAC512: SEED_BYTES=64 SKI_LEN=9024 PKI_LEN=5056 absorbed_bytes=1136 (r=64 + sk_prefix=1072) sk_prefix_is_public=yes
+[Reference_Implementation/fix0301] RESULT CreTAKE-S2S-BiT512-ePLAC512 honest_match=20/20 staterev_key_recovered=20/20 (attacker sk = pk||0)
+
+--- [F1 witness] LCP(pk,sk): every absorbed sk byte is a public-key byte (absorbed_is_public=YES) ---
+CreTAKE-S2S-BiT128-eZEN128 pk=1048 sk=1864 LCP(pk,sk)=1048 absorbed_sk_bytes=177(=(64+1864)/8-64) absorbed_is_public=YES
+CreTAKE-S2S-BiT256-ePLAC256 pk=2144 sk=4160 LCP(pk,sk)=2144 absorbed_sk_bytes=464(=(64+4160)/8-64) absorbed_is_public=YES
+CreTAKE-S2S-BiT512-ePLAC512 pk=5056 sk=9024 LCP(pk,sk)=5056 absorbed_sk_bytes=1072(=(64+9024)/8-64) absorbed_is_public=YES
+
+--- [F2] truncated message -> heap-buffer-overflow READ (ASan) ---
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m1 L=1 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m1 L=16 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m1 L=63 -> heap-buffer-overflow READ of size 615
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m2 L=1 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m2 L=16 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-K2S-ZEN128-BiT128 m2 L=63 -> heap-buffer-overflow READ of size 512
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m1 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=1 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=16 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE128/CreTAKE-S2S-BiT128-eZEN128 m2 L=63 -> heap-buffer-overflow READ of size 1
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m1 L=1 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m1 L=16 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m1 L=63 -> heap-buffer-overflow READ of size 1229
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m2 L=1 -> heap-buffer-overflow READ of size 1024
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m2 L=16 -> heap-buffer-overflow READ of size 1024
+[Reference_Implementation-asan] CreTAKE256/CreTAKE-K2S-ZEN256-BiT256 m2 L=63 -> heap-buffer-overflow READ of size 1024
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m1 L=1 -> heap-buffer-overflow READ of size 2458
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m1 L=16 -> heap-buffer-overflow READ of size 2458
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m1 L=63 -> heap-buffer-overflow READ of size 2458
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m2 L=1 -> heap-buffer-overflow READ of size 2048
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m2 L=16 -> heap-buffer-overflow READ of size 2048
+[Reference_Implementation-asan] CreTAKE512/CreTAKE-K2S-ZEN512-BiT512 m2 L=63 -> heap-buffer-overflow READ of size 2048
+
+=== done.  Full transcript in logs/run.txt ===
