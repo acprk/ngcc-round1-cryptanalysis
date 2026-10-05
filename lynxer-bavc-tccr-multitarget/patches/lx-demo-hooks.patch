@@ -1,0 +1,42 @@
+--- a/bavc.c
++++ b/bavc.c
+@@ -154,6 +154,24 @@
+   }
+ 
+   bavc_hash_finalize(bavc->h, &com_ctx, iv, lambda);
++
++#ifdef LX_DEMO
++  /* Demo hook: expose instance-0 leaf seeds + iv so the harness can stand in for
++     the 2^lambda/T multi-target recovery. Does not alter any transcript bytes. */
++  extern uint8_t* lx_dbg_inst0_sd; extern unsigned int lx_dbg_inst0_n; extern uint8_t* lx_dbg_iv;
++  extern uint8_t* lx_dbg_nodes; extern unsigned int lx_dbg_L; extern uint8_t* lx_dbg_tccr_s;
++  if (lx_dbg_inst0_sd) {
++    const unsigned int N0 = bavc_max_node_index(0, params->tau1, params->k);
++    lx_dbg_inst0_n = N0;
++    memcpy(lx_dbg_inst0_sd, bavc->sd, (size_t)N0 * lambda_bytes);
++    if (lx_dbg_iv) memcpy(lx_dbg_iv, iv, IV_SIZE);
++  }
++  if (lx_dbg_nodes) {               /* full seed tree (= bavc->k base) for the position-independence scan */
++    lx_dbg_L = L;
++    memcpy(lx_dbg_nodes, bavc->k, (size_t)(2 * L - 1) * lambda_bytes);
++    if (lx_dbg_tccr_s) memcpy(lx_dbg_tccr_s, tccr_s, lambda_bytes);
++  }
++#endif
+ }
+ 
+ bool bavc_open(uint8_t* decom_i, const bavc_t* vc, const uint16_t* i_delta,
+--- a/voleith_impl.c
++++ b/voleith_impl.c
+@@ -504,3 +504,12 @@
+   }
+   return 0;
+ }
++
++#ifdef LX_DEMO
++/* Read-only accessors into a *public* signature (demo harness, not used in builds). */
++const uint8_t* lx_sig_d(const uint8_t* sig, const sig_paramset_t* p) { return dsignature_d(sig, p); }
++const uint8_t* lx_sig_decom(const uint8_t* sig, const sig_paramset_t* p) { return dsignature_decom_i(sig, p); }
++const uint8_t* lx_sig_chall3(const uint8_t* sig, const sig_paramset_t* p) { return dsignature_chall_3(sig, p); }
++const uint8_t* lx_sig_iv(const uint8_t* sig, const sig_paramset_t* p) { return dsignature_iv(sig, p); }
++unsigned int lx_ell_hat_bytes(const sig_paramset_t* p) { return ell_hat_bytes(p); }
++#endif

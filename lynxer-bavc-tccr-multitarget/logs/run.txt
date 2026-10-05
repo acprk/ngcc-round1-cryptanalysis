@@ -1,0 +1,39 @@
+=== [T] T_open and key-recovery cost per set (from $REFROOT/*/parameters.h) ===
+  Lynxer-160s: lambda=160 T_open= 129  key recovery ~2^153.0  claimed 128 (unaffected: >target)
+  Lynxer-160f: lambda=160 T_open= 139  key recovery ~2^152.9  claimed 128 (unaffected: >target)
+  Lynxer-256s: lambda=256 T_open= 224  key recovery ~2^248.2  claimed 256
+  Lynxer-256f: lambda=256 T_open= 223  key recovery ~2^248.2  claimed 256
+  Lynxer-384s: lambda=384 T_open= 332  key recovery ~2^375.6  claimed 384
+  Lynxer-512s: lambda=512 T_open= 439  key recovery ~2^503.2  claimed 512
+  Lynxer-512f: lambda=512 T_open= 447  key recovery ~2^503.2  claimed 512
+
+=== [a] 256s: position-independence of the seed tree (lx_struct) ===
+  csp=256 tau=22 T_open=224 L=49152  [pos-indep] internal=49151 TCCR(parent)==children ok=49151 bad=0
+
+=== [a] 256f: position-independence of the seed tree (lx_struct) ===
+  csp=256 tau=35 T_open=223 L=4864  [pos-indep] internal=4863 TCCR(parent)==children ok=4863 bad=0
+
+=== [a] 384s: position-independence of the seed tree (lx_struct) ===
+  csp=384 tau=34 T_open=332 L=69632  [pos-indep] internal=69631 TCCR(parent)==children ok=69631 bad=0
+
+=== [a] 512f: position-independence of the seed tree (lx_struct) ===
+  csp=512 tau=72 T_open=447 L=9216  [pos-indep] internal=9215 TCCR(parent)==children ok=9215 bad=0
+
+=== [b] 256f: end-to-end key recovery + fresh-message forgery, no oracle (lx_e2e, B=20) ===
+  === Lynxer-256f end-to-end (reduced search b=20) ===
+  sig_size=15097 tau=35 T_open=223 inst0_leaves=256 L=4864
+  [sanity] honest signature verifies: OK
+  [pos-indep] internal nodes=4863  TCCR(parent)==children: ok=4863 bad=0
+  instance-0 hidden leaf index = 168
+  [search] recovered inst-0 hidden leaf seed after 323902 trials (5.1s); matches committed leaf? YES
+  [recovered] owf_key k = 1d0c40dd4116d0c4e628941a4b51f8c2afbf4ea6c90d7033129acfb026508fbf
+  [secret]    sk owf_key = 1d0c40dd4116d0c4e628941a4b51f8c2afbf4ea6c90d7033129acfb026508fbf
+  [key-recovery] recovered k == secret OWF key? YES
+  [key-recovery] owf(k, pk_input) == pk_output? YES
+  [FORGERY] fresh message signed with RECOVERED key, UNMODIFIED verify: ACCEPT
+  
+  === RESULT: full key recovery + forgery on real pk/verifier ===
+
+=== full-size cost (not executed) ===
+  key recovery from ONE signature = 2^lambda/(T_open+1) TCCR evals: 256 ~2^248.2, 384 ~2^375.6, 512 ~2^503.2
+  (the only unexecuted link; every other step ran above on the submitted code)
