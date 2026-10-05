@@ -11,10 +11,14 @@ its impact has been understated and we make that precise below. The second is, t
 our knowledge, not yet raised in this thread or on ngcc.dev.
 
 =====================================================================
-Issue 1 (Critical). The initiator-side length-unit error removes the NAXOS
-binding between the ephemeral key and the long-term secret, so a single state
-reveal -- which the security model explicitly allows -- recovers the session key.
-No search is needed, and this is not the responder-side 2^64 call of kex-03-1.
+Issue 1 (re: kex-03-1 -- impact correction; Critical if filed as a distinct item).
+The initiator-side length-unit error removes the NAXOS binding between the
+ephemeral key and the long-term secret, so a single state reveal -- which the
+security model explicitly allows -- recovers the session key. No search is needed,
+and this is not the responder-side 2^64 call of kex-03-1. We do not claim a new
+code location: kex-03-1 names this same call and judges it harmless on entropy
+grounds. Our point is that the right measure here is not entropy but the loss of
+the ephemeral/long-term binding, and under that measure the call is not harmless.
 =====================================================================
 
 The specification's resistance to state leakage is the NAXOS trick
