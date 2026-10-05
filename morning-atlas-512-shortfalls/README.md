@@ -13,8 +13,8 @@ independent: fixing any one of them leaves ATLAS-512 below 512 bits.
 | 1 | **spec**: kappa = 60 at n = 512 gives \|ChSet\| = C(512,60)·2^60 = 2^322.67, although the spec says kappa is chosen so that \|ChSet\| exceeds the target level (Sec. 1.2, and Sec. 2.6 "Challenge size"; Table 2 lists kappa = 60 for ATLAS-512) | ATLAS-512 | 2^322.67 < 2^512 | spec |
 | 1b | **code**: `challenge()` draws positions with one byte (`b = outbuf[pos++]`, `while (b > i)`), so for n = 512 positions [256, 452) are never non-zero; image <= C(316,60)·2^60 = 2^277.45 | ATLAS-512 (ref + opt) | 2^277.45 | impl |
 | 2 | **spec**: mu = CRH(tr ‖ M), CRH output fixed at 48 bytes (spec "Notations and Symbols"; Alg. 2 l.4, Alg. 3 l.2), unsalted; code `CRHBYTES 48U` in all sets | ATLAS-256, ATLAS-512 | collision 2^192 < 2^256, 2^512 | spec |
-| 3 | **spec**: KeyGen samples rho, K <- {0,1}^256 (Alg. 1 l.1); code draws exactly 256 DRNG bits (`get_random_number(..., SEEDBYTES*8)`) and expands all of (rho, rho', key) with pseudoXOF | ATLAS-512 | 2^256 < 2^512 | spec |
-| 4 | unused bits of the 64-bit challenge sign word are never read by `unpack_sig`, so flipping them gives a different valid signature (field not covered by sign-15-2, which is the hint padding) | all four sets, ref + opt | SUF-CMA only | impl |
+| 3 | **spec**: K <- {0,1}^256 (Alg. 1 l.1) and y := Sam(K ‖ mu ‖ count) (Alg. 2 l.8) is deterministic, so guessing K against one signature exposes c·s1 = z − y; **code**: keygen draws exactly 256 DRNG bits (`get_random_number(..., SEEDBYTES*8)`) and expands rho, rho' (hence s1) and key with pseudoXOF, so pk/sk are a function of 256 bits | ATLAS-512 | 2^256 < 2^512 | spec + impl |
+| 4 | unused bits of the 64-bit challenge sign word are never read by `unpack_sig`, so flipping them gives a different valid signature (field not covered by sign-15-2, which is the hint padding) | ATLAS-128/256/512 (192 has no unused bit), ref + opt | SUF-CMA only | impl |
 
 ## Why each item is a forgery / key recovery (generic attacks)
 
@@ -29,8 +29,10 @@ independent: fixing any one of them leaves ATLAS-512 below 512 bits.
    on M1, output it for M2. The 48-byte width is stated in the specification, so it survives
    replacing pseudoXOF by an ideal XOF (same class as ngcc.dev sign-02-1, sign-06-1, sign-18-1,
    sign-01-8).
-3. *Seed enumeration.* pk and sk are a deterministic function of one 256-bit draw; enumerate it and
-   compare with pk.
+3. *Key-material enumeration.* Spec: guess K (and the small counter) for one signature on a known
+   message, recompute y = Sam(K ‖ mu ‖ count); the right K is the one for which z − y = c·s1 is
+   short, and s1 follows by solving c·s1 = z − y over the integers. Code: pk and sk are a
+   deterministic function of one 256-bit draw; enumerate it and compare with pk.
 
 ## Reproduce
 
