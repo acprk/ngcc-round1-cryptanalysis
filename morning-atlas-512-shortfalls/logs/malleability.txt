@@ -1,0 +1,9 @@
+== [5] challenge sign word: unused bits are never read (all sets, Reference and Optimized)
+  Ref  ATLAS-128 honest verify=0; unused sign bits 31..63: 33/33 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]
+  Ref  ATLAS-192 honest verify=0; unused sign bits 64..63: 0/0 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]
+  Ref  ATLAS-256 honest verify=0; unused sign bits 60..63: 4/4 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]
+  Ref  ATLAS-512 honest verify=0; unused sign bits 60..63: 4/4 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]
+  Opt  ATLAS-128 honest verify=0; unused sign bits 31..63: 33/33 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]
+  Opt  ATLAS-192 honest verify=0; unused sign bits 64..63: 0/0 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]
+  Opt  ATLAS-256 honest verify=0; unused sign bits 60..63: 4/4 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]
+  Opt  ATLAS-512 honest verify=0; unused sign bits 60..63: 4/4 flips give a DIFFERENT byte string that verifies; control (flip used sign bit 0) verify=-1  [0=accept]

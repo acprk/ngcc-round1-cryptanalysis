@@ -1,0 +1,6 @@
+== [3] mu = CRH(tr||M) is 48 bytes in every set; scaled demo with mu truncated to 5 bytes
+       (only the mu output is truncated, via --wrap=pseudoXOF; keygen/sign/verify are unmodified)
+ATLAS-256, mu truncated to 5 bytes: collision CRH(tr||M1)=CRH(tr||M2) after 1655796 hashes (public key only)
+  signature on M1: verify(M1)=0  verify(M2, never signed)=0  control verify(M3)=-1  [0=accept]
+ATLAS-512, mu truncated to 5 bytes: collision CRH(tr||M1)=CRH(tr||M2) after 130680 hashes (public key only)
+  signature on M1: verify(M1)=0  verify(M2, never signed)=0  control verify(M3)=-1  [0=accept]

@@ -1,0 +1,11 @@
+== [4] keygen seed width (DRNG draws observed via --wrap=get_random_number)
+ATLAS-256: one sig_keygen draws 256 DRNG bits in 1 call(s)
+  same 256-bit draw, different DRNG states: pk identical, sk identical
+  scaled enumeration (14 unknown seed bits): pk matched after 13734 keygens; recovered sk == victim sk [SCORING]: yes
+  signature made with the recovered key verifies under the victim pk: yes
+  => full-width key recovery = 2^256 keygens vs claimed 256-bit
+ATLAS-512: one sig_keygen draws 256 DRNG bits in 1 call(s)
+  same 256-bit draw, different DRNG states: pk identical, sk identical
+  scaled enumeration (14 unknown seed bits): pk matched after 13734 keygens; recovered sk == victim sk [SCORING]: yes
+  signature made with the recovered key verifies under the victim pk: yes
+  => full-width key recovery = 2^256 keygens vs claimed 512-bit

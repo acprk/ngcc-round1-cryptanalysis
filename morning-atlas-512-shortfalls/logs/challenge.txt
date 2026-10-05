@@ -1,0 +1,14 @@
+== [1] challenge-set size: specification parameters vs shipped code (exact)
+set        claim    n kappa  spec |ChSet|  code image <=  verdict
+ATLAS-128    128  128  31/31 2^   129.62  2^    129.62  ok
+ATLAS-192    192  128  69/64 2^   192.61  2^    188.17  CODE below claim by 3.8 bits
+ATLAS-256    256  256  60/60 2^   257.01  2^    257.01  ok
+ATLAS-512    512  512  60/60 2^   322.67  2^    277.45  SPEC below claim by 189.3 bits; CODE below claim by 234.5 bits
+
+smallest kappa with C(512,kappa)*2^kappa >= 2^512: kappa = 118 (2^512.18); for comparison Aigis-Sig+ PARAMS III (n=512) uses tau = 118 (2^512.18)
+
+== [2] shipped challenge(): byte-wide position index (20000 random inputs per set)
+  Ref  ATLAS-256 N=256 KAPPA=60 T=20000: non-zeros at positions [256,196): 0 (uniform: 0); positions ever hit 256/256; chi2/df=0.8
+  Ref  ATLAS-512 N=512 KAPPA=60 T=20000: non-zeros at positions [256,452): 0 (uniform: 459375); positions ever hit 315/512; chi2/df=1701.0
+  Opt  ATLAS-256 N=256 KAPPA=60 T=20000: non-zeros at positions [256,196): 0 (uniform: 0); positions ever hit 256/256; chi2/df=0.8
+  Opt  ATLAS-512 N=512 KAPPA=60 T=20000: non-zeros at positions [256,452): 0 (uniform: 459375); positions ever hit 315/512; chi2/df=1701.0
