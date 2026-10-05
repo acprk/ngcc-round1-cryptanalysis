@@ -1,0 +1,24 @@
+== [0] source: I() = SHA3-512 split into two 32-byte sub-seeds, at every level
+  HQC-128  #define NSS_HQC_SEED_SK_BYTES 32u | #define NSS_HQC_I_SEED_BYTES 32u
+  HQC-256  #define NSS_HQC_SEED_SK_BYTES 32u | #define NSS_HQC_I_SEED_BYTES 32u
+  HQC-384  #define NSS_HQC_SEED_SK_BYTES 48u | #define NSS_HQC_I_SEED_BYTES 32u
+  HQC-512  #define NSS_HQC_SEED_SK_BYTES 64u | #define NSS_HQC_I_SEED_BYTES 32u
+== [1] full size, UNMODIFIED code: y is a function of seed_y alone and decrypts on its own
+HQC-128  |seed_sk|=256 bit  |seed_y|=256 bit  w_sk=73 n=29443
+  y rebuilt from seed_y alone: public test PASS, decode=0, ss(y-only)==encaps ss: YES, ==victim decaps: YES  (0.010 s per candidate)
+  control: 32 random seed_y candidates, 0 pass the public test
+HQC-256  |seed_sk|=256 bit  |seed_y|=256 bit  w_sk=117 n=54493
+  y rebuilt from seed_y alone: public test PASS, decode=0, ss(y-only)==encaps ss: YES, ==victim decaps: YES  (0.031 s per candidate)
+  control: 32 random seed_y candidates, 0 pass the public test
+HQC-384  |seed_sk|=384 bit  |seed_y|=256 bit  w_sk=175 n=122579
+  y rebuilt from seed_y alone: public test PASS, decode=0, ss(y-only)==encaps ss: YES, ==victim decaps: YES  (0.110 s per candidate)
+  control: 32 random seed_y candidates, 0 pass the public test
+HQC-512  |seed_sk|=512 bit  |seed_y|=256 bit  w_sk=233 n=217901
+  y rebuilt from seed_y alone: public test PASS, decode=0, ss(y-only)==encaps ss: YES, ==victim decaps: YES  (0.245 s per candidate)
+  control: 32 random seed_y candidates, 0 pass the public test
+== [2] attack, scale model: victim seed_y restricted to 8 bits; attacker sees pk and ct only
+HQC-384  [scale model (victim seed_y has DEMO_SEEDY_BITS bits)] seed_y found=78 after 79 trials (8.4 s, 0.106 s/trial) decode=0  recovered ss==encaps ss: YES  ==victim decaps: YES
+HQC-512  [scale model (victim seed_y has DEMO_SEEDY_BITS bits)] seed_y found=18 after 19 trials (5.3 s, 0.277 s/trial) decode=0  recovered ss==encaps ss: YES  ==victim decaps: YES
+== [3] control: same attacker search against the UNMODIFIED code (must not find)
+HQC-384  [UNMODIFIED code (control)] search over 2^8: NOT FOUND after 256 trials (32.3 s)
+HQC-512  [UNMODIFIED code (control)] search over 2^8: NOT FOUND after 256 trials (80.3 s)
